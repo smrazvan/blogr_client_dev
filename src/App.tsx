@@ -10,8 +10,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Navbar />}>
           <Route index element={<Home />}></Route>
-          <Route path="profile" element={<Home />}></Route>
-          <Route path="search-results" element={<Home />}></Route>
+          <Route path="profile" element={<h1>Profiel</h1>}></Route>
+          <Route path="post/:id"></Route>
+          <Route path="post"></Route>
         </Route>
       </Routes>
     </div>
