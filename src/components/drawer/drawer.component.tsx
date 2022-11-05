@@ -1,16 +1,69 @@
+import { Link, useNavigate } from "react-router-dom";
 import { Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-export const DrawerContent = () => (
-  <div>
+
+const mainItems = [
+  {
+    name: "Feed",
+    route: "/",
+    icon: <AccountCircleIcon />
+  },{
+    name: "My blog",
+    route: "/ionel",
+    icon: <AccountCircleIcon />
+  },{
+    name: "Settings",
+    route: "/settings",
+    icon: <AccountCircleIcon />
+  }
+];
+const exploreItems = [
+  {
+    name: "Programming",
+    route: "/",
+    icon: <AccountCircleIcon />
+  },{
+    name: "Gaming",
+    route: "/",
+    icon: <AccountCircleIcon />
+  },{
+    name: "Psychology",
+    route: "/",
+    icon: <AccountCircleIcon />
+  },{
+    name: "Cooking",
+    route: "/",
+    icon: <AccountCircleIcon />
+  }
+]
+const otherItems = [
+  {
+    name: "Help",
+    route: "/help",
+    icon: <AccountCircleIcon />
+  },{
+    name: "Send feedback",
+    route: "/feedback",
+    icon: <AccountCircleIcon />
+  },{
+    name: "About",
+    route: "/About",
+    icon: <AccountCircleIcon />
+  }
+]
+
+export const DrawerContent = () => {
+  const navigate = useNavigate();
+  return <div>
     <Toolbar />
     <List>
-      {['Feed', 'Profile', 'Settings'].map((text, index) => (
-        <ListItem key={text} disablePadding>
+      {mainItems.map(({name, route, icon}, idx) => (
+        <ListItem key={idx} onClick={() => navigate(route)} disablePadding>
           <ListItemButton>
             <ListItemIcon>
-            <AccountCircleIcon />
+            {icon}
             </ListItemIcon>
-            <ListItemText primary={text} />
+            <ListItemText primary={name} />
           </ListItemButton>
         </ListItem>
       ))}
@@ -20,31 +73,31 @@ export const DrawerContent = () => (
       <ListItemButton>
         <ListItemText>Explore</ListItemText>
       </ListItemButton>
-      </ListItem>
+    </ListItem>
     <List>
-      {['Programming', 'Cooking', 'Psychology', 'Gaming'].map((text, index) => (
-        <ListItem key={text} disablePadding>
+    {exploreItems.map(({name, route, icon}, idx) => (
+        <ListItem key={idx} onClick={() => navigate(route)} disablePadding>
           <ListItemButton>
             <ListItemIcon>
-              <AccountCircleIcon />
+            {icon}
             </ListItemIcon>
-            <ListItemText primary={text} />
+            <ListItemText primary={name} />
           </ListItemButton>
         </ListItem>
       ))}
     </List>
     <Divider />
     <List>
-      {['Help', 'Send feedback', 'About'].map((text, index) => (
-        <ListItem key={text} disablePadding>
+    {otherItems.map(({name, route, icon}, idx) => (
+        <ListItem key={idx} onClick={() => navigate(route)} disablePadding>
           <ListItemButton>
             <ListItemIcon>
-              <AccountCircleIcon />
+            {icon}
             </ListItemIcon>
-            <ListItemText primary={text} />
+            <ListItemText primary={name} />
           </ListItemButton>
         </ListItem>
       ))}
     </List>
   </div>
-);
+};

@@ -1,11 +1,14 @@
+import { useState } from "react";
 import { Outlet } from "react-router-dom";
+
 import { styled, alpha, AppBar, Box, IconButton, Toolbar, Typography, InputBase, Drawer, useMediaQuery, useTheme, Menu, MenuItem, Divider, Button, ButtonProps } from "@mui/material";
+
 import Logo from "../../assets/img/min-logo.png";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AddIcon from '@mui/icons-material/Add';
-import { useState } from "react";
+
 import { DrawerContent } from "../drawer/drawer.component";
 
 import { green } from '@mui/material/colors';
@@ -131,6 +134,8 @@ export const Navbar = () => {
             </ColorButton>
         </Toolbar>
       </AppBar>
+
+
       {/* SIDE DRAWER */}
       <Box 
         component="nav"
@@ -163,6 +168,8 @@ export const Navbar = () => {
           <DrawerContent />
         </Drawer>}
       </Box>
+
+
       {/* CONTENT */}
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
           <Toolbar />
