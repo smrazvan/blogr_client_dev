@@ -8,7 +8,7 @@ type BlogCard = {
   shortDescription: string,
   children?: React.ReactNode
 }
-export const BlogCard = (props: BlogCard) => {
+const BlogCard = (props: BlogCard) => {
   const {title, name, img, tags, shortDescription} = props;
   return (
     <Card sx={{ maxWidth: 400 }}>
@@ -47,3 +47,4 @@ export const BlogCard = (props: BlogCard) => {
       </Card>
   )
 }
+export default BlogCard;

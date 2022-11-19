@@ -1,6 +1,6 @@
 import { Avatar, Box, Button, Card, CardActions, CardContent, CardMedia, Chip, Stack, Typography } from "@mui/material";
 import React from "react";
-import { BlogCard } from "../../components/blog-card/blog-card.component";
+import BlogCard from "../../components/blog-card/blog-card.component";
 export const Home = () => {
   const tags:string[] = ["C#"];
   return (

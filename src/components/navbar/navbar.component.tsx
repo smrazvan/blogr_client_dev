@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 import { styled, alpha, AppBar, Box, IconButton, Toolbar, Typography, InputBase, Drawer, useMediaQuery, useTheme, Menu, MenuItem, Divider, Button, ButtonProps } from "@mui/material";
 
@@ -59,7 +59,31 @@ const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
   },
 }));
 const drawerWidth:number = 240;
+
+const profileMenu = [
+  {
+    name: "Go to my profile",
+    route: "/profile"
+  },{
+    name: "Edit profile",
+    route: "/profile"
+  },{
+    name: "Likes",
+    route: "/"
+  },{
+    name: "Followers",
+    route: "/"
+  },{
+    name: "Following",
+    route: "/"
+  },{
+    name: "Log out",
+    route: "/"
+  },
+]
 export const Navbar = () => {
+  //router navigation
+  const navigate = useNavigate();
   //store if user is on mobile/desktop
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
@@ -75,8 +99,9 @@ export const Navbar = () => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleClose = (route: string) => {
     setAnchorEl(null);
+    navigate(route);
   };
   return (<>
     <Box sx={{ display: 'flex' }}>
@@ -120,18 +145,17 @@ export const Navbar = () => {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Go to my profile</MenuItem>
-                <MenuItem onClick={handleClose}>Edit profile</MenuItem>
-                <MenuItem onClick={handleClose}>Likes</MenuItem>
-                <MenuItem onClick={handleClose}>Followers</MenuItem>
-                <MenuItem onClick={handleClose}>Following</MenuItem>
-                <Divider />
-                <MenuItem onClick={handleClose}>Log out</MenuItem>
+                {profileMenu.map(({name, route}) => {
+                  return <MenuItem onClick={() => handleClose(route)}>{name}</MenuItem>
+                })}
               </Menu>
             </div>
-            <ColorButton variant="contained" startIcon={<AddIcon />}>
-              New post
-            </ColorButton>
+            {matches && <ColorButton onClick={() => navigate("/post")} variant="contained" startIcon={<AddIcon />}>
+              <Typography color="white">New post</Typography>
+            </ColorButton>}
+            {!matches && <IconButton color="inherit" onClick={() => navigate("/post")}>
+            <AddIcon />
+          </IconButton>}
         </Toolbar>
       </AppBar>
 
