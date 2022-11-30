@@ -1,12 +1,13 @@
-import { Editor } from "react-draft-wysiwyg";
-
+import { Typography } from "@mui/material";
+import { useState } from "react";
+import CustomEditor from "../../components/editor/editor";
 
 export const Create = () => {
+  
   return(
-    <Editor
-  wrapperClassName="wrapper-class"
-  editorClassName="editor-class"
-  toolbarClassName="toolbar-class"
-  />
+    <>
+      <Typography>Let's hear what's on your mind today 😎</Typography>
+      <CustomEditor />
+    </>
   )
 }

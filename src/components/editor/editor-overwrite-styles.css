@@ -1,0 +1,38 @@
+.editor {
+  max-width: 800px;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  cursor: text;
+  padding: 16px;
+  border-radius: 2px;
+  margin-bottom: 2em;
+  box-shadow: inset 0px 1px 8px -3px #ABABAB;
+  background: #fefefe;
+}
+.public-DraftEditor-content{
+  min-height: 140px;
+}
+.toolbar-button-container {
+  display: inline-block;
+}
+.toolbar-image-button {
+  background: #fbfbfb;
+  color: #888;
+  border-radius: 0;
+  font-size: 18px;
+  border: 0;
+  padding-top: 5px;
+  vertical-align: bottom;
+  height: 34px;
+  width: 36px;
+}
+.toolbar-image-button:hover {
+  background-color: #f3f3f3;;
+}
+.toolbar-image-icon {
+  cursor: pointer;
+  fill: #888;
+  height: 24px;
+  width: 24px;
+  overflow: hidden;
+}
