@@ -1,9 +1,8 @@
 import React, { useMemo, useRef } from "react";
 import Editor, { composeDecorators } from "@draft-js-plugins/editor";
-import { EditorState, AtomicBlockUtils } from "draft-js";
+import { EditorState, AtomicBlockUtils, convertToRaw } from "draft-js";
 
 import { readFile } from "@draft-js-plugins/drag-n-drop-upload";
-import "@draft-js-plugins/image/lib/plugin.css";
 import createToolbarPlugin, {
   Separator,
 } from "@draft-js-plugins/static-toolbar";
@@ -136,9 +135,12 @@ function CustomEditor() {
     if (inputValue.length > 1) {
       console.log(inputValue);
       setEditorState(insertImage(inputValue));
+      
     }
   };
-
+  React.useEffect(() => {
+    console.log(convertToRaw(editorState.getCurrentContent()));
+  }, [editorState]);
   //insert image in editor state and return the new state
   const insertImage = (url: string) => {
     const contentState = editorState.getCurrentContent();
@@ -197,19 +199,7 @@ function CustomEditor() {
           )}
         </Toolbar>
       </div>
-      {/* <div>
-        <div>
-          <input
-            placeholder="URL here"
-            value={inputValue}
-            onChange={handleChange}
-          ></input>
-        </div>
-        <div>
-          <button onClick={() => handleClick(inputValue)}>Add</button>
-        </div>
-        <AddImageButton />
-      </div> */}
+      
     </>
   );
 }
