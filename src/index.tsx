@@ -2,8 +2,11 @@ import { CssBaseline } from '@mui/material';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {BrowserRouter} from "react-router-dom";
+import { Provider } from "react-redux";
+import { store } from './store';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -11,8 +14,10 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <CssBaseline />
-      <App />
+      <Provider store={store}>
+        <CssBaseline />
+        <App />
+      </Provider>
     </BrowserRouter>
   </React.StrictMode>
 );
