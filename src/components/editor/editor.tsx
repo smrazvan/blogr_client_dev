@@ -1,6 +1,6 @@
 import React, { useMemo, useRef } from "react";
 import Editor, { composeDecorators } from "@draft-js-plugins/editor";
-import { EditorState, AtomicBlockUtils, convertToRaw } from "draft-js";
+import { EditorState, AtomicBlockUtils, convertToRaw, RawDraftContentState } from "draft-js";
 
 import { readFile } from "@draft-js-plugins/drag-n-drop-upload";
 import createToolbarPlugin, {
@@ -39,6 +39,10 @@ import createResizeablePlugin from "@draft-js-plugins/resizeable";
 import createBlockDndPlugin from "@draft-js-plugins/drag-n-drop";
 
 import createDragNDropUploadPlugin from "@draft-js-plugins/drag-n-drop-upload";
+
+type CustomEditor = {
+  setRawState: (arg: RawDraftContentState) => void
+};
 
 //upload mocker
 type GreetFunction = (
@@ -107,7 +111,8 @@ const imgPlugins = [
   imagePlugin,
 ];
 
-function CustomEditor() {
+function CustomEditor(props: CustomEditor) {
+  const {setRawState} = props;
   //setup plugins for editor
   const [plugins, InlineToolbar] = useMemo(() => {
     const inlineToolbarPlugin = createInlineToolbarPlugin();
@@ -135,11 +140,10 @@ function CustomEditor() {
     if (inputValue.length > 1) {
       console.log(inputValue);
       setEditorState(insertImage(inputValue));
-      
     }
   };
   React.useEffect(() => {
-    console.log(convertToRaw(editorState.getCurrentContent()));
+    setRawState(convertToRaw(editorState.getCurrentContent()));
   }, [editorState]);
   //insert image in editor state and return the new state
   const insertImage = (url: string) => {

@@ -1,13 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
-import { bloggrApi } from "../features/api/bloggr-api";
+import { postsApi } from "../features/api/postsApiSlice";
 
 export const store = configureStore({
   reducer: {
-    [bloggrApi.reducerPath] : bloggrApi.reducer,
+    [postsApi.reducerPath] : postsApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(bloggrApi.middleware),
+    getDefaultMiddleware().concat(postsApi.middleware),
 });
 
 setupListeners(store.dispatch);

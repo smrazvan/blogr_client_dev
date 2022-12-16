@@ -1,4 +1,4 @@
-import {convertFromRaw} from "draft-js";
+import {RawDraftContentState, convertFromRaw} from "draft-js";
 import React, { useMemo, useRef } from "react";
 import Editor, { composeDecorators } from "@draft-js-plugins/editor";
 import { EditorState, AtomicBlockUtils, convertToRaw } from "draft-js";
@@ -21,6 +21,10 @@ import createResizeablePlugin from "@draft-js-plugins/resizeable";
 
 import createBlockDndPlugin from "@draft-js-plugins/drag-n-drop";
 
+type ReadonlyEditor = {
+  content: string | undefined
+};
+
 //link plugin
 const linkPlugin = createLinkPlugin();
 //image plugin
@@ -42,74 +46,7 @@ const plugins = [
   imagePlugin,
   linkPlugin
 ];
-const mockState: any = {
-  "blocks": [
-      {
-          "key": "etsc2",
-          "text": "sdfsdfsfd",
-          "type": "unstyled",
-          "depth": 0,
-          "inlineStyleRanges": [],
-          "entityRanges": [],
-          "data": {}
-      },
-      {
-          "key": "21jm9",
-          "text": "",
-          "type": "unstyled",
-          "depth": 0,
-          "inlineStyleRanges": [],
-          "entityRanges": [],
-          "data": {}
-      },
-      {
-          "key": "3d46s",
-          "text": " ",
-          "type": "atomic",
-          "depth": 0,
-          "inlineStyleRanges": [],
-          "entityRanges": [
-              {
-                  "offset": 0,
-                  "length": 1,
-                  "key": 0
-              }
-          ],
-          "data": {}
-      },
-      {
-          "key": "1k4s",
-          "text": "dasdadass",
-          "type": "unstyled",
-          "depth": 0,
-          "inlineStyleRanges": [],
-          "entityRanges": [],
-          "data": {}
-      },
-      {
-          "key": "7abiv",
-          "text": "",
-          "type": "unstyled",
-          "depth": 0,
-          "inlineStyleRanges": [],
-          "entityRanges": [],
-          "data": {}
-      }
-  ],
-  "entityMap": {
-      "0": {
-          "type": "IMAGE",
-          "mutability": "IMMUTABLE",
-          "data": {
-              "src": "https://styles.redditmedia.com/t5_2r5i1/styles/communityIcon_x4lqmqzu1hi81.jpg"
-          }
-      }
-  }
-};
-type ReadonlyEditorProps = {
-  content: string;
-}
-function ReadonlyEditor({content} : ReadonlyEditorProps) {
+function ReadonlyEditor(props : ReadonlyEditor) {
   //setup plugins for editor
   
 
@@ -120,9 +57,11 @@ function ReadonlyEditor({content} : ReadonlyEditorProps) {
   
   const editor = useRef<Editor | null>(null);
   React.useEffect(() => {
-    const content = convertFromRaw(mockState);
-    const editorStateWithContent = EditorState.createWithContent(content);
-    setEditorState(editorStateWithContent);
+    if(props.content != null){
+      const content = convertFromRaw(JSON.parse(props.content));
+      const editorStateWithContent = EditorState.createWithContent(content);
+      setEditorState(editorStateWithContent);
+    }
   }, []);
 
   return (
