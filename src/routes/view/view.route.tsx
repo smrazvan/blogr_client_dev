@@ -5,6 +5,8 @@ import { useParams } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { RawDraftContentState } from "draft-js";
+import Chip from "@mui/material/Chip";
+import Avatar from "@mui/material/Avatar";
 
 export const View = () => {
   const { id } = useParams();
@@ -17,8 +19,13 @@ export const View = () => {
   return (
   <>
     <Box>
-      <Typography>{data?.title}</Typography>
+      <Typography variant="h4" gutterBottom>{data?.title}</Typography>
       <Typography>{data?.creationDate}</Typography>
+      <Chip
+        avatar={<Avatar alt={"ionel"} src="https://analystprep.com/cfa-level-1-exam/wp-content/uploads/2016/09/person-flat.png" />}
+        label={"ionel"}
+        variant="outlined"
+      />
       <ReadonlyEditor content={data?.content}/>
     </Box>
   </>)

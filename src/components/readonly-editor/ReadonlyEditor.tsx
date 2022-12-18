@@ -9,8 +9,6 @@ import createLinkPlugin from "@draft-js-plugins/anchor";
 
 import "draft-js/dist/Draft.css";
 
-import "./editor-overwrite-styles.css";
-
 import createImagePlugin from "@draft-js-plugins/image";
 import "@draft-js-plugins/image/lib/plugin.css";
 import createAlignmentPlugin from "@draft-js-plugins/alignment";
@@ -20,6 +18,8 @@ import "@draft-js-plugins/focus/lib/plugin.css";
 import createResizeablePlugin from "@draft-js-plugins/resizeable";
 
 import createBlockDndPlugin from "@draft-js-plugins/drag-n-drop";
+
+import "./editor-overwrite-styles.css";
 
 type ReadonlyEditor = {
   content: string | undefined
@@ -56,6 +56,8 @@ function ReadonlyEditor(props : ReadonlyEditor) {
     );
   
   const editor = useRef<Editor | null>(null);
+
+  //populate read only editor with content
   React.useEffect(() => {
     if(props.content != null){
       const content = convertFromRaw(JSON.parse(props.content));
@@ -66,7 +68,7 @@ function ReadonlyEditor(props : ReadonlyEditor) {
 
   return (
     <>
-      <div className="editor">
+      <div className="readonly-editor">
         <Editor
           readOnly={true}
           editorKey="SimpleInlineToolbarEditor"

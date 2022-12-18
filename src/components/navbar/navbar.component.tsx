@@ -12,6 +12,8 @@ import AddIcon from '@mui/icons-material/Add';
 import { DrawerContent } from "../drawer/drawer.component";
 
 import { green } from '@mui/material/colors';
+import { useSelector } from "react-redux";
+import { useAppSelector } from "../../features/hooks";
 //custom components for search bar
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -103,6 +105,7 @@ export const Navbar = () => {
     setAnchorEl(null);
     navigate(route);
   };
+  const userData = useAppSelector(state => state.user);
   return (<>
     <Box sx={{ display: 'flex' }}>
       {/* NAVBAR */}
@@ -125,7 +128,7 @@ export const Navbar = () => {
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Typography sx={{display: {xs: "none", sm: "block"}}}>
-            Welcome back, Marcel!
+            Welcome back, {userData.user.username}!
           </Typography>
           <div>
               <IconButton
