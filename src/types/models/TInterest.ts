@@ -1,4 +1,5 @@
 interface TInterest {
+  id: number;
   name: string;
 }
 
