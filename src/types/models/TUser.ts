@@ -3,6 +3,8 @@ interface User {
   username: string;
   firstName: string;
   lastName: string;
+  profileImageUrl: string;
+  backgroundImageUrl: string;
   bio: string;
   birthdate: string;
 }
