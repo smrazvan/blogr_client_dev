@@ -8,6 +8,7 @@ interface TPost {
   title: string;
   content: string;
   caption: string;
+  captionImageUrl: string;
   creationDate: string;
   user: TUser;
   interests: TInterest[];
