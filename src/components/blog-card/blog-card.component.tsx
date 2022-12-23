@@ -32,11 +32,12 @@ const BlogCard = (props: BlogCard) => {
   const navigate = useNavigate();
   const { id, title, username, imageCaptionUrl, interests, caption } = props;
   return (
-    <Box onClick={() => navigate(`/post/${id}`)}
+    <Box
+      onClick={() => navigate(`/post/${id}`)}
       sx={{
         width: "100%",
         maxWidth: "700px",
-        height: "250px",
+        maxHeight: "250px",
         display: "flex",
         justifyContent: "space-between",
       }}
@@ -64,7 +65,7 @@ const BlogCard = (props: BlogCard) => {
           />
           <Typography>23 Nov</Typography>
         </Box>
-        <Box>
+        <Box sx={{ alignSelf: "flex-start" }}>
           <Typography gutterBottom variant="h5" component="div">
             {title.substring(0, 100)}
           </Typography>
@@ -72,7 +73,13 @@ const BlogCard = (props: BlogCard) => {
             {caption.substring(0, 200)}
           </Typography>
         </Box>
-        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems:"center" }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
           <Box>
             {interests.map((interest: TInterest) => {
               return (

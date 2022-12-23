@@ -7,6 +7,7 @@ import {
   CardContent,
   CardMedia,
   Chip,
+  Divider,
   Fab,
   InputLabel,
   MenuItem,
@@ -32,7 +33,7 @@ const ViewPosts = (props: ViewPosts) => {
       sx={{
         display: "flex",
         flexWrap: "wrap",
-        gap: 4,
+        gap: 1,
         alignItems: "center",
         flexDirection: "column",
       }}
@@ -52,15 +53,18 @@ const ViewPosts = (props: ViewPosts) => {
       {data?.result?.map(
         ({ id, title, caption, user, interests }: TFeedPost) => {
           return (
-            <BlogCard
-              key={id}
-              id={id}
-              interests={interests}
-              username={user ? user.username : "deleted"}
-              title={title}
-              imageCaptionUrl="https://code.visualstudio.com/assets/docs/languages/csharp/c_sharp_hero.png"
-              caption={caption}
-            />
+            <>
+              <BlogCard
+                key={id}
+                id={id}
+                interests={interests}
+                username={user ? user.username : "deleted"}
+                title={title}
+                imageCaptionUrl="https://code.visualstudio.com/assets/docs/languages/csharp/c_sharp_hero.png"
+                caption={caption}
+              />
+              <Divider sx={{ width: "100%", mb: 2 }} />
+            </>
           );
         }
       )}
