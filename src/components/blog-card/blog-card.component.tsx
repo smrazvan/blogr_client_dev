@@ -17,6 +17,7 @@ import PostFeedImg from "./imageContainer";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
+import PostInteractions from "../post-interactions/post-interactions";
 
 type BlogCard = {
   id: number;
@@ -31,10 +32,10 @@ const BlogCard = (props: BlogCard) => {
   const navigate = useNavigate();
   const { id, title, username, imageCaptionUrl, interests, caption } = props;
   return (
-    <Box
+    <Box onClick={() => navigate(`/post/${id}`)}
       sx={{
         width: "100%",
-        maxWidth: "600px",
+        maxWidth: "700px",
         height: "250px",
         display: "flex",
         justifyContent: "space-between",
@@ -83,13 +84,7 @@ const BlogCard = (props: BlogCard) => {
               );
             })}
           </Box>
-          <Box>
-            <Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
-            <Checkbox
-              icon={<BookmarkBorderIcon />}
-              checkedIcon={<BookmarkIcon />}
-            />
-          </Box>
+          <PostInteractions />
         </Box>
       </Box>
       <Box sx={{ width: "30%" }}>

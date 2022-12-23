@@ -4,6 +4,7 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import TInterest from "../../types/models/TInterest";
 import Box from "@mui/material/Box";
 import { useState } from "react";
+import Typography from "@mui/material/Typography";
 
 const allInterests : TInterest[] = [
   {
@@ -39,12 +40,12 @@ const ToggleInterest = () => {
 
   return (
     <>
-      <Box sx={{width: "100%", maxWidth: "600px", overflowX: "scroll"}}>
+      <Box sx={{width: "70%", maxWidth: "600px", overflowX: "scroll"}}>
         <ToggleButtonGroup value={interests}
       onChange={handleInterets}>
           {allInterests.map((interest: TInterest) => {
             return (<ToggleButton value={interest.name} aria-label="bold">
-            <Chip label={interest.name} color="primary" variant="outlined" />
+            <Typography>{interest.name}</Typography>
           </ToggleButton>);
           })}
         </ToggleButtonGroup>

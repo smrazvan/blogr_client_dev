@@ -5,6 +5,7 @@ import { Create } from "./routes/create/create.route";
 import { Home } from './routes/home/home.route';
 import { Profile } from "./routes/profile/profile.route";
 import { View } from "./routes/view/view.route";
+import Blog from "./routes/blog/Blog";
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
           <Route path="help" element={<h1>Help page</h1>}></Route>
           <Route path="feedback" element={<h1>Feedback page</h1>}></Route>
           <Route path="about" element={<h1>About page</h1>}></Route>
-          <Route path=":username" element={<h1>Blog page</h1>}></Route>
+          <Route path=":username" element={<Blog />}></Route>
           <Route path="post/:id" element={<View />}></Route>
           <Route path="post" element={<Create />}></Route>
         </Route>
