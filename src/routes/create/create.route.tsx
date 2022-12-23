@@ -55,7 +55,7 @@ export const Create = () => {
         name: el.label
       }
     })
-    const body: TPost = {
+    const body = {
       userId: userData.user.id,
       title: data.title,
       content: JSON.stringify(rawState),
