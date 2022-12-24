@@ -9,22 +9,24 @@ const RenderInterests = (props: RenderInterests) => {
   const navigate = useNavigate();
   const { interests } = props;
 
-  const handleClick = (e: React.MouseEvent<HTMLElement>) => {
+  const handleClick = (e: React.MouseEvent<HTMLElement>, name: string) => {
     e.stopPropagation();
-    navigate("/");
+    navigate(`/?interests=${name}`);
   };
-  {
-    interests.map((interest: TInterest) => {
-      return (
-        <Chip
-          onClick={(e) => handleClick(e)}
-          label={interest.name}
-          color="primary"
-          variant="outlined"
-        />
-      );
-    });
-  }
+  return (
+    <>
+      {interests.map((interest: TInterest) => {
+        return (
+          <Chip
+            onClick={(e) => handleClick(e, interest.name)}
+            label={interest.name}
+            color="primary"
+            variant="outlined"
+          />
+        );
+      })}
+    </>
+  );
 };
 
 export default RenderInterests;

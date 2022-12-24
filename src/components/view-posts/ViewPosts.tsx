@@ -28,10 +28,11 @@ import { createSearchParams, useSearchParams } from "react-router-dom";
 import { useGetPostsQuery } from "../../features/api/postsApiSlice";
 
 type ViewPosts = {
-  data?: TPostsPage | undefined;
+  username?: string | undefined;
 };
 
 const ViewPosts = (props: ViewPosts) => {
+  const { username } = props;
   //get default query strings
   const [searchParams, setSearchParams] = useSearchParams();
   const defaultInterests = searchParams.getAll("interests");
@@ -44,8 +45,17 @@ const ViewPosts = (props: ViewPosts) => {
   const [sorting, setSorting] = useState<string>(
     defaultSorting ? defaultSorting : "recommended"
   );
-  const [page, setPage] = useState<number>(1);
-  const { data, error, isLoading, refetch } = useGetPostsQuery({ page: page });
+  const [page, setPage] = useState<number>(
+    Number(defaultPage ? defaultPage : 1)
+  );
+
+  //get search queries and make request
+  const { data, error, isLoading, refetch } = useGetPostsQuery({
+    interests: interests,
+    sorting: sorting,
+    page: page,
+    username: username,
+  });
   const handleSortingChange = (event: SelectChangeEvent) => {
     setSorting(event.target.value as string);
   };
@@ -59,16 +69,14 @@ const ViewPosts = (props: ViewPosts) => {
 
   useEffect(() => {
     //change url queries when filtering changes
-    const body = createSearchParams({
-      interests: interests,
-      sorting: sorting,
-    });
-    console.log("xxxxxxxxx");
-    console.log(body);
-    setSearchParams(body);
-    setPage(2);
-    refetch();
-  }, [interests, sorting]);
+    setSearchParams(
+      createSearchParams({
+        interests: interests,
+        sorting: sorting,
+        page: String(page),
+      })
+    );
+  }, [interests, sorting, page]);
 
   if (isLoading) return <CircularProgress />;
   return (
@@ -88,7 +96,6 @@ const ViewPosts = (props: ViewPosts) => {
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            label="sorting"
             value={sorting}
             onChange={handleSortingChange}
           >
@@ -107,7 +114,7 @@ const ViewPosts = (props: ViewPosts) => {
                 key={id}
                 id={id}
                 interests={interests}
-                username={user ? user.username : "deleted"}
+                user={user}
                 title={title}
                 imageCaptionUrl="https://code.visualstudio.com/assets/docs/languages/csharp/c_sharp_hero.png"
                 caption={caption}

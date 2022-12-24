@@ -18,18 +18,24 @@ import {
 import { useGetPostsQuery } from "../../features/api/postsApiSlice";
 import ViewPosts from "../../components/view-posts/ViewPosts";
 import UserCard from "../../components/user-card/user-card";
+import { useParams } from "react-router-dom";
+import { useGetUserQuery } from "../../features/api/usersApiSlice";
+import { useState } from "react";
 
 const Blog = () => {
-  const { data, error, isLoading } = useGetPostsQuery({ page: 1 });
-  if (isLoading) return <h1>Loading</h1>;
-
-  if (error) return <h1>ERROR</h1>;
+  const { username = "" } = useParams();
+  // let [skip, setSkip] = useState(true);
+  const { data, isLoading, error } = useGetUserQuery("string");
+  // if (username == undefined) {
+  //   return <h1>No username</h1>;
+  // }
+  // setSkip(false);
   console.log(data);
   return (
     <>
       <Box>
         <Typography variant="h4" sx={{ m: 4 }}>
-          Ionel Marcel
+          {`${data?.firstName} ${data?.lastName}`}
         </Typography>
       </Box>
       <Box
@@ -40,9 +46,9 @@ const Blog = () => {
           position: "relative",
         }}
       >
-        <ViewPosts data={data} />
+        <ViewPosts username={username} />
         <Divider orientation="vertical" flexItem />
-        <UserCard />
+        <UserCard user={data} />
       </Box>
     </>
   );

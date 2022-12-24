@@ -13,6 +13,8 @@ import Stack from "@mui/system/Stack";
 import TInterest from "../../types/models/TInterest";
 import PostInteractions from "../../components/post-interactions/post-interactions";
 import ProfileImage from "../../components/user-card/profile-image";
+import AvatarChip from "../../components/avatar-chip/avatar-chip";
+import RenderInterests from "../../components/render-interests/render-interests";
 const interests: TInterest[] = [
   {
     id: 1,
@@ -60,25 +62,10 @@ export const View = () => {
             </Typography>
             <Typography>{data?.creationDate}</Typography>
             <Stack direction="row" spacing={1}>
-              <Chip
-                avatar={
-                  <Avatar
-                    alt={"@ionel"}
-                    src="https://analystprep.com/cfa-level-1-exam/wp-content/uploads/2016/09/person-flat.png"
-                  />
-                }
-                label={"@ionel"}
-                variant="outlined"
+              <AvatarChip
+                user={data?.user ? data.user : { username: "deleted" }}
               />
-              {interests.map((interest: TInterest) => {
-                return (
-                  <Chip
-                    label={interest.name}
-                    color="primary"
-                    variant="outlined"
-                  />
-                );
-              })}
+              <RenderInterests interests={interests} />
             </Stack>
             <ReadonlyEditor content={data?.content} />
           </Box>
@@ -117,7 +104,7 @@ export const View = () => {
         </Box>
         <Divider orientation="vertical" flexItem />
         <Box>
-          <UserCard />
+          <UserCard user={data?.user} />
         </Box>
       </Box>
     </>

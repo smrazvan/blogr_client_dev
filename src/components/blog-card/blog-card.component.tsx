@@ -18,11 +18,14 @@ import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import PostInteractions from "../post-interactions/post-interactions";
+import RenderInterests from "../render-interests/render-interests";
+import AvatarChip from "../avatar-chip/avatar-chip";
+import TUser from "../../types/models/TUser";
 
 type BlogCard = {
   id: number;
   title: string;
-  username: string;
+  user: Partial<TUser>;
   imageCaptionUrl: string;
   interests: TInterest[];
   caption: string;
@@ -30,7 +33,7 @@ type BlogCard = {
 };
 const BlogCard = (props: BlogCard) => {
   const navigate = useNavigate();
-  const { id, title, username, imageCaptionUrl, interests, caption } = props;
+  const { id, title, user, imageCaptionUrl, interests, caption } = props;
   return (
     <Box
       onClick={() => navigate(`/post/${id}`)}
@@ -53,16 +56,8 @@ const BlogCard = (props: BlogCard) => {
         }}
       >
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Chip
-            avatar={
-              <Avatar
-                alt={username}
-                src="https://analystprep.com/cfa-level-1-exam/wp-content/uploads/2016/09/person-flat.png"
-              />
-            }
-            label={username}
-            variant="outlined"
-          />
+          <AvatarChip user={user ? user : { username: "deleted" }} />
+
           <Typography>23 Nov</Typography>
         </Box>
         <Box sx={{ alignSelf: "flex-start" }}>
@@ -81,15 +76,7 @@ const BlogCard = (props: BlogCard) => {
           }}
         >
           <Box>
-            {interests.map((interest: TInterest) => {
-              return (
-                <Chip
-                  label={interest.name}
-                  color="primary"
-                  variant="outlined"
-                />
-              );
-            })}
+            <RenderInterests interests={interests} />
           </Box>
           <PostInteractions />
         </Box>
