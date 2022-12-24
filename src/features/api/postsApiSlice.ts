@@ -3,12 +3,22 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import TPost from "../../types/models/TPost";
 import TPostsPage from "../../types/models/TPostsPage";
 
+type getPostsArgs = {
+  interests?: string[];
+  page?: number;
+  sorting?: string;
+}
+
 export const postsApi = createApi({
   reducerPath: "postsApi",
   baseQuery: fetchBaseQuery({baseUrl: "http://localhost:5080"}),
   endpoints: (builder) => ({
-    getPosts: builder.query<TPostsPage, void>({
-      query: () => "/Posts",
+    getPosts: builder.query<TPostsPage, getPostsArgs>({
+      query: (body) => {
+        if(body?.page)
+          return `/Posts?pageNumber=${body.page}`;
+        return `/Posts`
+      },
       transformResponse: (rawResult: TPostsPage) => {
         return rawResult;
       }

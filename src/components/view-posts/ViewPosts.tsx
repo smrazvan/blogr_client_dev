@@ -7,11 +7,14 @@ import {
   CardContent,
   CardMedia,
   Chip,
+  CircularProgress,
   Divider,
   Fab,
   InputLabel,
   MenuItem,
+  Pagination,
   Select,
+  SelectChangeEvent,
   Stack,
   Typography,
 } from "@mui/material";
@@ -20,14 +23,54 @@ import AddIcon from "@mui/icons-material/Add";
 import ToggleInterest from "../toggle-interests/toggle-interests";
 import TPostsPage from "../../types/models/TPostsPage";
 import BlogCard from "../blog-card/blog-card.component";
+import { useEffect, useState } from "react";
+import { createSearchParams, useSearchParams } from "react-router-dom";
+import { useGetPostsQuery } from "../../features/api/postsApiSlice";
 
 type ViewPosts = {
-  data: TPostsPage | undefined;
+  data?: TPostsPage | undefined;
 };
 
 const ViewPosts = (props: ViewPosts) => {
-  const { data } = props;
-  const handlePostClick = (id: number) => {};
+  //get default query strings
+  const [searchParams, setSearchParams] = useSearchParams();
+  const defaultInterests = searchParams.getAll("interests");
+  const defaultSorting = searchParams.get("sort");
+  const defaultPage = searchParams.get("page");
+
+  const [interests, setInterests] = useState(
+    defaultInterests.length ? defaultInterests : []
+  );
+  const [sorting, setSorting] = useState<string>(
+    defaultSorting ? defaultSorting : "recommended"
+  );
+  const [page, setPage] = useState<number>(1);
+  const { data, error, isLoading, refetch } = useGetPostsQuery({ page: page });
+  const handleSortingChange = (event: SelectChangeEvent) => {
+    setSorting(event.target.value as string);
+  };
+
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    setPage(value);
+  };
+
+  useEffect(() => {
+    //change url queries when filtering changes
+    const body = createSearchParams({
+      interests: interests,
+      sorting: sorting,
+    });
+    console.log("xxxxxxxxx");
+    console.log(body);
+    setSearchParams(body);
+    setPage(2);
+    refetch();
+  }, [interests, sorting]);
+
+  if (isLoading) return <CircularProgress />;
   return (
     <Box
       sx={{
@@ -39,13 +82,19 @@ const ViewPosts = (props: ViewPosts) => {
       }}
     >
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        <ToggleInterest />
+        <ToggleInterest interests={interests} setInterests={setInterests} />
         <Box>
           <InputLabel id="demo-simple-select-label">View by</InputLabel>
-          <Select labelId="demo-simple-select-label" id="demo-simple-select">
-            <MenuItem value={10}>Popularity</MenuItem>
-            <MenuItem value={20}>Newest</MenuItem>
-            <MenuItem value={30}>Recommended</MenuItem>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            label="sorting"
+            value={sorting}
+            onChange={handleSortingChange}
+          >
+            <MenuItem value={"recommended"}>Recommended</MenuItem>
+            <MenuItem value={"popularity"}>Popularity</MenuItem>
+            <MenuItem value={"newest"}>Newest</MenuItem>
           </Select>
         </Box>
       </Box>
@@ -68,6 +117,11 @@ const ViewPosts = (props: ViewPosts) => {
           );
         }
       )}
+      <Pagination
+        page={page}
+        onChange={handlePageChange}
+        count={data?.totalPages}
+      />
     </Box>
   );
 };

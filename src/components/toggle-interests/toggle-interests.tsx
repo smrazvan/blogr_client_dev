@@ -6,47 +6,54 @@ import Box from "@mui/material/Box";
 import { useState } from "react";
 import Typography from "@mui/material/Typography";
 
-const allInterests : TInterest[] = [
+const allInterests: TInterest[] = [
   {
     id: 1,
-    name: "Programming"
+    name: "programming",
   },
   {
     id: 2,
-    name: "Cooking"
+    name: "cooking",
   },
   {
     id: 3,
-    name: "Psycology"
+    name: "psycology",
   },
   {
     id: 4,
-    name: "Whatever"
+    name: "Whatever",
   },
   {
     id: 5,
-    name: "Something"
-  }
+    name: "Something",
+  },
 ];
-const ToggleInterest = () => {
-  const [interests, setInterests] = useState(() => ['programming']);
+
+type ToggleInterest = {
+  interests: string[];
+  setInterests: (newInterests: string[]) => void;
+};
+
+const ToggleInterest = (props: ToggleInterest) => {
+  const { interests, setInterests } = props;
+
   const handleInterets = (
     event: React.MouseEvent<HTMLElement>,
-    newInterests: string[],
+    newInterests: string[]
   ) => {
     setInterests(newInterests);
   };
 
-
   return (
     <>
-      <Box sx={{width: "70%", maxWidth: "600px", overflowX: "scroll"}}>
-        <ToggleButtonGroup value={interests}
-      onChange={handleInterets}>
+      <Box sx={{ width: "70%", maxWidth: "600px", overflowX: "scroll" }}>
+        <ToggleButtonGroup value={interests} onChange={handleInterets}>
           {allInterests.map((interest: TInterest) => {
-            return (<ToggleButton value={interest.name} aria-label="bold">
-            <Typography>{interest.name}</Typography>
-          </ToggleButton>);
+            return (
+              <ToggleButton value={interest.name} aria-label="bold">
+                <Typography>{interest.name}</Typography>
+              </ToggleButton>
+            );
           })}
         </ToggleButtonGroup>
       </Box>
