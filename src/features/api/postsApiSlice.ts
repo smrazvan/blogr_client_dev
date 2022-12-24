@@ -1,7 +1,9 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 
 import TPost from "../../types/models/TPost";
-import TPostsPage from "../../types/models/TPostsPage";
+import { UnknownAsyncThunkPendingAction } from "@reduxjs/toolkit/dist/matchers";
+import TPage from "../../types/models/TPage";
+import TComment from "../../types/models/TComment";
 
 type getPostsArgs = {
   username?: string;
@@ -26,12 +28,12 @@ export const postsApi = createApi({
   reducerPath: "postsApi",
   baseQuery: fetchBaseQuery({baseUrl: "http://localhost:5080"}),
   endpoints: (builder) => ({
-    getPosts: builder.query<TPostsPage, getPostsArgs>({
+    getPosts: builder.query<TPage<TPost>, getPostsArgs>({
       query: (body) => {
         const queries = queryBuilder(body);
         return `/Posts?${queries}`;
       },
-      transformResponse: (rawResult: TPostsPage) => {
+      transformResponse: (rawResult: TPage<TPost>) => {
         return rawResult;
       }
     }),
@@ -49,6 +51,20 @@ export const postsApi = createApi({
           body,
         }
       },
+    }),
+    getPostComments: builder.query<any, number>({
+      query: (postId) => `/Posts/${postId}/comments`,
+      transformResponse: (rawResult: TPage<TComment>) => {
+        return rawResult;
+      }
+    }),
+    addPostComment: builder.mutation<TComment, Partial<TComment> & Pick<TPost, 'id'>>({
+      query({id, ...post}){
+        return {
+        url: `/Posts/${id}/comments`,
+        method: 'POST',
+        post,}
+      }
     })
   })
 });

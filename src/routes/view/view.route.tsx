@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import { RawDraftContentState } from "draft-js";
 import Chip from "@mui/material/Chip";
 import Avatar from "@mui/material/Avatar";
-import { Divider } from "@mui/material";
+import { Button, Divider, TextField } from "@mui/material";
 import UserCard from "../../components/user-card/user-card";
 import Stack from "@mui/system/Stack";
 import TInterest from "../../types/models/TInterest";
@@ -101,8 +101,22 @@ export const View = () => {
             </Box>
             <Divider />
           </Box>
+          <Divider orientation="vertical" flexItem />
+          <Box>
+            <Box>
+              <TextField
+                sx={{ width: "100%" }}
+                id="outlined-multiline-static"
+                multiline
+                rows={2}
+                placeholder="Leave a comment"
+              />
+            </Box>
+            <Box>
+              <Button variant="contained">Comment</Button>
+            </Box>
+          </Box>
         </Box>
-        <Divider orientation="vertical" flexItem />
         <Box>
           <UserCard user={data?.user} />
         </Box>

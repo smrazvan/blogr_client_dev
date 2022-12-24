@@ -21,7 +21,6 @@ import {
 import TFeedPost from "../../types/models/TFeedPost";
 import AddIcon from "@mui/icons-material/Add";
 import ToggleInterest from "../toggle-interests/toggle-interests";
-import TPostsPage from "../../types/models/TPostsPage";
 import BlogCard from "../blog-card/blog-card.component";
 import { useEffect, useState } from "react";
 import { createSearchParams, useSearchParams } from "react-router-dom";

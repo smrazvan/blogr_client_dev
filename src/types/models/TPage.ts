@@ -1,11 +1,11 @@
 import TFeedPost from "./TFeedPost";
 
-interface TPostsPage {
+interface TPage<TResult> {
   totalCount: number;
   totalPages: number;
   pageSize: number;
   pageNumber: number;
-  result: TFeedPost[];
+  result: TResult[];
 }
 
-export default TPostsPage;
+export default TPage;
