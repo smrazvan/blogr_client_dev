@@ -15,6 +15,8 @@ import PostInteractions from "../../components/post-interactions/post-interactio
 import ProfileImage from "../../components/user-card/profile-image";
 import AvatarChip from "../../components/avatar-chip/avatar-chip";
 import RenderInterests from "../../components/render-interests/render-interests";
+import AddComment from "../../components/add-comment/add-comment";
+import Comments from "../../components/comments/comments";
 const interests: TInterest[] = [
   {
     id: 1,
@@ -74,48 +76,11 @@ export const View = () => {
             <PostInteractions />
           </Box>
           <Box>
-            <Box
-              sx={{
-                display: "flex",
-                gap: 4,
-                alignItems: "start",
-                maxWidth: "800px",
-              }}
-            >
-              <Box>
-                <ProfileImage backgroundImage="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPmuecf4YXpXXmFwkZgbcdCApZIqSGQNsGUg&usqp=CAU" />
-              </Box>
-              <Box>
-                <Typography variant="h6">Ana Ionela</Typography>
-                <Typography>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Tempora consequatur laboriosam ut sint, quae accusantium at?
-                  Sit, corporis earum qui porro est mollitia architecto dolorem,
-                  accusamus neque magnam obcaecati excepturi! Numquam neque
-                  maxime pariatur consequuntur explicabo cum ducimus aut, minima
-                  excepturi illum vel perspiciatis architecto, sapiente impedit
-                  quo recusandae eligendi! Quia numquam blanditiis alias
-                  dignissimos, eos ex nobis debitis autem.
-                </Typography>
-              </Box>
-            </Box>
+            <AddComment post={data} />
             <Divider />
+            <Comments post={data} />
           </Box>
           <Divider orientation="vertical" flexItem />
-          <Box>
-            <Box>
-              <TextField
-                sx={{ width: "100%" }}
-                id="outlined-multiline-static"
-                multiline
-                rows={2}
-                placeholder="Leave a comment"
-              />
-            </Box>
-            <Box>
-              <Button variant="contained">Comment</Button>
-            </Box>
-          </Box>
         </Box>
         <Box>
           <UserCard user={data?.user} />
