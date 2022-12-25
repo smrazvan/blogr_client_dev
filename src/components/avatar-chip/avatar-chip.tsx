@@ -3,12 +3,12 @@ import TUser from "../../types/models/TUser";
 import { useNavigate } from "react-router-dom";
 
 type AvatarChip = {
-  user: Partial<TUser>;
+  user: Partial<TUser> | undefined;
 };
 
 const AvatarChip = (props: AvatarChip) => {
   const navigate = useNavigate();
-  const { username } = props.user;
+  const { username } = props.user ? props.user : { username: "deleted" };
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
