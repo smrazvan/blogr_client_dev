@@ -151,36 +151,53 @@ export const Navbar = () => {
               />
             </Search>
             <Box sx={{ flexGrow: 1 }} />
-            <Typography sx={{ display: { xs: "none", sm: "block" } }}>
-              Welcome back, {userData.user.username}!
-            </Typography>
-            <div>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                <AccountCircleIcon />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                keepMounted
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
-                {profileMenu.map(({ name, route }) => {
-                  return (
-                    <MenuItem onClick={() => handleClose(route)}>
-                      {name}
-                    </MenuItem>
-                  );
-                })}
-              </Menu>
-            </div>
+            {userData.isLoggedIn && userData.user && (
+              <>
+                <Typography sx={{ display: { xs: "none", sm: "block" } }}>
+                  Welcome back, {userData.user.userName}!
+                </Typography>
+                <div>
+                  <IconButton
+                    size="large"
+                    aria-label="account of current user"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    onClick={handleMenu}
+                    color="inherit"
+                  >
+                    <AccountCircleIcon />
+                  </IconButton>
+                  <Menu
+                    id="menu-appbar"
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                  >
+                    {profileMenu.map(({ name, route }) => {
+                      return (
+                        <MenuItem onClick={() => handleClose(route)}>
+                          {name}
+                        </MenuItem>
+                      );
+                    })}
+                  </Menu>
+                </div>
+              </>
+            )}
+            {!userData.isLoggedIn && (
+              <>
+                <Button variant="contained" onClick={() => navigate("/login")}>
+                  Log in
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={() => navigate("/register")}
+                >
+                  Register
+                </Button>
+              </>
+            )}
 
             {!matches && (
               <IconButton color="inherit" onClick={() => navigate("/post")}>

@@ -38,6 +38,7 @@ const BlogCard = (props: BlogCard) => {
     <Box
       onClick={() => navigate(`/post/${id}`)}
       sx={{
+        cursor: "pointer",
         width: "100%",
         maxWidth: "700px",
         maxHeight: "250px",
@@ -56,7 +57,7 @@ const BlogCard = (props: BlogCard) => {
         }}
       >
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-          <AvatarChip user={user ? user : { username: "deleted" }} />
+          <AvatarChip user={user} />
 
           <Typography>23 Nov</Typography>
         </Box>

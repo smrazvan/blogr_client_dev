@@ -65,7 +65,7 @@ export const View = () => {
             <Typography>{data?.creationDate}</Typography>
             <Stack direction="row" spacing={1}>
               <AvatarChip
-                user={data?.user ? data.user : { username: "deleted" }}
+                user={data?.user ? data.user : { userName: "deleted" }}
               />
               <RenderInterests interests={interests} />
             </Stack>

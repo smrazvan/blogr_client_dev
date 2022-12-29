@@ -13,16 +13,16 @@ type CreateFormData = {
   title: string;
   caption: string;
   captionImageUrl: string;
-  interests: {value: number; label: string;}[];
+  interests: { value: number; label: string }[];
 };
 
 const options = [
   { value: 1, label: "cook" },
-  { value: 2, label: "programming" }
+  { value: 2, label: "programming" },
 ];
 
 export const Create = () => {
-  const userData = useAppSelector(state => state.user);
+  const userData = useAppSelector((state) => state.user);
   const {
     control,
     reset,
@@ -49,22 +49,24 @@ export const Create = () => {
     createPost(body);
   };
   const onSubmit: SubmitHandler<CreateFormData> = (data) => {
-    const interests = data.interests.map((el : {value: number; label: string;}) => {
-      return {
-        id: el.value,
-        name: el.label
+    const interests = data.interests.map(
+      (el: { value: number; label: string }) => {
+        return {
+          id: el.value,
+          name: el.label,
+        };
       }
-    })
+    );
     const body = {
-      userId: userData.user.id,
+      userId: userData?.user?.id,
       title: data.title,
       content: JSON.stringify(rawState),
       caption: data.caption,
       captionImageUrl: data.captionImageUrl,
-      interests: interests
-    }
+      interests: interests,
+    };
     createPost(body);
-  }
+  };
 
   useEffect(() => {
     console.log("-=======-");

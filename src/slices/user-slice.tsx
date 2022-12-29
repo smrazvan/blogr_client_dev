@@ -1,23 +1,26 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import TUser from "../types/models/TUser";
+import TUserAuth from "../types/models/TUserAuth";
 
-const initialState = {
-  isLoggedIn: true,
-  user: {
-    username: "string",
-    firstName: "string",
-    lastName: "string",
-    bio: "string",
-    profileImageUrl: null,
-    backgroundImageUrl: null,
-    birthDate: "2022-12-13T16:50:59.194+00:00",
-    id: 1,
-  },
+const initialState: UserState = {
+  isLoggedIn: false,
+};
+
+type UserState = {
+  isLoggedIn: boolean;
+  user?: TUserAuth;
 };
 
 const userSlice = createSlice({
   name: "users",
   initialState,
-  reducers: {},
+  reducers: {
+    setUser: (state, action: PayloadAction<TUserAuth>) => {
+      state.isLoggedIn = true;
+      state.user = action.payload;
+    },
+  },
 });
 
+export const { setUser } = userSlice.actions;
 export default userSlice.reducer;

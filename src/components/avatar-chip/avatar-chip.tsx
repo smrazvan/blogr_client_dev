@@ -8,17 +8,17 @@ type AvatarChip = {
 
 const AvatarChip = (props: AvatarChip) => {
   const navigate = useNavigate();
-  const { username } = props.user ? props.user : { username: "deleted" };
+  const { userName } = props.user ? props.user : { userName: "deleted" };
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    navigate(`/${username}`);
+    navigate(`/${userName}`);
   };
   return (
     <Chip
       onClick={(e) => handleClick(e)}
-      avatar={<Avatar alt={username} />}
-      label={username}
+      avatar={<Avatar alt={userName} />}
+      label={userName}
       variant="outlined"
     />
   );
