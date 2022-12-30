@@ -7,7 +7,7 @@ const options: TSelectInterest[] = [
   { value: 1, label: "cook" },
   { value: 2, label: "programming" },
 ];
-type TSelectInterest = {
+export type TSelectInterest = {
   value: number;
   label: string;
 };

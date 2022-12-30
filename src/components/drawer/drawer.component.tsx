@@ -22,23 +22,8 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import QuizOutlinedIcon from "@mui/icons-material/QuizOutlined";
 import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-const mainItems = [
-  {
-    name: "Feed",
-    route: "/",
-    icon: <AutoStoriesOutlinedIcon />,
-  },
-  {
-    name: "My blog",
-    route: "/ionel",
-    icon: <CoPresentOutlinedIcon />,
-  },
-  {
-    name: "Settings",
-    route: "/settings",
-    icon: <SettingsOutlinedIcon />,
-  },
-];
+import { useAppSelector } from "../../features/hooks";
+
 const exploreItems = [
   {
     name: "Programming",
@@ -86,6 +71,25 @@ const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
 }));
 
 export const DrawerContent = () => {
+  const userData = useAppSelector((state) => state.user);
+
+  const mainItems = [
+    {
+      name: "Feed",
+      route: "/",
+      icon: <AutoStoriesOutlinedIcon />,
+    },
+    {
+      name: "My blog",
+      route: userData.isLoggedIn ? `/${userData.user?.userName}` : "/login",
+      icon: <CoPresentOutlinedIcon />,
+    },
+    {
+      name: "Settings",
+      route: "/settings",
+      icon: <SettingsOutlinedIcon />,
+    },
+  ];
   const navigate = useNavigate();
   return (
     <div>

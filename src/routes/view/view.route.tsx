@@ -17,6 +17,7 @@ import AvatarChip from "../../components/avatar-chip/avatar-chip";
 import RenderInterests from "../../components/render-interests/render-interests";
 import AddComment from "../../components/add-comment/add-comment";
 import Comments from "../../components/comments/comments";
+import ProtectedComponent from "../../components/protected-component/protected-component";
 const interests: TInterest[] = [
   {
     id: 1,
@@ -73,7 +74,9 @@ export const View = () => {
           </Box>
           <Box>
             <Divider />
-            <PostInteractions />
+            <ProtectedComponent>
+              <PostInteractions />
+            </ProtectedComponent>
           </Box>
           <Box>
             <AddComment post={data} />

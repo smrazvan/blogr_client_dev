@@ -26,7 +26,7 @@ import { useState } from "react";
 const Blog = () => {
   const { username = "" } = useParams();
   // let [skip, setSkip] = useState(true);
-  const { data, isLoading, error } = useGetUserQuery("string");
+  const { data, isLoading, error } = useGetUserQuery(username);
 
   if (isLoading) return <CircularProgress />;
 

@@ -21,6 +21,7 @@ import PostInteractions from "../post-interactions/post-interactions";
 import RenderInterests from "../render-interests/render-interests";
 import AvatarChip from "../avatar-chip/avatar-chip";
 import TUser from "../../types/models/TUser";
+import ProtectedComponent from "../protected-component/protected-component";
 
 type BlogCard = {
   id: number;
@@ -79,7 +80,9 @@ const BlogCard = (props: BlogCard) => {
           <Box>
             <RenderInterests interests={interests} />
           </Box>
-          <PostInteractions />
+          <ProtectedComponent>
+            <PostInteractions />
+          </ProtectedComponent>
         </Box>
       </Box>
       <Box sx={{ width: "30%" }}>
