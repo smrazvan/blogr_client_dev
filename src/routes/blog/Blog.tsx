@@ -7,6 +7,7 @@ import {
   CardContent,
   CardMedia,
   Chip,
+  CircularProgress,
   Divider,
   Fab,
   InputLabel,
@@ -26,10 +27,11 @@ const Blog = () => {
   const { username = "" } = useParams();
   // let [skip, setSkip] = useState(true);
   const { data, isLoading, error } = useGetUserQuery("string");
-  // if (username == undefined) {
-  //   return <h1>No username</h1>;
-  // }
-  // setSkip(false);
+
+  if (isLoading) return <CircularProgress />;
+
+  if (error) return <h1>User doesn't exist</h1>;
+
   console.log(data);
   return (
     <>

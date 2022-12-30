@@ -3,9 +3,13 @@ import Box from "@mui/system/Box";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { store } from "../../store";
 import { setUser } from "../../slices/user-slice";
+import Select from "react-select";
 import { redirect, useNavigate } from "react-router-dom";
 
 import { Dayjs } from "dayjs";
+import InterestsSelector from "../../components/interests-selector/interests-selector";
+import { useRegisterMutation } from "../../features/api/authApiSlice";
+import SetCredentials from "../../auth/handler";
 export type TRegister = {
   username: string;
   email: string;
@@ -15,9 +19,12 @@ export type TRegister = {
   bio: string;
   profileImageUrl: string;
   birthDate: string;
-  // interests?: { value: number; label: string }[];
+  interests?: { value: number; label: string }[];
 };
-
+const options: { value: number; label: string }[] = [
+  { value: 1, label: "cook" },
+  { value: 2, label: "programming" },
+];
 const Register = () => {
   const {
     control,
@@ -26,20 +33,18 @@ const Register = () => {
     handleSubmit: handleFormSubmit,
   } = useForm<TRegister>({ mode: "onChange" });
   const navigate = useNavigate();
+
+  const [register, registerData] = useRegisterMutation();
+
   const onSubmit: SubmitHandler<TRegister> = (data) => {
-    // store.dispatch(
-    //   setUser({
-    //     username: "string",
-    //     firstName: "string",
-    //     lastName: "string",
-    //     bio: "string",
-    //     profileImageUrl: "",
-    //     backgroundImageUrl: "",
-    //     birthDate: "",
-    //     id: 1,
-    //   })
-    // );
-    navigate("/");
+    register(data)
+      .unwrap()
+      .then((payload) => {
+        SetCredentials(payload);
+        console.log(payload);
+        navigate("/");
+      })
+      .catch((err) => console.log(err));
   };
   return (
     <Box
@@ -110,7 +115,7 @@ const Register = () => {
                 error={errors.firstName ? true : false}
                 helperText={errors?.firstName?.message}
                 id="outlined-multiline-static"
-                placeholder="Password"
+                placeholder="Firstname"
                 {...field}
               />
             )}
@@ -125,7 +130,7 @@ const Register = () => {
                 error={errors.lastName ? true : false}
                 helperText={errors?.lastName?.message}
                 id="outlined-multiline-static"
-                placeholder="Password"
+                placeholder="Lastname"
                 {...field}
               />
             )}
@@ -140,7 +145,7 @@ const Register = () => {
                 error={errors.bio ? true : false}
                 helperText={errors?.bio?.message}
                 id="outlined-multiline-static"
-                placeholder="Password"
+                placeholder="Bio"
                 multiline
                 rows={4}
                 {...field}
@@ -154,7 +159,7 @@ const Register = () => {
             render={({ field }) => (
               <TextField
                 id="date"
-                label="Birthday"
+                label="Birthdate"
                 type="date"
                 error={errors.birthDate ? true : false}
                 helperText={errors?.birthDate?.message}
@@ -165,6 +170,12 @@ const Register = () => {
                 {...field}
               />
             )}
+          />
+          <Controller
+            name={"interests"}
+            control={control}
+            rules={{ required: "Interests are required." }}
+            render={({ field }) => <InterestsSelector {...field} />}
           />
           <Button
             disabled={!isDirty || !isValid}

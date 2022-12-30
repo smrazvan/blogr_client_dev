@@ -31,6 +31,7 @@ import { DrawerContent } from "../drawer/drawer.component";
 import { green } from "@mui/material/colors";
 import { useSelector } from "react-redux";
 import { useAppSelector } from "../../features/hooks";
+import { logout } from "../../helpers/logout";
 //custom components for search bar
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -91,10 +92,6 @@ const profileMenu = [
   },
   {
     name: "Following",
-    route: "/",
-  },
-  {
-    name: "Log out",
     route: "/",
   },
 ];
@@ -181,6 +178,7 @@ export const Navbar = () => {
                         </MenuItem>
                       );
                     })}
+                    <MenuItem onClick={() => logout()}>Logout</MenuItem>
                   </Menu>
                 </div>
               </>
