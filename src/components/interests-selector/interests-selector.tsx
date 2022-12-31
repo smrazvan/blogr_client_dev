@@ -31,7 +31,7 @@ const InterestsSelector = ({ ...field }) => {
     <Select
       options={options}
       isMulti
-      className="basic-multi-select"
+      className="interests-selector"
       classNamePrefix="select"
       {...field}
     />

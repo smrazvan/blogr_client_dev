@@ -3,6 +3,8 @@ import TComment from "../../types/models/TComment";
 import TPost from "../../types/models/TPost";
 import { useAddPostCommentMutation } from "../../features/api/postsApiSlice";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { enqueueSnackbar } from "notistack";
+import { errorHandler } from "../../helpers/error-handler";
 
 type AddComment = {
   post: TPost | undefined;
@@ -26,7 +28,15 @@ const AddComment = (props: AddComment) => {
       userId: 1,
       content: data.content,
     };
-    addComment(body);
+    addComment(body)
+      .unwrap()
+      .then((payload) => {
+        enqueueSnackbar("Comment added successfully", { variant: "success" });
+        return payload;
+      })
+      .catch((err) => {
+        errorHandler(err);
+      });
   };
 
   return (

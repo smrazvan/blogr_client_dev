@@ -6,6 +6,7 @@ import { setUser } from "../../slices/user-slice";
 import { redirect, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../features/api/authApiSlice";
 import SetCredentials from "../../auth/handler";
+import { useSnackbar } from "notistack";
 
 export type TLogin = {
   userName: string;
@@ -20,6 +21,7 @@ const Login = () => {
     handleSubmit: handleFormSubmit,
   } = useForm<TLogin>({ mode: "onChange" });
   const navigate = useNavigate();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [login, loginData] = useLoginMutation();
 
   const onSubmit: SubmitHandler<TLogin> = (data) => {
@@ -27,22 +29,12 @@ const Login = () => {
       .unwrap()
       .then((payload) => {
         SetCredentials(payload);
-        console.log(payload);
+        enqueueSnackbar("Welcome back, log in succesful!", {
+          variant: "success",
+        });
         navigate("/");
       })
       .catch((err) => console.log(err));
-    // store.dispatch(
-    //   setUser({
-    //     username: "string",
-    //     firstName: "string",
-    //     lastName: "string",
-    //     bio: "string",
-    //     profileImageUrl: "",
-    //     backgroundImageUrl: "",
-    //     birthDate: "",
-    //     id: 1,
-    //   })
-    // );
   };
   return (
     <Box

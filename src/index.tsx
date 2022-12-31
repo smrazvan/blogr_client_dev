@@ -1,23 +1,25 @@
-import { CssBaseline } from '@mui/material';
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import {BrowserRouter} from "react-router-dom";
+import { CssBaseline } from "@mui/material";
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import { store } from './store';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-
+import { store } from "./store";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { SnackbarProvider } from "notistack";
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Provider store={store}>
-        <CssBaseline />
-        <App />
-      </Provider>
+      <SnackbarProvider maxSnack={20}>
+        <Provider store={store}>
+          <CssBaseline />
+          <App />
+        </Provider>
+      </SnackbarProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

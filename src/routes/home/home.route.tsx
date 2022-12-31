@@ -20,6 +20,7 @@ import TFeedPost from "../../types/models/TFeedPost";
 import AddIcon from "@mui/icons-material/Add";
 import ToggleInterest from "../../components/toggle-interests/toggle-interests";
 import ViewPosts from "../../components/view-posts/ViewPosts";
+import { errorHandler } from "../../helpers/error-handler";
 
 export const Home = () => {
   return (

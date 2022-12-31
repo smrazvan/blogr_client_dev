@@ -7,9 +7,15 @@ import Select from "react-select";
 import { redirect, useNavigate } from "react-router-dom";
 
 import { Dayjs } from "dayjs";
-import InterestsSelector from "../../components/interests-selector/interests-selector";
+import InterestsSelector, {
+  TSelectInterest,
+} from "../../components/interests-selector/interests-selector";
 import { useRegisterMutation } from "../../features/api/authApiSlice";
 import SetCredentials from "../../auth/handler";
+import TInterest from "../../types/models/TInterest";
+import TError from "../../types/models/TError";
+import { useSnackbar } from "notistack";
+import { errorHandler } from "../../helpers/error-handler";
 export type TRegister = {
   username: string;
   email: string;
@@ -19,32 +25,56 @@ export type TRegister = {
   bio: string;
   profileImageUrl: string;
   birthDate: string;
-  interests?: { value: number; label: string }[];
+  interests?: TInterest[];
 };
-const options: { value: number; label: string }[] = [
-  { value: 1, label: "cook" },
-  { value: 2, label: "programming" },
-];
+
+export type RegisterFromData = {
+  username: string;
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  bio: string;
+  profileImageUrl: string;
+  birthDate: string;
+  interests?: TSelectInterest[];
+};
+
 const Register = () => {
   const {
     control,
     reset,
     formState: { isValid, isDirty, errors },
     handleSubmit: handleFormSubmit,
-  } = useForm<TRegister>({ mode: "onChange" });
+  } = useForm<RegisterFromData>({ mode: "onChange" });
   const navigate = useNavigate();
-
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [register, registerData] = useRegisterMutation();
 
-  const onSubmit: SubmitHandler<TRegister> = (data) => {
-    register(data)
+  const onSubmit: SubmitHandler<RegisterFromData> = (data) => {
+    let interests: TInterest[] = [];
+    if (data.interests)
+      interests = data?.interests?.map((interest: TSelectInterest) => {
+        return {
+          id: interest.value,
+          name: interest.label,
+        };
+      });
+    const body = {
+      ...data,
+      interests: interests,
+    };
+    console.log(body);
+    register(body)
       .unwrap()
       .then((payload) => {
         SetCredentials(payload);
         console.log(payload);
         navigate("/");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        errorHandler(err);
+      });
   };
   return (
     <Box
@@ -163,7 +193,7 @@ const Register = () => {
                 type="date"
                 error={errors.birthDate ? true : false}
                 helperText={errors?.birthDate?.message}
-                sx={{ width: 220 }}
+                sx={{ width: 220, m: 1 }}
                 InputLabelProps={{
                   shrink: true,
                 }}

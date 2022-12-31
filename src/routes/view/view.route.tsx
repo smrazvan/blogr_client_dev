@@ -53,6 +53,8 @@ export const View = () => {
       <Box
         sx={{
           display: "flex",
+          flexWrap: "wrap",
+          flexDirection: { xs: "column-reverse", md: "row" },
           gap: 4,
           justifyContent: "center",
           position: "relative",
@@ -68,7 +70,9 @@ export const View = () => {
               <AvatarChip
                 user={data?.user ? data.user : { userName: "deleted" }}
               />
-              <RenderInterests interests={interests} />
+              <RenderInterests
+                interests={data?.interests ? data.interests : []}
+              />
             </Stack>
             <ReadonlyEditor content={data?.content} />
           </Box>

@@ -5,6 +5,7 @@ import userSlice from "../slices/user-slice";
 import { usersApi } from "../features/api/usersApiSlice";
 import { authApi } from "../features/api/authApiSlice";
 import { interestsApi } from "../features/api/interestsApiSlice";
+import { rtkQueryErrorLogger } from "../middleware/error-handling-middleware";
 
 export const store = configureStore({
   reducer: {
@@ -15,7 +16,7 @@ export const store = configureStore({
     user: userSlice,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(postsApi.middleware, usersApi.middleware, authApi.middleware, interestsApi.middleware),
+    getDefaultMiddleware().concat(postsApi.middleware, usersApi.middleware, authApi.middleware, interestsApi.middleware, rtkQueryErrorLogger),
 });
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

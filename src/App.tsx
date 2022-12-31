@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-
 import { Navbar } from "./components/navbar/navbar.component";
 import { Create } from "./routes/create/create.route";
 import { Home } from "./routes/home/home.route";
@@ -9,6 +8,11 @@ import Blog from "./routes/blog/Blog";
 import ProtectedRoute from "./routes/protected-route/protected-route";
 import Login from "./routes/login/login";
 import Register from "./routes/register/register";
+
+import "./styles/global.scss";
+import { Snackbar, Alert } from "@mui/material";
+import React from "react";
+import { useAppSelector } from "./features/hooks";
 
 function App() {
   return (
