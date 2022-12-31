@@ -4,6 +4,7 @@ import TPost from "../../types/models/TPost";
 import { UnknownAsyncThunkPendingAction } from "@reduxjs/toolkit/dist/matchers";
 import TPage from "../../types/models/TPage";
 import TComment from "../../types/models/TComment";
+import { RootState } from "../../store";
 
 type getPostsArgs = {
   username?: string;
@@ -32,7 +33,20 @@ const queryBuilder = (body: getPostsArgs) => {
 
 export const postsApi = createApi({
   reducerPath: "postsApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5080" }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: "http://localhost:5080",
+    prepareHeaders: (headers, { getState }) => {
+      const token = (getState() as RootState).user.user?.token;
+
+      // If we have a token set in state, let's assume that we should be passing it.
+      if (token) {
+        headers.set("authorization", `Bearer ${token}`);
+      }
+      
+      return headers;
+    },
+  }),
+
   endpoints: (builder) => ({
     getPosts: builder.query<TPage<TPost>, getPostsArgs>({
       query: (body) => {
