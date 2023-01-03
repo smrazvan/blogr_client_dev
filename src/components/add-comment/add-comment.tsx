@@ -25,7 +25,6 @@ const AddComment = (props: AddComment) => {
   const onSubmit: SubmitHandler<Partial<TComment>> = (data) => {
     const body = {
       id: id,
-      userId: 1,
       content: data.content,
     };
     addComment(body)

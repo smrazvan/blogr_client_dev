@@ -56,6 +56,7 @@ const ViewPosts = (props: ViewPosts) => {
     page: page,
     username: username,
   });
+  const hasPosts = data ? (data.result.length > 0 ? true : false) : false;
   const handleSortingChange = (event: SelectChangeEvent) => {
     setSorting(event.target.value as string);
   };
@@ -89,16 +90,24 @@ const ViewPosts = (props: ViewPosts) => {
     <Box
       sx={{
         display: "flex",
+        width: "100%",
         flexWrap: "wrap",
         gap: 1,
         alignItems: "center",
         flexDirection: "column",
       }}
     >
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+          mb: 5,
+        }}
+      >
         <ToggleInterest interests={interests} setInterests={setInterests} />
         <Box>
-          <InputLabel id="demo-simple-select-label">View by</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
@@ -111,7 +120,7 @@ const ViewPosts = (props: ViewPosts) => {
           </Select>
         </Box>
       </Box>
-
+      {!hasPosts && <Typography>Nothing to see here.</Typography>}
       {data?.result?.map(
         ({ id, title, caption, user, interests }: TFeedPost) => {
           return (
@@ -130,11 +139,13 @@ const ViewPosts = (props: ViewPosts) => {
           );
         }
       )}
-      <Pagination
-        page={page}
-        onChange={handlePageChange}
-        count={data?.totalPages}
-      />
+      {hasPosts && (
+        <Pagination
+          page={page}
+          onChange={handlePageChange}
+          count={data?.totalPages}
+        />
+      )}
     </Box>
   );
 };

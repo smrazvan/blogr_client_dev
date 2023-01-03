@@ -37,14 +37,17 @@ const userSlice = createSlice({
       state.isLoggedIn = true;
       state.user = action.payload.user;
       state.token = action.payload.token;
+      localStorage.setItem("initialState", JSON.stringify(state));
     },
     setUser: (state, action: PayloadAction<TUser>) => {
       state.user = action.payload;
+      localStorage.setItem("initialState", JSON.stringify(state));
     },
     logoutUser: (state) => {
       state.isLoggedIn = false;
       state.user = undefined;
       state.token = undefined;
+      localStorage.clear();
     },
   },
 });

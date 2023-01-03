@@ -5,6 +5,9 @@ import TInterest from "../../types/models/TInterest";
 import Box from "@mui/material/Box";
 import { useState } from "react";
 import Typography from "@mui/material/Typography";
+import { CircularProgress } from "@mui/material";
+import { useGetInterestsQuery } from "../../features/api/interestsApiSlice";
+import { errorHandler } from "../../helpers/error-handler";
 
 const allInterests: TInterest[] = [
   {
@@ -36,6 +39,7 @@ type ToggleInterest = {
 
 const ToggleInterest = (props: ToggleInterest) => {
   const { interests, setInterests } = props;
+  const { data, isLoading, isSuccess, error } = useGetInterestsQuery();
 
   const handleInterets = (
     event: React.MouseEvent<HTMLElement>,
@@ -43,12 +47,17 @@ const ToggleInterest = (props: ToggleInterest) => {
   ) => {
     setInterests(newInterests);
   };
+  if (isLoading) return <CircularProgress />;
 
+  if (error) {
+    errorHandler(error);
+    return <p>Could not load content.</p>;
+  }
   return (
     <>
       <Box sx={{ width: "70%", maxWidth: "600px", overflowX: "scroll" }}>
         <ToggleButtonGroup value={interests} onChange={handleInterets}>
-          {allInterests.map((interest: TInterest) => {
+          {data?.map((interest: TInterest) => {
             return (
               <ToggleButton value={interest.name} aria-label="bold">
                 <Typography>{interest.name}</Typography>

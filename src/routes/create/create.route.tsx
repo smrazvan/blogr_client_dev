@@ -60,7 +60,6 @@ export const Create = () => {
       }
     );
     const body = {
-      userId: userData?.user?.id,
       title: data.title,
       content: JSON.stringify(rawState),
       caption: data.caption,
