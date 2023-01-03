@@ -2,6 +2,8 @@ import Select from "react-select";
 import { useGetInterestsQuery } from "../../features/api/interestsApiSlice";
 import { useEffect, useState } from "react";
 import TInterest from "../../types/models/TInterest";
+import { CircularProgress } from "@mui/material";
+import { errorHandler } from "../../helpers/error-handler";
 
 const options: TSelectInterest[] = [
   { value: 1, label: "cook" },
@@ -12,7 +14,7 @@ export type TSelectInterest = {
   label: string;
 };
 const InterestsSelector = ({ ...field }) => {
-  const { data, isLoading, isSuccess } = useGetInterestsQuery();
+  const { data, isLoading, isSuccess, error } = useGetInterestsQuery();
 
   const [options, setOptions] = useState<TSelectInterest[]>([]);
 
@@ -27,6 +29,12 @@ const InterestsSelector = ({ ...field }) => {
       setOptions(options);
     }
   }, [data]);
+  if (isLoading) return <CircularProgress />;
+
+  if (error) {
+    errorHandler(error);
+    return <p>Could not load content.</p>;
+  }
   return (
     <Select
       options={options}

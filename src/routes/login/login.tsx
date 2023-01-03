@@ -7,6 +7,7 @@ import { redirect, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../features/api/authApiSlice";
 import SetCredentials from "../../auth/handler";
 import { useSnackbar } from "notistack";
+import { errorHandler } from "../../helpers/error-handler";
 
 export type TLogin = {
   userName: string;
@@ -34,7 +35,7 @@ const Login = () => {
         });
         navigate("/");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => errorHandler(err));
   };
   return (
     <Box

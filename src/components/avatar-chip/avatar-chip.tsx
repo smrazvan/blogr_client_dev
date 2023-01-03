@@ -12,7 +12,7 @@ const AvatarChip = (props: AvatarChip) => {
 
   const handleClick = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
-    navigate(`/${userName}`);
+    if (userName != "deleted") navigate(`/${userName}`);
   };
   return (
     <Chip

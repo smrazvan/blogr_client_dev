@@ -18,6 +18,12 @@ import InterestsSelector, {
 } from "../../components/interests-selector/interests-selector";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useAppSelector } from "../../features/hooks";
+import { useUpdateUserMutation } from "../../features/api/usersApiSlice";
+import { enqueueSnackbar } from "notistack";
+import { errorHandler } from "../../helpers/error-handler";
+import { store } from "../../store";
+import { setUser } from "../../slices/user-slice";
+import TUser from "../../types/models/TUser";
 
 type UpdateFormData = {
   email: string;
@@ -49,7 +55,28 @@ export const Profile = () => {
       }),
     },
   });
-  const onSubmit: SubmitHandler<UpdateFormData> = (data) => {};
+  const [update, updateData] = useUpdateUserMutation();
+  const onSubmit: SubmitHandler<UpdateFormData> = ({ interests, ...data }) => {
+    const id = userData?.user?.id;
+    if (id) {
+      update({
+        id: id,
+        ...data,
+        interests: interests.map((interest: TSelectInterest) => {
+          return {
+            id: interest.value,
+            name: interest.label,
+          };
+        }),
+      })
+        .unwrap()
+        .then((payload: TUser) => {
+          store.dispatch(setUser(payload));
+          enqueueSnackbar("Updated data successfully", { variant: "success" });
+        })
+        .catch((err) => errorHandler(err));
+    }
+  };
   return (
     <Box
       sx={{

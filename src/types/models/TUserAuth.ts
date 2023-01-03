@@ -1,7 +1,8 @@
 import TUser from "./TUser";
 
-interface TUserAuth extends TUser {
+interface TUserAuth {
   token: string;
+  user: TUser;
 }
 
 export default TUserAuth;

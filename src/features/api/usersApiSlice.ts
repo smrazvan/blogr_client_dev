@@ -10,8 +10,17 @@ export const usersApi = createApi({
       transformResponse: (rawResult: TUser) => {
         return rawResult;
       }
+    }),
+    updateUser: builder.mutation<TUser, Partial<TUser>>({
+      query({id, ...body}){
+        return {
+          url: `/Users/${id}`,
+          method: "POST",
+          body,
+        };
+      }
     })
   })
 })
 
-export const {useGetUserQuery } = usersApi;
+export const {useGetUserQuery, useUpdateUserMutation} = usersApi;

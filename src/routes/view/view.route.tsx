@@ -18,6 +18,7 @@ import RenderInterests from "../../components/render-interests/render-interests"
 import AddComment from "../../components/add-comment/add-comment";
 import Comments from "../../components/comments/comments";
 import ProtectedComponent from "../../components/protected-component/protected-component";
+import { errorHandler } from "../../helpers/error-handler";
 const interests: TInterest[] = [
   {
     id: 1,
@@ -46,7 +47,10 @@ export const View = () => {
   const { data, error, isLoading } = useGetPostQuery(Number(id));
   if (isLoading) return <h1>Loading</h1>;
 
-  if (error) return <h1>ERROR</h1>;
+  if (error) {
+    errorHandler(error);
+    return <p>Could not load content.</p>;
+  }
 
   return (
     <>

@@ -5,7 +5,7 @@ type TErrorResponse = {
   data: TError;
 }
 
-export const errorHandler = (errResponse: TErrorResponse) => {
+export const errorHandler = (errResponse: any) => {
   //message
   //errors: []
   if(errResponse.data) {

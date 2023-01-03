@@ -13,6 +13,7 @@ import InterestsSelector, {
 } from "../../components/interests-selector/interests-selector";
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
+import { errorHandler } from "../../helpers/error-handler";
 
 type CreateFormData = {
   title: string;
@@ -71,7 +72,8 @@ export const Create = () => {
       .then((payload: TPost) => {
         enqueueSnackbar("Post created succesfully! :D", { variant: "success" });
         navigate(`/post/${payload.id}`);
-      });
+      })
+      .catch((err) => errorHandler(err));
   };
 
   useEffect(() => {

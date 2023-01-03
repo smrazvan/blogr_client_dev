@@ -9,36 +9,45 @@ let initialState: UserState = {
 
 const storedState = localStorage.getItem("initialState");
 if (storedState !== null) {
-  const data: TUserAuth = JSON.parse(storedState);
-  const payload = jwtDecode<JwtPayload>(data.token);
-  const exp = payload.exp;
-  if (exp && Date.now() < exp * 1000) {
-    initialState = {
-      isLoggedIn: true,
-      user: data,
-    };
+  const data: UserState = JSON.parse(storedState);
+  if (data.token) {
+    const payload = jwtDecode<JwtPayload>(data.token);
+    const exp = payload.exp;
+    if (exp && Date.now() < exp * 1000) {
+      initialState = {
+        isLoggedIn: true,
+        token: data.token,
+        user: data.user,
+      };
+    }
   }
 }
 
 type UserState = {
   isLoggedIn: boolean;
-  user?: TUserAuth;
+  token?: string;
+  user?: TUser;
 };
 
 const userSlice = createSlice({
   name: "users",
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<TUserAuth>) => {
+    setUserAuth: (state, action: PayloadAction<TUserAuth>) => {
       state.isLoggedIn = true;
+      state.user = action.payload.user;
+      state.token = action.payload.token;
+    },
+    setUser: (state, action: PayloadAction<TUser>) => {
       state.user = action.payload;
     },
     logoutUser: (state) => {
       state.isLoggedIn = false;
       state.user = undefined;
+      state.token = undefined;
     },
   },
 });
 
-export const { setUser, logoutUser } = userSlice.actions;
+export const { setUser, setUserAuth, logoutUser } = userSlice.actions;
 export default userSlice.reducer;

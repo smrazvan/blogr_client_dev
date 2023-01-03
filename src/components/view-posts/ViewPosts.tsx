@@ -25,6 +25,7 @@ import BlogCard from "../blog-card/blog-card.component";
 import { useEffect, useState } from "react";
 import { createSearchParams, useSearchParams } from "react-router-dom";
 import { useGetPostsQuery } from "../../features/api/postsApiSlice";
+import { errorHandler } from "../../helpers/error-handler";
 
 type ViewPosts = {
   username?: string | undefined;
@@ -78,6 +79,12 @@ const ViewPosts = (props: ViewPosts) => {
   }, [interests, sorting, page]);
 
   if (isLoading) return <CircularProgress />;
+
+  if (error) {
+    errorHandler(error);
+    return <p>Could not load content.</p>;
+  }
+
   return (
     <Box
       sx={{

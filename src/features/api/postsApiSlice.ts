@@ -36,7 +36,7 @@ export const postsApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:5080",
     prepareHeaders: (headers, { getState }) => {
-      const token = (getState() as RootState).user.user?.token;
+      const token = (getState() as RootState).user.token;
 
       // If we have a token set in state, let's assume that we should be passing it.
       if (token) {

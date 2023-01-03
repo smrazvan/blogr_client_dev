@@ -1,6 +1,6 @@
 import Chip from "@mui/material/Chip";
 import TInterest from "../../types/models/TInterest";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 
 type RenderInterests = {
   interests: TInterest[];
