@@ -22,19 +22,45 @@ import RenderInterests from "../render-interests/render-interests";
 import AvatarChip from "../avatar-chip/avatar-chip";
 import TUser from "../../types/models/TUser";
 import ProtectedComponent from "../protected-component/protected-component";
+import TPost from "../../types/models/TPost";
+import TFeedPost from "../../types/models/TFeedPost";
+import CommentIcon from "@mui/icons-material/Comment";
+// type BlogCard = {
+//   id: number;
+//   title: string;
+//   user: Partial<TUser>;
+//   imageCaptionUrl: string;
+//   interests: TInterest[];
+//   caption: string;
+//   children?: React.ReactNode;
+// };
 
 type BlogCard = {
-  id: number;
-  title: string;
-  user: Partial<TUser>;
-  imageCaptionUrl: string;
-  interests: TInterest[];
-  caption: string;
+  post: Partial<TPost>;
   children?: React.ReactNode;
 };
+
 const BlogCard = (props: BlogCard) => {
   const navigate = useNavigate();
-  const { id, title, user, imageCaptionUrl, interests, caption } = props;
+  const {
+    id,
+    title,
+    user,
+    captionImageUrl,
+    interests,
+    caption,
+    isLikedByUser,
+    numberOfLikes,
+    numberOfComments,
+    creationDate,
+  } = props.post;
+  let formatedDate = "";
+  if (creationDate) {
+    const date = Date.parse(creationDate);
+    const options = { hour: "numeric", month: "short" };
+    formatedDate = new Intl.DateTimeFormat("en-US").format(date);
+  }
+
   return (
     <Box
       onClick={() => navigate(`/post/${id}`)}
@@ -42,7 +68,6 @@ const BlogCard = (props: BlogCard) => {
         cursor: "pointer",
         width: "100%",
         maxWidth: "700px",
-        maxHeight: "250px",
         display: "flex",
         justifyContent: "space-between",
       }}
@@ -60,14 +85,14 @@ const BlogCard = (props: BlogCard) => {
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <AvatarChip user={user} />
 
-          <Typography>23 Nov</Typography>
+          <Typography>{formatedDate}</Typography>
         </Box>
         <Box sx={{ alignSelf: "flex-start" }}>
           <Typography gutterBottom variant="h5" component="div">
-            {title.substring(0, 100)}
+            {title?.substring(0, 100)}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            {caption.substring(0, 200)}
+            {caption?.substring(0, 200)}
           </Typography>
         </Box>
         <Box
@@ -78,15 +103,21 @@ const BlogCard = (props: BlogCard) => {
           }}
         >
           <Box>
-            <RenderInterests interests={interests} />
+            <RenderInterests interests={interests ? interests : []} />
           </Box>
-          <ProtectedComponent>
-            <PostInteractions />
-          </ProtectedComponent>
+          <Box sx={{ display: "inline-flex" }}>
+            <Box sx={{ alignSelf: "center" }}>
+              <span>{numberOfComments} comments </span>
+              <span>{numberOfLikes} likes </span>
+            </Box>
+            <ProtectedComponent>
+              <PostInteractions postId={id} isLikedByUser={isLikedByUser} />
+            </ProtectedComponent>
+          </Box>
         </Box>
       </Box>
       <Box sx={{ width: "30%" }}>
-        <PostFeedImg backgroundImage={imageCaptionUrl} />
+        <PostFeedImg backgroundImage={captionImageUrl} />
       </Box>
     </Box>
     // <Card sx={{ width: "100%", maxWidth: "800px", wordBreak: "break-all" }}>

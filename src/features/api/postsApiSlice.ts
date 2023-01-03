@@ -5,6 +5,7 @@ import { UnknownAsyncThunkPendingAction } from "@reduxjs/toolkit/dist/matchers";
 import TPage from "../../types/models/TPage";
 import TComment from "../../types/models/TComment";
 import { RootState } from "../../store";
+import { TLike } from "../../types/models/TLike";
 
 type getPostsArgs = {
   username?: string;
@@ -42,17 +43,18 @@ export const postsApi = createApi({
       if (token) {
         headers.set("authorization", `Bearer ${token}`);
       }
-      
+
       return headers;
     },
   }),
-
+  tagTypes: ["Comments", "Posts", "Post"],
   endpoints: (builder) => ({
     getPosts: builder.query<TPage<TPost>, getPostsArgs>({
       query: (body) => {
         const queries = queryBuilder(body);
         return `/Posts?${queries}`;
       },
+      providesTags: ["Posts"],
       transformResponse: (rawResult: TPage<TPost>) => {
         return rawResult;
       },
@@ -62,6 +64,7 @@ export const postsApi = createApi({
       transformResponse: (rawResult: TPost) => {
         return rawResult;
       },
+      providesTags: ["Post"],
     }),
     addPost: builder.mutation<TPost, Partial<TPost>>({
       query(body) {
@@ -79,6 +82,7 @@ export const postsApi = createApi({
         if (body?.sorting) queries += `orderBy=${body.sorting}&`;
         return `/Posts/${postId}/comments?${queries}`;
       },
+      providesTags: ["Comments"],
       transformResponse: (rawResult: TPage<TComment>) => {
         return rawResult;
       },
@@ -94,6 +98,25 @@ export const postsApi = createApi({
           body,
         };
       },
+      invalidatesTags: ["Comments", "Posts"],
+    }),
+    addPostLike: builder.mutation<TLike, number>({
+      query(postId) {
+        return {
+          url: `/Posts/${postId}/likes`,
+          method: "POST",
+        };
+      },
+      invalidatesTags: ["Posts", "Post"],
+    }),
+    removePostLike: builder.mutation<TLike, number>({
+      query(postId) {
+        return {
+          url: `/Posts/${postId}/likes`,
+          method: "DELETE",
+        };
+      },
+      invalidatesTags: ["Posts", "Post"],
     }),
   }),
 });
@@ -104,4 +127,6 @@ export const {
   useAddPostMutation,
   useGetPostCommentsQuery,
   useAddPostCommentMutation,
+  useAddPostLikeMutation,
+  useRemovePostLikeMutation,
 } = postsApi;

@@ -83,7 +83,10 @@ export const View = () => {
           <Box>
             <Divider />
             <ProtectedComponent>
-              <PostInteractions />
+              <PostInteractions
+                postId={data?.id}
+                isLikedByUser={data?.isLikedByUser}
+              />
             </ProtectedComponent>
           </Box>
           <Box>

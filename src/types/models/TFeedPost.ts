@@ -7,6 +7,7 @@ interface TFeedPost {
   title: string;
   caption: string;
   creationDate: string;
+  captionImageUrl: string;
   user: TUser;
   interests: TInterest[];
 }

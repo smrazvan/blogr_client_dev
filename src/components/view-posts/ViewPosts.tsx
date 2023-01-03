@@ -43,7 +43,7 @@ const ViewPosts = (props: ViewPosts) => {
     defaultInterests.length ? defaultInterests : []
   );
   const [sorting, setSorting] = useState<string>(
-    defaultSorting ? defaultSorting : "recommended"
+    defaultSorting ? defaultSorting : "rec"
   );
   const [page, setPage] = useState<number>(
     Number(defaultPage ? defaultPage : 1)
@@ -114,31 +114,22 @@ const ViewPosts = (props: ViewPosts) => {
             value={sorting}
             onChange={handleSortingChange}
           >
-            <MenuItem value={"recommended"}>Recommended</MenuItem>
-            <MenuItem value={"popularity"}>Popularity</MenuItem>
-            <MenuItem value={"newest"}>Newest</MenuItem>
+            <MenuItem value={"rec"}>Recommended</MenuItem>
+            <MenuItem value={"pop"}>Popularity</MenuItem>
+            <MenuItem value={"asc"}>Newest</MenuItem>
           </Select>
         </Box>
       </Box>
       {!hasPosts && <Typography>Nothing to see here.</Typography>}
-      {data?.result?.map(
-        ({ id, title, caption, user, interests }: TFeedPost) => {
-          return (
-            <>
-              <BlogCard
-                key={id}
-                id={id}
-                interests={interests}
-                user={user}
-                title={title}
-                imageCaptionUrl="https://code.visualstudio.com/assets/docs/languages/csharp/c_sharp_hero.png"
-                caption={caption}
-              />
-              <Divider sx={{ width: "100%", mb: 2 }} />
-            </>
-          );
-        }
-      )}
+      {data?.result?.map((feedPost: TFeedPost, idx) => {
+        console.log(feedPost);
+        return (
+          <>
+            <BlogCard key={idx} post={feedPost} />
+            <Divider sx={{ width: "100%", mb: 2 }} />
+          </>
+        );
+      })}
       {hasPosts && (
         <Pagination
           page={page}

@@ -12,6 +12,9 @@ interface TPost {
   creationDate: string;
   user: TUser;
   interests: TInterest[];
+  numberOfLikes?: number;
+  numberOfComments?: number;
+  isLikedByUser?: boolean;
 }
 
 export default TPost;
