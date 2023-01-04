@@ -1,10 +1,17 @@
-import { Box, Button, Menu, MenuItem, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Menu,
+  MenuItem,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React from "react";
-import {ReactComponent as ImageIcon} from "./img.svg";
+import { ReactComponent as ImageIcon } from "./img.svg";
 type AddImageButtonProps = {
-  addImage: (inputValue: string) => void
-}
-export const AddImageButton = ({addImage} : AddImageButtonProps) => {
+  addImage: (inputValue: string) => void;
+};
+export const AddImageButton = ({ addImage }: AddImageButtonProps) => {
   //handle menu popup
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -19,15 +26,19 @@ export const AddImageButton = ({addImage} : AddImageButtonProps) => {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setTextFieldValue(event.target.value);
-  }
+  };
   const handleAdding = () => {
     addImage(textFieldValue);
     handleClose();
-  }
-  return(
+  };
+  return (
     <div className="toolbar-button-container">
-      <button className="toolbar-image-button" onClick={handleClick}>
-        <ImageIcon className="toolbar-image-icon"/>
+      <button
+        className="toolbar-image-button"
+        onClick={handleClick}
+        type="button"
+      >
+        <ImageIcon className="toolbar-image-icon" />
       </button>
       <Menu
         id="basic-menu"
@@ -35,14 +46,22 @@ export const AddImageButton = ({addImage} : AddImageButtonProps) => {
         open={open}
         onClose={handleClose}
         MenuListProps={{
-          'aria-labelledby': 'basic-button',
+          "aria-labelledby": "basic-button",
         }}
       >
-        <Box sx={{padding: "4px 8px"}}>
-          <TextField label="Image URL" size="small" variant="outlined" value={textFieldValue} onChange={handleChange}/>
-          <Button onClick={handleAdding} variant="contained">Add</Button>
+        <Box sx={{ padding: "4px 8px" }}>
+          <TextField
+            label="Image URL"
+            size="small"
+            variant="outlined"
+            value={textFieldValue}
+            onChange={handleChange}
+          />
+          <Button onClick={handleAdding} variant="contained" type="button">
+            Add
+          </Button>
         </Box>
       </Menu>
     </div>
-  )
-}
+  );
+};

@@ -2,7 +2,10 @@ import { Button, TextField, Typography } from "@mui/material";
 import CustomEditor from "../../components/editor/editor";
 import { EditorState, RawDraftContentState, convertFromRaw } from "draft-js";
 import { useState, useEffect } from "react";
-import { useAddPostMutation } from "../../features/api/postsApiSlice";
+import {
+  useAddPostMutation,
+  useUpdatePostMutation,
+} from "../../features/api/postsApiSlice";
 import Select from "react-select";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
@@ -50,7 +53,7 @@ export const Edit = () => {
     },
   });
 
-  const [editPost, result] = useAddPostMutation();
+  const [editPost, result] = useUpdatePostMutation();
   const [rawState, setRawState] = useState<RawDraftContentState | undefined>();
 
   if (!Boolean(post)) return <p>Could not load post</p>;
@@ -66,9 +69,11 @@ export const Edit = () => {
     );
     const body = {
       ...data,
+      id: post.id,
       content: JSON.stringify(rawState),
       interests: interests,
     };
+    console.log(body);
     editPost(body)
       .unwrap()
       .then((payload: TPost) => {

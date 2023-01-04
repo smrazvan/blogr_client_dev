@@ -85,6 +85,16 @@ export const postsApi = createApi({
       },
       invalidatesTags: ["Posts", "Post"],
     }),
+    updatePost: builder.mutation<TPost, Partial<TPost>>({
+      query({ id, ...body }) {
+        return {
+          url: `/Posts/${id}`,
+          method: "PUT",
+          body,
+        };
+      },
+      invalidatesTags: ["Posts", "Post"],
+    }),
     getPostComments: builder.query<TPage<TComment>, getPostCommentsArgs>({
       query: ({ postId, ...body }) => {
         let queries = "";
@@ -153,4 +163,5 @@ export const {
   useRemovePostLikeMutation,
   useRemovePostCommentMutation,
   useRemovePostMutation,
+  useUpdatePostMutation,
 } = postsApi;
