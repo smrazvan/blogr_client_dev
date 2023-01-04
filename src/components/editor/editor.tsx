@@ -1,6 +1,12 @@
 import React, { useMemo, useRef } from "react";
 import Editor, { composeDecorators } from "@draft-js-plugins/editor";
-import { EditorState, AtomicBlockUtils, convertToRaw, RawDraftContentState } from "draft-js";
+import {
+  EditorState,
+  AtomicBlockUtils,
+  convertToRaw,
+  RawDraftContentState,
+  convertFromRaw,
+} from "draft-js";
 
 import { readFile } from "@draft-js-plugins/drag-n-drop-upload";
 import createToolbarPlugin, {
@@ -39,9 +45,11 @@ import createResizeablePlugin from "@draft-js-plugins/resizeable";
 import createBlockDndPlugin from "@draft-js-plugins/drag-n-drop";
 
 import createDragNDropUploadPlugin from "@draft-js-plugins/drag-n-drop-upload";
+import { errorHandler } from "../../helpers/error-handler";
 
 type CustomEditor = {
-  setRawState: (arg: RawDraftContentState) => void
+  setRawState: (arg: RawDraftContentState) => void;
+  content?: string;
 };
 
 //upload mocker
@@ -112,7 +120,7 @@ const imgPlugins = [
 ];
 
 function CustomEditor(props: CustomEditor) {
-  const {setRawState} = props;
+  const { setRawState } = props;
   //setup plugins for editor
   const [plugins, InlineToolbar] = useMemo(() => {
     const inlineToolbarPlugin = createInlineToolbarPlugin();
@@ -131,10 +139,10 @@ function CustomEditor(props: CustomEditor) {
   //make editor controlled
   const [editorState, setEditorState] = React.useState(() =>
     EditorState.createEmpty()
-    );
-  
+  );
+
   const editor = useRef<Editor | null>(null);
-  
+
   //set the new state after adding the image
   const addImage = (inputValue: string) => {
     if (inputValue.length > 1) {
@@ -142,6 +150,18 @@ function CustomEditor(props: CustomEditor) {
       setEditorState(insertImage(inputValue));
     }
   };
+  React.useEffect(() => {
+    if (props.content) {
+      try {
+        const content = convertFromRaw(JSON.parse(props.content));
+        const editorStateWithContent = EditorState.createWithContent(content);
+        setEditorState(editorStateWithContent);
+      } catch (err) {
+        errorHandler(err);
+      }
+    }
+  }, []);
+
   React.useEffect(() => {
     setRawState(convertToRaw(editorState.getCurrentContent()));
   }, [editorState]);
@@ -151,7 +171,7 @@ function CustomEditor(props: CustomEditor) {
     const contentStateWithEntity = contentState.createEntity(
       "IMAGE",
       "IMMUTABLE",
-      { src: url}
+      { src: url }
     );
     const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
     const newEditorState = EditorState.set(editorState, {
@@ -195,15 +215,14 @@ function CustomEditor(props: CustomEditor) {
               <BlockquoteButton {...externalProps} />
               <CodeBlockButton {...externalProps} />
               <Separator />
-              <AddImageButton addImage={addImage}/>
+              <AddImageButton addImage={addImage} />
               <Separator />
-              <UndoButton className="toolbar-image-button"/>
-              <RedoButton className="toolbar-image-button"/>
+              <UndoButton className="toolbar-image-button" />
+              <RedoButton className="toolbar-image-button" />
             </div>
           )}
         </Toolbar>
       </div>
-      
     </>
   );
 }

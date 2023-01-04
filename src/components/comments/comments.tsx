@@ -1,5 +1,6 @@
 import {
   Box,
+  IconButton,
   InputLabel,
   MenuItem,
   Pagination,
@@ -15,7 +16,8 @@ import ProfileImage from "../user-card/profile-image";
 import AvatarChip from "../avatar-chip/avatar-chip";
 import { useEffect, useState } from "react";
 import { createSearchParams, useSearchParams } from "react-router-dom";
-
+import { useAppSelector } from "../../features/hooks";
+import { DeleteComment } from "../delete-comment/delete-comment";
 type Comments = {
   post: TPost | undefined;
 };
@@ -39,6 +41,7 @@ const Comments = (props: Comments) => {
     page: page,
     sorting: sorting,
   });
+
   const handleSortingChange = (event: SelectChangeEvent) => {
     setSorting(event.target.value as string);
   };
@@ -77,7 +80,17 @@ const Comments = (props: Comments) => {
         return (
           <Paper>
             <Box sx={{ mt: 1, mb: 1, p: 2 }}>
-              <AvatarChip user={comment.user} />
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "flex-start",
+                  mb: 2,
+                }}
+              >
+                <AvatarChip user={comment.user} />
+                <DeleteComment comment={comment} />
+              </Box>
               <Typography>{comment.content}</Typography>
             </Box>
           </Paper>

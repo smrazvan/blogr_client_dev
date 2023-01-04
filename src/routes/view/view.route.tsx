@@ -19,28 +19,8 @@ import AddComment from "../../components/add-comment/add-comment";
 import Comments from "../../components/comments/comments";
 import ProtectedComponent from "../../components/protected-component/protected-component";
 import { errorHandler } from "../../helpers/error-handler";
-const interests: TInterest[] = [
-  {
-    id: 1,
-    name: "Programming",
-  },
-  {
-    id: 2,
-    name: "Cooking",
-  },
-  {
-    id: 3,
-    name: "Psycology",
-  },
-  {
-    id: 4,
-    name: "Whatever",
-  },
-  {
-    id: 5,
-    name: "Something",
-  },
-];
+import { PostOptions } from "../../components/post-options/post-options";
+
 export const View = () => {
   const { id } = useParams();
 
@@ -79,15 +59,22 @@ export const View = () => {
               />
             </Stack>
             <ReadonlyEditor content={data?.content} />
-          </Box>
-          <Box>
             <Divider />
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
             <ProtectedComponent>
               <PostInteractions
                 postId={data?.id}
                 isLikedByUser={data?.isLikedByUser}
               />
             </ProtectedComponent>
+            <PostOptions post={data} />
           </Box>
           <Box>
             <AddComment post={data} />

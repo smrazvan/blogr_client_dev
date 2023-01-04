@@ -13,6 +13,7 @@ import "./styles/global.scss";
 import { Snackbar, Alert } from "@mui/material";
 import React from "react";
 import { useAppSelector } from "./features/hooks";
+import { Edit } from "./routes/edit/edit.route";
 
 function App() {
   return (
@@ -32,7 +33,6 @@ function App() {
           <Route path="help" element={<h1>Help page</h1>}></Route>
           <Route path="feedback" element={<h1>Feedback page</h1>}></Route>
           <Route path="about" element={<h1>About page</h1>}></Route>
-          <Route path=":username" element={<Blog />}></Route>
           <Route path="post/:id" element={<View />}></Route>
           <Route
             path="post"
@@ -42,6 +42,15 @@ function App() {
               </ProtectedRoute>
             }
           ></Route>
+          <Route
+            path="edit"
+            element={
+              <ProtectedRoute>
+                <Edit />
+              </ProtectedRoute>
+            }
+          ></Route>
+          <Route path=":username" element={<Blog />}></Route>
         </Route>
         <Route path="login" element={<Login />}></Route>
         <Route path="register" element={<Register />}></Route>

@@ -74,6 +74,16 @@ export const postsApi = createApi({
           body,
         };
       },
+      invalidatesTags: ["Posts"],
+    }),
+    removePost: builder.mutation<TPost, number>({
+      query(id) {
+        return {
+          url: `/Posts/${id}`,
+          method: "DELETE",
+        };
+      },
+      invalidatesTags: ["Posts", "Post"],
     }),
     getPostComments: builder.query<TPage<TComment>, getPostCommentsArgs>({
       query: ({ postId, ...body }) => {
@@ -99,6 +109,18 @@ export const postsApi = createApi({
         };
       },
       invalidatesTags: ["Comments", "Posts"],
+    }),
+    removePostComment: builder.mutation<
+      TComment,
+      { postId: number; commentId: number }
+    >({
+      query({ postId, commentId }) {
+        return {
+          url: `/Posts/${postId}/comments/${commentId}`,
+          method: "DELETE",
+        };
+      },
+      invalidatesTags: ["Comments"],
     }),
     addPostLike: builder.mutation<TLike, number>({
       query(postId) {
@@ -129,4 +151,6 @@ export const {
   useAddPostCommentMutation,
   useAddPostLikeMutation,
   useRemovePostLikeMutation,
+  useRemovePostCommentMutation,
+  useRemovePostMutation,
 } = postsApi;

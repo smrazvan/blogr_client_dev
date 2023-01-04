@@ -5,6 +5,7 @@ interface TComment {
   content: string;
   user: TUser;
   userId: number;
+  postId: number;
 }
 
 export default TComment;
