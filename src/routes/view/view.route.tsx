@@ -43,7 +43,7 @@ export const View = () => {
           position: "relative",
         }}
       >
-        <Box>
+        <Box sx={{ flexBasis: "66%" }}>
           <Box>
             <Typography variant="h4" gutterBottom>
               {data?.title}
@@ -79,9 +79,9 @@ export const View = () => {
             <AddComment post={data} />
             <Comments post={data} />
           </Box>
-          <Divider orientation="vertical" flexItem />
         </Box>
-        <Box>
+        <Divider orientation="vertical" flexItem />
+        <Box sx={{ flexBasis: "30%" }}>
           <UserCard user={data?.user} />
         </Box>
       </Box>

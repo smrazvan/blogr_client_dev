@@ -48,9 +48,13 @@ const Blog = () => {
           position: "relative",
         }}
       >
-        <ViewPosts username={username} />
+        <Box sx={{ flexBasis: "66%" }}>
+          <ViewPosts username={username} />
+        </Box>
         <Divider orientation="vertical" flexItem />
-        <UserCard user={data} />
+        <Box sx={{ flexBasis: "30%" }}>
+          <UserCard user={data} />
+        </Box>
       </Box>
     </>
   );
