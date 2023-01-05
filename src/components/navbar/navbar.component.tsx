@@ -100,7 +100,7 @@ export const Navbar = () => {
   const navigate = useNavigate();
   //store if user is on mobile/desktop
   const theme = useTheme();
-  const matches = useMediaQuery(theme.breakpoints.up("sm"));
+  const matches = useMediaQuery(theme.breakpoints.up("md"));
 
   //toggle drawer on < sm
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
@@ -208,7 +208,7 @@ export const Navbar = () => {
         {/* SIDE DRAWER */}
         <Box
           component="nav"
-          sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+          sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
           aria-label="mailbox folders"
         >
           {/* render drawer based on appropiate device mobile/desktop */}

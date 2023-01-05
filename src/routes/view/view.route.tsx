@@ -38,9 +38,8 @@ export const View = () => {
         sx={{
           display: "flex",
           flexWrap: "wrap",
-          flexDirection: { xs: "column-reverse", md: "row" },
           gap: 4,
-          justifyContent: "center",
+          justifyContent: "space-between",
           position: "relative",
         }}
       >
@@ -76,9 +75,8 @@ export const View = () => {
             </ProtectedComponent>
             <PostOptions post={data} />
           </Box>
-          <Box>
+          <Box sx={{ maxWidth: "800px", margin: "0 auto" }}>
             <AddComment post={data} />
-            <Divider />
             <Comments post={data} />
           </Box>
           <Divider orientation="vertical" flexItem />

@@ -9,29 +9,6 @@ import { CircularProgress } from "@mui/material";
 import { useGetInterestsQuery } from "../../features/api/interestsApiSlice";
 import { errorHandler } from "../../helpers/error-handler";
 
-const allInterests: TInterest[] = [
-  {
-    id: 1,
-    name: "programming",
-  },
-  {
-    id: 2,
-    name: "cooking",
-  },
-  {
-    id: 3,
-    name: "psycology",
-  },
-  {
-    id: 4,
-    name: "Whatever",
-  },
-  {
-    id: 5,
-    name: "Something",
-  },
-];
-
 type ToggleInterest = {
   interests: string[];
   setInterests: (newInterests: string[]) => void;

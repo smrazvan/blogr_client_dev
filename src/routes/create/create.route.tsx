@@ -1,4 +1,11 @@
-import { Button, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Menu,
+  MenuItem,
+  TextField,
+  Typography,
+} from "@mui/material";
 import CustomEditor from "../../components/editor/editor";
 import { EditorState, RawDraftContentState } from "draft-js";
 import { useState, useEffect } from "react";
@@ -12,8 +19,10 @@ import InterestsSelector, {
   TSelectInterest,
 } from "../../components/interests-selector/interests-selector";
 import { useNavigate } from "react-router-dom";
-import { useSnackbar } from "notistack";
+import { enqueueSnackbar, useSnackbar } from "notistack";
 import { errorHandler } from "../../helpers/error-handler";
+import React from "react";
+import { ManageInterests } from "../../components/manage-interests/manage-interests";
 
 type CreateFormData = {
   title: string;
@@ -22,15 +31,9 @@ type CreateFormData = {
   interests: TSelectInterest[];
 };
 
-const options = [
-  { value: 1, label: "cook" },
-  { value: 2, label: "programming" },
-];
-
 export const Create = () => {
   const userData = useAppSelector((state) => state.user);
   const navigate = useNavigate();
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const {
     control,
     reset,
@@ -49,6 +52,16 @@ export const Create = () => {
   const watchAllFields = watch();
   const [rawState, setRawState] = useState<RawDraftContentState | undefined>();
   const [createPost, result] = useAddPostMutation();
+
+  //create interest
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const onSubmit: SubmitHandler<CreateFormData> = (data) => {
     const interests = data.interests.map(
@@ -75,11 +88,6 @@ export const Create = () => {
       .catch((err) => errorHandler(err));
   };
 
-  useEffect(() => {
-    console.log("raw state");
-    console.log(rawState);
-    console.log(errors);
-  }, [rawState]);
   return (
     <>
       <Typography variant="h5" gutterBottom>
@@ -137,7 +145,32 @@ export const Create = () => {
             />
           )}
         />
-
+        <Typography>
+          Not fitting to your post, create one{" "}
+          <Box sx={{ display: "inline-block" }}>
+            <Button
+              id="basic-button"
+              aria-controls={open ? "basic-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? "true" : undefined}
+              onClick={handleClick}
+              type="button"
+            >
+              here
+            </Button>
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{
+                "aria-labelledby": "basic-button",
+              }}
+            >
+              <ManageInterests />
+            </Menu>
+          </Box>
+        </Typography>
         <Controller
           name={"interests"}
           control={control}

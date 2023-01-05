@@ -62,6 +62,7 @@ const AddComment = (props: AddComment) => {
         </Box>
         <Box>
           <Button
+            sx={{ m: 1 }}
             disabled={!isValid || !isDirty}
             variant="contained"
             type="submit"

@@ -6,6 +6,7 @@ import TPage from "../../types/models/TPage";
 import TComment from "../../types/models/TComment";
 import { RootState } from "../../store";
 import { TLike } from "../../types/models/TLike";
+import TInterest from "../../types/models/TInterest";
 
 type getPostsArgs = {
   username?: string;

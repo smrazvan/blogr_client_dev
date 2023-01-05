@@ -34,7 +34,7 @@ const Comments = (props: Comments) => {
     Number(defaultPage ? defaultPage : 1)
   );
   const [sorting, setSorting] = useState<string>(
-    defaultSorting ? defaultSorting : "new"
+    defaultSorting ? defaultSorting : "asc"
   );
   const { data, isLoading, error } = useGetPostCommentsQuery({
     postId: id,
@@ -64,21 +64,22 @@ const Comments = (props: Comments) => {
 
   return (
     <>
-      <Box>
-        <InputLabel id="demo-simple-select-label">View by</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={sorting}
-          onChange={handleSortingChange}
-        >
-          <MenuItem value={"new"}>Newest</MenuItem>
-          <MenuItem value={"old"}>Oldest</MenuItem>
-        </Select>
-      </Box>
+      {data?.result && data.result.length > 0 && (
+        <Box sx={{ textAlign: "right" }}>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={sorting}
+            onChange={handleSortingChange}
+          >
+            <MenuItem value={"asc"}>Newest</MenuItem>
+            <MenuItem value={"desc"}>Oldest</MenuItem>
+          </Select>
+        </Box>
+      )}
       {data?.result.map((comment: TComment) => {
         return (
-          <Paper>
+          <Paper sx={{ mb: 2, mt: 2 }}>
             <Box sx={{ mt: 1, mb: 1, p: 2 }}>
               <Box
                 sx={{
@@ -96,11 +97,13 @@ const Comments = (props: Comments) => {
           </Paper>
         );
       })}
-      <Pagination
-        page={page}
-        onChange={handlePageChange}
-        count={data?.totalPages}
-      />
+      {data?.result && data.result.length > 0 && (
+        <Pagination
+          page={page}
+          onChange={handlePageChange}
+          count={data?.totalPages}
+        />
+      )}
     </>
   );
 };
