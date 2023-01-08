@@ -23,9 +23,14 @@ import AddIcon from "@mui/icons-material/Add";
 import ToggleInterest from "../toggle-interests/toggle-interests";
 import BlogCard from "../blog-card/blog-card.component";
 import { useEffect, useState } from "react";
-import { createSearchParams, useSearchParams } from "react-router-dom";
+import {
+  createSearchParams,
+  useLocation,
+  useSearchParams,
+} from "react-router-dom";
 import { useGetPostsQuery } from "../../features/api/postsApiSlice";
 import { errorHandler } from "../../helpers/error-handler";
+import { useAppSelector } from "../../features/hooks";
 
 type ViewPosts = {
   username?: string | undefined;
@@ -38,6 +43,7 @@ const ViewPosts = (props: ViewPosts) => {
   const defaultInterests = searchParams.getAll("interests");
   const defaultSorting = searchParams.get("sort");
   const defaultPage = searchParams.get("page");
+  const defaultSearch = searchParams.get("input");
 
   const [interests, setInterests] = useState(
     defaultInterests.length ? defaultInterests : []
@@ -48,13 +54,15 @@ const ViewPosts = (props: ViewPosts) => {
   const [page, setPage] = useState<number>(
     Number(defaultPage ? defaultPage : 1)
   );
-
+  const { state: search } = useLocation();
+  let searchValue = search || defaultSearch;
   //get search queries and make request
   const { data, error, isLoading, refetch } = useGetPostsQuery({
     interests: interests,
     sorting: sorting,
     page: page,
     username: username,
+    input: searchValue,
   });
   const hasPosts = data ? (data.result.length > 0 ? true : false) : false;
   const handleSortingChange = (event: SelectChangeEvent) => {
@@ -70,13 +78,20 @@ const ViewPosts = (props: ViewPosts) => {
 
   useEffect(() => {
     //change url queries when filtering changes
-    setSearchParams(
-      createSearchParams({
-        interests: interests,
-        sorting: sorting,
-        page: String(page),
-      })
-    );
+    const params: {
+      interests?: string[];
+      sorting?: string;
+      page?: string;
+      input?: string;
+    } = {
+      interests: interests,
+      sorting: sorting,
+      page: String(page),
+    };
+    if (search) {
+      params.input = searchValue;
+    }
+    setSearchParams(createSearchParams(params));
   }, [interests, sorting, page]);
 
   if (isLoading) return <CircularProgress />;

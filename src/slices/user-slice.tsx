@@ -24,6 +24,7 @@ if (storedState !== null) {
 }
 
 type UserState = {
+  search?: string;
   isLoggedIn: boolean;
   token?: string;
   user?: TUser;
@@ -49,8 +50,20 @@ const userSlice = createSlice({
       state.token = undefined;
       localStorage.clear();
     },
+    setUserSearch: (state, action: PayloadAction<string>) => {
+      state.search = action.payload;
+    },
+    clearUserSearch: (state) => {
+      state.search = undefined;
+    },
   },
 });
 
-export const { setUser, setUserAuth, logoutUser } = userSlice.actions;
+export const {
+  setUser,
+  setUserAuth,
+  logoutUser,
+  setUserSearch,
+  clearUserSearch,
+} = userSlice.actions;
 export default userSlice.reducer;

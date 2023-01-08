@@ -57,7 +57,8 @@ const Comments = (props: Comments) => {
       createSearchParams({
         sorting: sorting,
         page: String(page),
-      })
+      }),
+      { replace: true }
     );
   }, [sorting, page]);
   if (error) return <h1>Error</h1>;

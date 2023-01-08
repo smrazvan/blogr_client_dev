@@ -32,6 +32,8 @@ import { green } from "@mui/material/colors";
 import { useSelector } from "react-redux";
 import { useAppSelector } from "../../features/hooks";
 import { logout } from "../../helpers/logout";
+import { store } from "../../store";
+import { setUserSearch } from "../../slices/user-slice";
 //custom components for search bar
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -104,6 +106,23 @@ export const Navbar = () => {
 
   //toggle drawer on < sm
   const [mobileOpen, setMobileOpen] = useState<boolean>(false);
+  const [search, setSearch] = useState<string>();
+
+  const handleSearch = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    console.log(e.target.value);
+    setSearch(e.target.value);
+  };
+
+  const handleSearchSubmit = (
+    e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    if (search?.trim() && e.key == "Enter") {
+      navigate("/", { state: search, replace: true });
+    }
+  };
+
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -143,6 +162,10 @@ export const Navbar = () => {
                 <SearchIcon />
               </SearchIconWrapper>
               <StyledInputBase
+                value={search}
+                onChange={handleSearch}
+                onKeyDown={handleSearchSubmit}
+                defaultValue=""
                 placeholder="Search…"
                 inputProps={{ "aria-label": "search" }}
               />

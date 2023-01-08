@@ -8,11 +8,12 @@ import { RootState } from "../../store";
 import { TLike } from "../../types/models/TLike";
 import TInterest from "../../types/models/TInterest";
 
-type getPostsArgs = {
+export type getPostsArgs = {
   username?: string;
   interests?: string[];
   page?: number;
   sorting?: string;
+  input?: string;
 };
 
 type getPostCommentsArgs = {
@@ -30,6 +31,7 @@ const queryBuilder = (body: getPostsArgs) => {
     });
   if (body?.sorting) queries += `orderBy=${body.sorting}&`;
   if (body?.username) queries += `username=${body.username}&`;
+  if (body?.input) queries += `input=${body.input}&`;
   return queries;
 };
 
