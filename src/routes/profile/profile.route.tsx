@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Chip,
+  CircularProgress,
   FormControl,
   InputLabel,
   MenuItem,
@@ -55,7 +56,7 @@ export const Profile = () => {
       }),
     },
   });
-  const [update, updateData] = useUpdateUserMutation();
+  const [update, { isLoading: isUpdating }] = useUpdateUserMutation();
   const onSubmit: SubmitHandler<UpdateFormData> = ({ interests, ...data }) => {
     const id = userData?.user?.id;
     if (id) {
@@ -96,7 +97,17 @@ export const Profile = () => {
         <Controller
           name={"email"}
           control={control}
-          rules={{ required: "Email is required." }}
+          rules={{
+            required: "Email is required.",
+            minLength: {
+              value: 6,
+              message: "Email not valid",
+            },
+            pattern: {
+              value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+              message: "Email not valid",
+            },
+          }}
           render={({ field }) => (
             <TextField
               sx={{ width: "100%", m: 1 }}
@@ -111,7 +122,13 @@ export const Profile = () => {
         <Controller
           name={"firstName"}
           control={control}
-          rules={{ required: "Firstname is required." }}
+          rules={{
+            required: "This field is required.",
+            minLength: {
+              value: 3,
+              message: "First name should be at least 1 letter.",
+            },
+          }}
           render={({ field }) => (
             <TextField
               sx={{ width: "100%", m: 1 }}
@@ -126,7 +143,13 @@ export const Profile = () => {
         <Controller
           name={"lastName"}
           control={control}
-          rules={{ required: "lastName is required." }}
+          rules={{
+            required: "This field is required.",
+            minLength: {
+              value: 3,
+              message: "Last name needs to be at least 3 chars long",
+            },
+          }}
           render={({ field }) => (
             <TextField
               sx={{ width: "100%", m: 1 }}
@@ -141,7 +164,17 @@ export const Profile = () => {
         <Controller
           name={"bio"}
           control={control}
-          rules={{ required: "bio is required." }}
+          rules={{
+            required: "This field is required.",
+            minLength: {
+              value: 10,
+              message: "Bio needs to be at least 10 chars long",
+            },
+            maxLength: {
+              value: 100,
+              message: "Bio needs to be at least 10 chars long",
+            },
+          }}
           render={({ field }) => (
             <TextField
               sx={{ width: "100%", m: 1 }}
@@ -158,7 +191,17 @@ export const Profile = () => {
         <Controller
           name={"birthDate"}
           control={control}
-          rules={{ required: "birthDate is required." }}
+          rules={{
+            required: "Birth date is required.",
+            validate: (v) => {
+              const date = new Date(v);
+              const currentDate = new Date();
+              return (
+                currentDate.getFullYear() - 13 >= date.getFullYear() ||
+                "You're too young"
+              );
+            },
+          }}
           render={({ field }) => (
             <TextField
               id="date"
@@ -181,13 +224,17 @@ export const Profile = () => {
           render={({ field }) => <InterestsSelector {...field} />}
         />
         <div>
-          <Button
-            variant="contained"
-            type="submit"
-            disabled={!isDirty || !isValid}
-          >
-            Update
-          </Button>
+          {isUpdating ? (
+            <CircularProgress />
+          ) : (
+            <Button
+              variant="contained"
+              type="submit"
+              disabled={!isDirty || !isValid}
+            >
+              Update
+            </Button>
+          )}
         </div>
       </form>
     </Box>

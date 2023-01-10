@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   Menu,
   MenuItem,
   TextField,
@@ -38,7 +39,7 @@ export const Create = () => {
     control,
     reset,
     watch,
-    formState: { errors },
+    formState: { errors, isValid, isDirty },
     handleSubmit: handleFormSubmit,
   } = useForm<CreateFormData>({
     mode: "onBlur",
@@ -51,7 +52,7 @@ export const Create = () => {
   });
   const watchAllFields = watch();
   const [rawState, setRawState] = useState<RawDraftContentState | undefined>();
-  const [createPost, result] = useAddPostMutation();
+  const [createPost, { isLoading: isUpdating }] = useAddPostMutation();
 
   //create interest
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -97,7 +98,13 @@ export const Create = () => {
         <Controller
           name={"title"}
           control={control}
-          rules={{ required: "Title is required." }}
+          rules={{
+            required: "This field is required.",
+            minLength: {
+              value: 10,
+              message: "Title is too short.",
+            },
+          }}
           render={({ field }) => (
             <TextField
               sx={{ width: "50%", "margin-bottom": "2rem" }}
@@ -115,7 +122,13 @@ export const Create = () => {
         <Controller
           name={"caption"}
           control={control}
-          rules={{ required: "Caption is required." }}
+          rules={{
+            required: "This field is required.",
+            minLength: {
+              value: 60,
+              message: "Caption too short.",
+            },
+          }}
           render={({ field }) => (
             <TextField
               multiline
@@ -133,7 +146,14 @@ export const Create = () => {
         <Controller
           name={"captionImageUrl"}
           control={control}
-          rules={{ required: "Title is required." }}
+          rules={{
+            required: "This field is required.",
+            pattern: {
+              value:
+                /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/,
+              message: "Value is not an URL",
+            },
+          }}
           render={({ field }) => (
             <TextField
               error={errors.captionImageUrl ? true : false}
@@ -174,12 +194,20 @@ export const Create = () => {
         <Controller
           name={"interests"}
           control={control}
-          rules={{ required: "Interests are required." }}
           render={({ field }) => <InterestsSelector {...field} />}
         />
-        <Button sx={{ mt: 2 }} type="submit" variant="contained">
-          Create
-        </Button>
+        {isUpdating ? (
+          <CircularProgress />
+        ) : (
+          <Button
+            disabled={!isDirty || !isValid}
+            sx={{ mt: 2 }}
+            type="submit"
+            variant="contained"
+          >
+            Create
+          </Button>
+        )}
       </form>
     </>
   );

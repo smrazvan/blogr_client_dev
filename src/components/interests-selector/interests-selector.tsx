@@ -41,6 +41,7 @@ const InterestsSelector = ({ ...field }) => {
       isMulti
       className="interests-selector"
       classNamePrefix="select"
+      placeholder="Select some interests"
       {...field}
     />
   );

@@ -18,6 +18,7 @@
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@fontsource/roboto": "^4.5.8",
+    "@hookform/resolvers": "^2.9.10",
     "@loadable/component": "^5.15.2",
     "@mui/icons-material": "^5.10.9",
     "@mui/material": "^5.10.12",
@@ -45,7 +46,8 @@
     "sass": "^1.57.1",
     "sass-loader": "^13.2.0",
     "typescript": "^4.8.4",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "yup": "^0.32.11"
   },
   "scripts": {
     "start": "react-scripts start",

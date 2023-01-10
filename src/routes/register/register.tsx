@@ -1,4 +1,10 @@
-import { TextField, Button, Typography, TextFieldProps } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Typography,
+  TextFieldProps,
+  CircularProgress,
+} from "@mui/material";
 import Box from "@mui/system/Box";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { store } from "../../store";
@@ -46,10 +52,23 @@ const Register = () => {
     reset,
     formState: { isValid, isDirty, errors },
     handleSubmit: handleFormSubmit,
-  } = useForm<RegisterFromData>({ mode: "onChange" });
+  } = useForm<RegisterFromData>({
+    mode: "onChange",
+    defaultValues: {
+      username: "",
+      email: "",
+      password: "",
+      firstName: "",
+      lastName: "",
+      bio: "",
+      profileImageUrl: "",
+      birthDate: "",
+      interests: [],
+    },
+  });
   const navigate = useNavigate();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  const [register, registerData] = useRegisterMutation();
+  const [register, { isLoading: isUpdating }] = useRegisterMutation();
 
   const onSubmit: SubmitHandler<RegisterFromData> = (data) => {
     let interests: TInterest[] = [];
@@ -94,14 +113,20 @@ const Register = () => {
           <Controller
             name={"username"}
             control={control}
-            rules={{ required: "Username is required." }}
+            rules={{
+              required: "This field is required.",
+              minLength: {
+                value: 3,
+                message: "Username needs to be at least 3 chars long",
+              },
+            }}
             render={({ field }) => (
               <TextField
                 sx={{ width: "100%", m: 1 }}
                 error={errors.username ? true : false}
                 helperText={errors?.username?.message}
                 id="outlined-multiline-static"
-                placeholder="Username"
+                label="Username"
                 {...field}
               />
             )}
@@ -109,14 +134,24 @@ const Register = () => {
           <Controller
             name={"email"}
             control={control}
-            rules={{ required: "Email is required." }}
+            rules={{
+              required: "Email is required.",
+              minLength: {
+                value: 6,
+                message: "Email not valid",
+              },
+              pattern: {
+                value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+                message: "Email not valid",
+              },
+            }}
             render={({ field }) => (
               <TextField
                 sx={{ width: "100%", m: 1 }}
                 error={errors.email ? true : false}
                 helperText={errors?.email?.message}
                 id="outlined-multiline-static"
-                placeholder="Email"
+                label="Email"
                 {...field}
               />
             )}
@@ -124,14 +159,26 @@ const Register = () => {
           <Controller
             name={"password"}
             control={control}
-            rules={{ required: "Password is required." }}
+            rules={{
+              required: "This field is required.",
+              minLength: {
+                value: 6,
+                message: "Password needs to be at least 6 chars long",
+              },
+              pattern: {
+                value:
+                  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d@$!%*?&]{8,}$/,
+                message:
+                  "Password needs at least one uppercase and lowercase letter, one number and one symbol.",
+              },
+            }}
             render={({ field }) => (
               <TextField
                 sx={{ width: "100%", m: 1 }}
                 error={errors.password ? true : false}
                 helperText={errors?.password?.message}
                 id="outlined-multiline-static"
-                placeholder="Password"
+                label="Password"
                 {...field}
               />
             )}
@@ -139,14 +186,20 @@ const Register = () => {
           <Controller
             name={"firstName"}
             control={control}
-            rules={{ required: "Firstname is required." }}
+            rules={{
+              required: "This field is required.",
+              minLength: {
+                value: 3,
+                message: "First name should be at least 1 letter.",
+              },
+            }}
             render={({ field }) => (
               <TextField
                 sx={{ width: "100%", m: 1 }}
                 error={errors.firstName ? true : false}
                 helperText={errors?.firstName?.message}
                 id="outlined-multiline-static"
-                placeholder="Firstname"
+                label="Firstname"
                 {...field}
               />
             )}
@@ -154,14 +207,20 @@ const Register = () => {
           <Controller
             name={"lastName"}
             control={control}
-            rules={{ required: "lastName is required." }}
+            rules={{
+              required: "This field is required.",
+              minLength: {
+                value: 3,
+                message: "Last name needs to be at least 3 chars long",
+              },
+            }}
             render={({ field }) => (
               <TextField
                 sx={{ width: "100%", m: 1 }}
                 error={errors.lastName ? true : false}
                 helperText={errors?.lastName?.message}
                 id="outlined-multiline-static"
-                placeholder="Lastname"
+                label="Lastname"
                 {...field}
               />
             )}
@@ -169,14 +228,24 @@ const Register = () => {
           <Controller
             name={"bio"}
             control={control}
-            rules={{ required: "bio is required." }}
+            rules={{
+              required: "This field is required.",
+              minLength: {
+                value: 10,
+                message: "Bio needs to be at least 10 chars long",
+              },
+              maxLength: {
+                value: 100,
+                message: "Bio needs to be at least 10 chars long",
+              },
+            }}
             render={({ field }) => (
               <TextField
                 sx={{ width: "100%", m: 1 }}
                 error={errors.bio ? true : false}
                 helperText={errors?.bio?.message}
                 id="outlined-multiline-static"
-                placeholder="Bio"
+                label="Bio"
                 multiline
                 rows={4}
                 {...field}
@@ -186,7 +255,17 @@ const Register = () => {
           <Controller
             name={"birthDate"}
             control={control}
-            rules={{ required: "birthDate is required." }}
+            rules={{
+              required: "Birth date is required.",
+              validate: (v) => {
+                const date = new Date(v);
+                const currentDate = new Date();
+                return (
+                  currentDate.getFullYear() - 13 >= date.getFullYear() ||
+                  "You're too young"
+                );
+              },
+            }}
             render={({ field }) => (
               <TextField
                 id="date"
@@ -207,13 +286,17 @@ const Register = () => {
             control={control}
             render={({ field }) => <InterestsSelector {...field} />}
           />
-          <Button
-            disabled={!isDirty || !isValid}
-            variant="contained"
-            type="submit"
-          >
-            Register
-          </Button>
+          {isUpdating ? (
+            <CircularProgress />
+          ) : (
+            <Button
+              disabled={!isDirty || !isValid}
+              variant="contained"
+              type="submit"
+            >
+              Register
+            </Button>
+          )}
         </form>
       </Box>
     </Box>

@@ -1,4 +1,4 @@
-import { TextField, Button, Typography } from "@mui/material";
+import { TextField, Button, Typography, CircularProgress } from "@mui/material";
 import Box from "@mui/system/Box";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { store } from "../../store";
@@ -20,10 +20,13 @@ const Login = () => {
     reset,
     formState: { isValid, isDirty, errors },
     handleSubmit: handleFormSubmit,
-  } = useForm<TLogin>({ mode: "onChange" });
+  } = useForm<TLogin>({
+    mode: "onChange",
+    defaultValues: { userName: "", password: "" },
+  });
   const navigate = useNavigate();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  const [login, loginData] = useLoginMutation();
+  const [login, { isLoading: isUpdating }] = useLoginMutation();
 
   const onSubmit: SubmitHandler<TLogin> = (data) => {
     login(data)
@@ -57,14 +60,20 @@ const Login = () => {
           <Controller
             name={"userName"}
             control={control}
-            rules={{ required: "userName is required." }}
+            rules={{
+              required: "This field is required.",
+              minLength: {
+                value: 3,
+                message: "Username needs to be at least 3 chars long",
+              },
+            }}
             render={({ field }) => (
               <TextField
                 sx={{ width: "100%", m: 1 }}
                 error={errors.userName ? true : false}
                 helperText={errors?.userName?.message}
                 id="outlined-multiline-static"
-                placeholder="userName"
+                label={"Username"}
                 {...field}
               />
             )}
@@ -72,14 +81,26 @@ const Login = () => {
           <Controller
             name={"password"}
             control={control}
-            rules={{ required: "Password is required." }}
+            rules={{
+              required: "This field is required.",
+              minLength: {
+                value: 6,
+                message: "Password needs to be at least 6 chars long",
+              },
+              pattern: {
+                value:
+                  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d@$!%*?&]{8,}$/,
+                message:
+                  "Password needs at least one uppercase and lowercase letter, one number and one symbol.",
+              },
+            }}
             render={({ field }) => (
               <TextField
                 sx={{ width: "100%", m: 1 }}
                 error={errors.password ? true : false}
                 helperText={errors?.password?.message}
                 id="outlined-multiline-static"
-                placeholder="Password"
+                label="Password"
                 {...field}
               />
             )}
@@ -95,13 +116,17 @@ const Login = () => {
               here
             </Button>
           </Typography>
-          <Button
-            disabled={!isDirty || !isValid}
-            variant="contained"
-            type="submit"
-          >
-            Login
-          </Button>
+          {isUpdating ? (
+            <CircularProgress />
+          ) : (
+            <Button
+              disabled={!isDirty || !isValid}
+              variant="contained"
+              type="submit"
+            >
+              Login
+            </Button>
+          )}
         </form>
       </Box>
     </Box>

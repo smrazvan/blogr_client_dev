@@ -1,4 +1,4 @@
-import { Box, TextField, Button } from "@mui/material";
+import { Box, TextField, Button, CircularProgress } from "@mui/material";
 import TComment from "../../types/models/TComment";
 import TPost from "../../types/models/TPost";
 import { useAddPostCommentMutation } from "../../features/api/postsApiSlice";
@@ -18,9 +18,14 @@ const AddComment = (props: AddComment) => {
     reset,
     formState: { isValid, isDirty, errors },
     handleSubmit: handleFormSubmit,
-  } = useForm<Partial<TComment>>({ mode: "onChange" });
+  } = useForm<Partial<TComment>>({
+    mode: "onChange",
+    defaultValues: {
+      content: "",
+    },
+  });
 
-  const [addComment, result] = useAddPostCommentMutation();
+  const [addComment, { isLoading: isUpdating }] = useAddPostCommentMutation();
 
   const onSubmit: SubmitHandler<Partial<TComment>> = (data) => {
     const body = {
@@ -31,7 +36,7 @@ const AddComment = (props: AddComment) => {
       .unwrap()
       .then((payload) => {
         enqueueSnackbar("Comment added successfully", { variant: "success" });
-        return payload;
+        reset();
       })
       .catch((err) => {
         errorHandler(err);
@@ -61,14 +66,18 @@ const AddComment = (props: AddComment) => {
           />
         </Box>
         <Box>
-          <Button
-            sx={{ m: 1 }}
-            disabled={!isValid || !isDirty}
-            variant="contained"
-            type="submit"
-          >
-            Comment
-          </Button>
+          {isUpdating ? (
+            <CircularProgress />
+          ) : (
+            <Button
+              sx={{ m: 1 }}
+              disabled={!isValid || !isDirty}
+              variant="contained"
+              type="submit"
+            >
+              Comment
+            </Button>
+          )}
         </Box>
       </Box>
     </form>

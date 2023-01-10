@@ -1,4 +1,4 @@
-import { Button, TextField, Typography } from "@mui/material";
+import { Button, CircularProgress, TextField, Typography } from "@mui/material";
 import CustomEditor from "../../components/editor/editor";
 import { EditorState, RawDraftContentState, convertFromRaw } from "draft-js";
 import { useState, useEffect } from "react";
@@ -36,7 +36,7 @@ export const Edit = () => {
     control,
     reset,
     watch,
-    formState: { errors },
+    formState: { errors, isValid, isDirty },
     handleSubmit: handleFormSubmit,
   } = useForm<EditFormData>({
     mode: "onBlur",
@@ -53,7 +53,7 @@ export const Edit = () => {
     },
   });
 
-  const [editPost, result] = useUpdatePostMutation();
+  const [editPost, { isLoading: isUpdating }] = useUpdatePostMutation();
   const [rawState, setRawState] = useState<RawDraftContentState | undefined>();
 
   if (!Boolean(post)) return <p>Could not load post</p>;
@@ -92,7 +92,13 @@ export const Edit = () => {
         <Controller
           name={"title"}
           control={control}
-          rules={{ required: "Title is required." }}
+          rules={{
+            required: "This field is required.",
+            minLength: {
+              value: 10,
+              message: "Title is too short.",
+            },
+          }}
           render={({ field }) => (
             <TextField
               sx={{ width: "50%", marginBottom: "2rem" }}
@@ -110,7 +116,13 @@ export const Edit = () => {
         <Controller
           name={"caption"}
           control={control}
-          rules={{ required: "Caption is required." }}
+          rules={{
+            required: "This field is required.",
+            minLength: {
+              value: 60,
+              message: "Caption too short.",
+            },
+          }}
           render={({ field }) => (
             <TextField
               multiline
@@ -128,7 +140,14 @@ export const Edit = () => {
         <Controller
           name={"captionImageUrl"}
           control={control}
-          rules={{ required: "Title is required." }}
+          rules={{
+            required: "This field is required.",
+            pattern: {
+              value:
+                /(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/,
+              message: "Value is not an URL",
+            },
+          }}
           render={({ field }) => (
             <TextField
               error={errors.captionImageUrl ? true : false}
@@ -144,12 +163,20 @@ export const Edit = () => {
         <Controller
           name={"interests"}
           control={control}
-          rules={{ required: "Interests are required." }}
           render={({ field }) => <InterestsSelector {...field} />}
         />
-        <Button sx={{ mt: 2 }} type="submit" variant="contained">
-          Edit
-        </Button>
+        {isUpdating ? (
+          <CircularProgress />
+        ) : (
+          <Button
+            disabled={!isDirty || !isValid}
+            sx={{ mt: 2 }}
+            type="submit"
+            variant="contained"
+          >
+            Create
+          </Button>
+        )}
       </form>
     </>
   );

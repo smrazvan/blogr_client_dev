@@ -1,4 +1,4 @@
-import { Box, Button, Chip, TextField } from "@mui/material";
+import { Box, Button, Chip, CircularProgress, TextField } from "@mui/material";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import TInterest from "../../types/models/TInterest";
 import { useAddUserInterestMutation } from "../../features/api/interestsApiSlice";
@@ -13,7 +13,7 @@ export const ManageInterests = () => {
   const {
     control: control2,
     reset,
-    formState: { errors: errors2 },
+    formState: { errors: errors2, isValid: isValid2, isDirty: isDirty2 },
     handleSubmit: handleFormSubmit2,
   } = useForm<InterestFormData>({
     mode: "onBlur",
@@ -21,7 +21,7 @@ export const ManageInterests = () => {
       name: "",
     },
   });
-  const [create, createDat] = useAddUserInterestMutation();
+  const [create, { isLoading: isUpdating }] = useAddUserInterestMutation();
 
   const onSubmit: SubmitHandler<InterestFormData> = (data) => {
     create(data)
@@ -45,7 +45,10 @@ export const ManageInterests = () => {
         <Controller
           name={"name"}
           control={control2}
-          rules={{ required: "name is required." }}
+          rules={{
+            required: "Name is required.",
+            minLength: { value: 1, message: "Name needs at least 1 letter." },
+          }}
           render={({ field }) => (
             <TextField
               error={errors2.name ? true : false}
@@ -57,9 +60,19 @@ export const ManageInterests = () => {
             />
           )}
         />
-        <Button onClick={handleFormSubmit2(onSubmit)} variant="contained">
-          Create
-        </Button>
+        <Box>
+          {isUpdating ? (
+            <CircularProgress />
+          ) : (
+            <Button
+              disabled={!isDirty2 || !isValid2}
+              onClick={handleFormSubmit2(onSubmit)}
+              variant="contained"
+            >
+              Create
+            </Button>
+          )}
+        </Box>
       </Box>
     </form>
   );
