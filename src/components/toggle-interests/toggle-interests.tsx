@@ -1,12 +1,10 @@
-import Chip from "@mui/material/Chip";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import TInterest from "../../types/models/TInterest";
 import Box from "@mui/material/Box";
-import { useState } from "react";
 import Typography from "@mui/material/Typography";
 import { CircularProgress } from "@mui/material";
-import { useGetInterestsQuery } from "../../features/api/interestsApiSlice";
+import { useGetInterestsQuery } from "../../features/api/bloggrApiSlice";
 import { errorHandler } from "../../helpers/error-handler";
 
 type ToggleInterest = {
