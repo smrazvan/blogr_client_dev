@@ -80,22 +80,6 @@ const profileMenu = [
     name: "Go to my profile",
     route: "/profile",
   },
-  {
-    name: "Edit profile",
-    route: "/profile",
-  },
-  {
-    name: "Likes",
-    route: "/",
-  },
-  {
-    name: "Followers",
-    route: "/",
-  },
-  {
-    name: "Following",
-    route: "/",
-  },
 ];
 export const Navbar = () => {
   //router navigation
@@ -211,20 +195,14 @@ export const Navbar = () => {
                 <Button variant="contained" onClick={() => navigate("/login")}>
                   Log in
                 </Button>
-                <Button
-                  variant="contained"
-                  onClick={() => navigate("/register")}
-                >
-                  Register
-                </Button>
               </>
             )}
-
+            {/* 
             {!matches && (
               <IconButton color="inherit" onClick={() => navigate("/post")}>
                 <AddIcon />
               </IconButton>
-            )}
+            )} */}
           </Toolbar>
         </AppBar>
 

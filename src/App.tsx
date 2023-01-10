@@ -14,6 +14,8 @@ import { Snackbar, Alert } from "@mui/material";
 import React from "react";
 import { useAppSelector } from "./features/hooks";
 import { Edit } from "./routes/edit/edit.route";
+import { About } from "./routes/about/about";
+import { Bookmarks } from "./routes/bookmarks/bookmarks";
 
 function App() {
   return (
@@ -29,10 +31,8 @@ function App() {
               </ProtectedRoute>
             }
           ></Route>
-          <Route path="settings" element={<h1>Settings page</h1>}></Route>
-          <Route path="help" element={<h1>Help page</h1>}></Route>
           <Route path="feedback" element={<h1>Feedback page</h1>}></Route>
-          <Route path="about" element={<h1>About page</h1>}></Route>
+          <Route path="about" element={<About />}></Route>
           <Route path="post/:id" element={<View />}></Route>
           <Route
             path="post"
@@ -47,6 +47,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Edit />
+              </ProtectedRoute>
+            }
+          ></Route>
+          <Route
+            path="bookmarks"
+            element={
+              <ProtectedRoute>
+                <Bookmarks />
               </ProtectedRoute>
             }
           ></Route>

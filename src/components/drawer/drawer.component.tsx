@@ -23,35 +23,10 @@ import QuizOutlinedIcon from "@mui/icons-material/QuizOutlined";
 import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { useAppSelector } from "../../features/hooks";
+import BookmarksOutlinedIcon from "@mui/icons-material/BookmarksOutlined";
+import ProtectedComponent from "../protected-component/protected-component";
 
-const exploreItems = [
-  {
-    name: "Programming",
-    route: "/",
-    icon: <AccountCircleIcon />,
-  },
-  {
-    name: "Gaming",
-    route: "/",
-    icon: <AccountCircleIcon />,
-  },
-  {
-    name: "Psychology",
-    route: "/",
-    icon: <AccountCircleIcon />,
-  },
-  {
-    name: "Cooking",
-    route: "/",
-    icon: <AccountCircleIcon />,
-  },
-];
 const otherItems = [
-  {
-    name: "Help",
-    route: "/help",
-    icon: <QuizOutlinedIcon />,
-  },
   {
     name: "Send feedback",
     route: "/feedback",
@@ -85,9 +60,9 @@ export const DrawerContent = () => {
       icon: <CoPresentOutlinedIcon />,
     },
     {
-      name: "Settings",
-      route: "/settings",
-      icon: <SettingsOutlinedIcon />,
+      name: "Bookmarks",
+      route: "/bookmarks",
+      icon: <BookmarksOutlinedIcon />,
     },
   ];
   const navigate = useNavigate();
@@ -104,32 +79,51 @@ export const DrawerContent = () => {
             <Typography color="white">New post</Typography>
           </ColorButton>
         </ListItem>
-        {mainItems.map(({ name, route, icon }, idx) => (
+        <ListItem onClick={() => navigate("/")} disablePadding>
+          <ListItemButton>
+            <ListItemIcon>
+              <AutoStoriesOutlinedIcon />
+            </ListItemIcon>
+            <ListItemText primary={"Feed"} />
+          </ListItemButton>
+        </ListItem>
+        <ProtectedComponent>
+          <ListItem
+            onClick={() =>
+              navigate(
+                userData.isLoggedIn ? `/${userData.user?.userName}` : "/login"
+              )
+            }
+            disablePadding
+          >
+            <ListItemButton>
+              <ListItemIcon>
+                <CoPresentOutlinedIcon />
+              </ListItemIcon>
+              <ListItemText primary={"My Blog"} />
+            </ListItemButton>
+          </ListItem>
+        </ProtectedComponent>
+        <ProtectedComponent>
+          <ListItem onClick={() => navigate("/bookmarks")} disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <BookmarksOutlinedIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Bookmarks"} />
+            </ListItemButton>
+          </ListItem>
+        </ProtectedComponent>
+        {/* {mainItems.map(({ name, route, icon }, idx) => (
           <ListItem key={idx} onClick={() => navigate(route)} disablePadding>
             <ListItemButton>
               <ListItemIcon>{icon}</ListItemIcon>
               <ListItemText primary={name} />
             </ListItemButton>
           </ListItem>
-        ))}
+        ))} */}
       </List>
       <Divider />
-      {/* <ListItem disablePadding>
-        <ListItemButton>
-          <ListItemText>Explore</ListItemText>
-        </ListItemButton>
-      </ListItem>
-      <List>
-        {exploreItems.map(({ name, route, icon }, idx) => (
-          <ListItem key={idx} onClick={() => navigate(route)} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>{icon}</ListItemIcon>
-              <ListItemText primary={name} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider /> */}
       <List>
         {otherItems.map(({ name, route, icon }, idx) => (
           <ListItem key={idx} onClick={() => navigate(route)} disablePadding>

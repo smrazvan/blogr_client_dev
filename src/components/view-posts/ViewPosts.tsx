@@ -34,10 +34,11 @@ import { useAppSelector } from "../../features/hooks";
 
 type ViewPosts = {
   username?: string | undefined;
+  isBookmarked?: boolean | undefined;
 };
 
 const ViewPosts = (props: ViewPosts) => {
-  const { username } = props;
+  const { username, isBookmarked } = props;
   //get default query strings
   const [searchParams, setSearchParams] = useSearchParams();
   const defaultInterests = searchParams.getAll("interests");
@@ -63,6 +64,7 @@ const ViewPosts = (props: ViewPosts) => {
     page: page,
     username: username,
     input: searchValue,
+    isBookmarked: isBookmarked ? true : false,
   });
   const hasPosts = data ? (data.result.length > 0 ? true : false) : false;
   const handleSortingChange = (event: SelectChangeEvent) => {
@@ -91,7 +93,7 @@ const ViewPosts = (props: ViewPosts) => {
     if (search) {
       params.input = searchValue;
     }
-    setSearchParams(createSearchParams(params));
+    setSearchParams(createSearchParams(params), { replace: true });
   }, [interests, sorting, page]);
 
   if (isLoading) return <CircularProgress />;
@@ -112,29 +114,31 @@ const ViewPosts = (props: ViewPosts) => {
         flexDirection: "column",
       }}
     >
-      <Box
-        sx={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "flex-start",
-          mb: 5,
-        }}
-      >
-        <ToggleInterest interests={interests} setInterests={setInterests} />
-        <Box>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={sorting}
-            onChange={handleSortingChange}
-          >
-            <MenuItem value={"rec"}>Recommended</MenuItem>
-            <MenuItem value={"pop"}>Popularity</MenuItem>
-            <MenuItem value={"asc"}>Newest</MenuItem>
-          </Select>
+      {hasPosts && (
+        <Box
+          sx={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-start",
+            mb: 5,
+          }}
+        >
+          <ToggleInterest interests={interests} setInterests={setInterests} />
+          <Box>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={sorting}
+              onChange={handleSortingChange}
+            >
+              <MenuItem value={"rec"}>Recommended</MenuItem>
+              <MenuItem value={"pop"}>Popularity</MenuItem>
+              <MenuItem value={"asc"}>Newest</MenuItem>
+            </Select>
+          </Box>
         </Box>
-      </Box>
+      )}
       {!hasPosts && <Typography>Nothing to see here.</Typography>}
       {data?.result?.map((feedPost: TFeedPost, idx) => {
         console.log(feedPost);

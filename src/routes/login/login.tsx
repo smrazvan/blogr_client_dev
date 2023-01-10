@@ -35,7 +35,10 @@ const Login = () => {
         });
         navigate("/");
       })
-      .catch((err) => errorHandler(err));
+      .catch((err) => {
+        console.log(err);
+        errorHandler(err);
+      });
   };
   return (
     <Box
@@ -81,6 +84,17 @@ const Login = () => {
               />
             )}
           />
+          <Typography>
+            Don't have an account? Register{" "}
+            <Button
+              id="basic-button"
+              aria-haspopup="true"
+              type="button"
+              onClick={() => navigate("/register")}
+            >
+              here
+            </Button>
+          </Typography>
           <Button
             disabled={!isDirty || !isValid}
             variant="contained"

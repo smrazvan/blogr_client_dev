@@ -32,7 +32,8 @@ const Blog = () => {
 
   if (error) return <h1>User doesn't exist</h1>;
 
-  console.log(data);
+  if (!data) return <h1>User doesn't exist</h1>;
+
   return (
     <>
       <Box>

@@ -15,6 +15,7 @@ interface TPost {
   numberOfLikes?: number;
   numberOfComments?: number;
   isLikedByUser?: boolean;
+  isBookmarkedByUser?: boolean;
 }
 
 export default TPost;

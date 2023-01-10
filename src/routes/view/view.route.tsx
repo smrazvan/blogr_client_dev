@@ -39,13 +39,17 @@ export const View = () => {
           display: "flex",
           flexWrap: "wrap",
           gap: 4,
-          justifyContent: "space-between",
+          justifyContent: { lg: "space-between", xs: "center" },
           position: "relative",
         }}
       >
-        <Box sx={{ flexBasis: "66%" }}>
-          <Box>
-            <Typography variant="h4" gutterBottom>
+        <Box sx={{ flexBasis: { sm: "70%" } }}>
+          <Box sx={{ padding: 1 }}>
+            <Typography
+              sx={{ wordBreak: "break-all" }}
+              variant="h4"
+              gutterBottom
+            >
               {data?.title}
             </Typography>
             <Typography>{data?.creationDate}</Typography>
@@ -57,7 +61,9 @@ export const View = () => {
                 interests={data?.interests ? data.interests : []}
               />
             </Stack>
-            <ReadonlyEditor content={data?.content} />
+            <Box sx={{ mt: 4 }}>
+              <ReadonlyEditor content={data?.content} />
+            </Box>
             <Divider />
           </Box>
           <Box
@@ -81,7 +87,7 @@ export const View = () => {
           </Box>
         </Box>
         <Divider orientation="vertical" flexItem />
-        <Box sx={{ flexBasis: "30%" }}>
+        <Box sx={{ flexBasis: { sm: "20%" } }}>
           <UserCard user={data?.user} />
         </Box>
       </Box>

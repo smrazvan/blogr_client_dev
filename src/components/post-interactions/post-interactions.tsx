@@ -5,8 +5,10 @@ import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import { useState } from "react";
 import {
+  useAddBookmarkMutation,
   useAddPostCommentMutation,
   useAddPostLikeMutation,
+  useRemoveBookmarkMutation,
   useRemovePostLikeMutation,
 } from "../../features/api/postsApiSlice";
 import { enqueueSnackbar } from "notistack";
@@ -15,20 +17,34 @@ import { errorHandler } from "../../helpers/error-handler";
 type PostInteractions = {
   postId?: number;
   isLikedByUser?: boolean;
+  isBookmarkedByUser?: boolean;
 };
 
-const PostInteractions = ({ postId, isLikedByUser }: PostInteractions) => {
-  const [checked, setChecked] = useState(isLikedByUser ? isLikedByUser : false);
-  const [like, likeData] = useAddPostLikeMutation();
-  const [unlike, unlikeData] = useRemovePostLikeMutation();
+const PostInteractions = ({
+  postId,
+  isLikedByUser,
+  isBookmarkedByUser,
+}: PostInteractions) => {
+  const [checkedLike, setCheckedLike] = useState(
+    isLikedByUser ? isLikedByUser : false
+  );
+  const [like] = useAddPostLikeMutation();
+  const [unlike] = useRemovePostLikeMutation();
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const [checkedBookmark, setCheckedBookmark] = useState(
+    isBookmarkedByUser ? isBookmarkedByUser : false
+  );
+  const [bookmark] = useAddBookmarkMutation();
+  const [removeBookmark] = useRemoveBookmarkMutation();
+
+  const handleLikeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (postId)
-      if (checked) {
+      if (checkedLike) {
         unlike(postId)
           .unwrap()
           .then(() => {
             enqueueSnackbar("Unliked post", { variant: "info" });
+            setCheckedLike(false);
           })
           .catch((err) => errorHandler(err));
       } else {
@@ -36,20 +52,47 @@ const PostInteractions = ({ postId, isLikedByUser }: PostInteractions) => {
           .unwrap()
           .then(() => {
             enqueueSnackbar("Liked post", { variant: "info" });
+            setCheckedLike(true);
           })
           .catch((err) => errorHandler(err));
       }
-    setChecked(event.target.checked);
+  };
+
+  const handleBookmarkChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (postId) {
+      if (checkedBookmark) {
+        removeBookmark(postId)
+          .unwrap()
+          .then(() => {
+            enqueueSnackbar("Remove bookmarked post", { variant: "info" });
+            setCheckedBookmark(false);
+          })
+          .catch((err) => errorHandler(err));
+      } else {
+        bookmark(postId)
+          .unwrap()
+          .then(() => {
+            enqueueSnackbar("Bookmarked post", { variant: "info" });
+            setCheckedBookmark(true);
+          })
+          .catch((err) => errorHandler(err));
+      }
+    }
   };
   return (
     <Box>
       <Checkbox
-        checked={checked}
-        onChange={handleChange}
+        checked={checkedLike}
+        onChange={handleLikeChange}
         icon={<FavoriteBorder />}
         checkedIcon={<Favorite />}
       />
-      <Checkbox icon={<BookmarkBorderIcon />} checkedIcon={<BookmarkIcon />} />
+      <Checkbox
+        checked={checkedBookmark}
+        onChange={handleBookmarkChange}
+        icon={<BookmarkBorderIcon />}
+        checkedIcon={<BookmarkIcon />}
+      />
     </Box>
   );
 };

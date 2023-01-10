@@ -146,7 +146,7 @@ export const Create = () => {
           )}
         />
         <Typography>
-          Not fitting to your post, create one{" "}
+          Not fitting to your post, create one
           <Box sx={{ display: "inline-block" }}>
             <Button
               id="basic-button"

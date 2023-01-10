@@ -14,6 +14,7 @@ export type getPostsArgs = {
   page?: number;
   sorting?: string;
   input?: string;
+  isBookmarked?: boolean;
 };
 
 type getPostCommentsArgs = {
@@ -32,6 +33,8 @@ const queryBuilder = (body: getPostsArgs) => {
   if (body?.sorting) queries += `orderBy=${body.sorting}&`;
   if (body?.username) queries += `username=${body.username}&`;
   if (body?.input) queries += `input=${body.input}&`;
+  if (body?.isBookmarked && body.isBookmarked === true)
+    queries += `isBookmarked=${true}&`;
   return queries;
 };
 
@@ -153,6 +156,24 @@ export const postsApi = createApi({
       },
       invalidatesTags: ["Posts", "Post"],
     }),
+    addBookmark: builder.mutation<void, number>({
+      query(postId) {
+        return {
+          url: `/Users/bookmarks?postId=${postId}`,
+          method: "POST",
+        };
+      },
+      invalidatesTags: ["Posts", "Post"],
+    }),
+    removeBookmark: builder.mutation<void, number>({
+      query(postId) {
+        return {
+          url: `/Users/bookmarks?postId=${postId}`,
+          method: "DELETE",
+        };
+      },
+      invalidatesTags: ["Posts", "Post"],
+    }),
   }),
 });
 
@@ -167,4 +188,6 @@ export const {
   useRemovePostCommentMutation,
   useRemovePostMutation,
   useUpdatePostMutation,
+  useAddBookmarkMutation,
+  useRemoveBookmarkMutation,
 } = postsApi;

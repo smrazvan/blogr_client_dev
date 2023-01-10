@@ -50,6 +50,7 @@ const BlogCard = (props: BlogCard) => {
     interests,
     caption,
     isLikedByUser,
+    isBookmarkedByUser,
     numberOfLikes,
     numberOfComments,
     creationDate,
@@ -111,7 +112,11 @@ const BlogCard = (props: BlogCard) => {
               <span>{numberOfLikes} likes </span>
             </Box>
             <ProtectedComponent>
-              <PostInteractions postId={id} isLikedByUser={isLikedByUser} />
+              <PostInteractions
+                postId={id}
+                isLikedByUser={isLikedByUser}
+                isBookmarkedByUser={isBookmarkedByUser}
+              />
             </ProtectedComponent>
           </Box>
         </Box>

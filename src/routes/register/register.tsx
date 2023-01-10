@@ -73,6 +73,7 @@ const Register = () => {
         navigate("/");
       })
       .catch((err) => {
+        console.log(err);
         errorHandler(err);
       });
   };
@@ -204,7 +205,6 @@ const Register = () => {
           <Controller
             name={"interests"}
             control={control}
-            rules={{ required: "Interests are required." }}
             render={({ field }) => <InterestsSelector {...field} />}
           />
           <Button
