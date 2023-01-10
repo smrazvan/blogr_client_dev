@@ -7,13 +7,18 @@ let initialState: UserState = {
   isLoggedIn: false,
 };
 
+export const checkTokenIfValid = (token: string) => {
+  const payload = jwtDecode<JwtPayload>(token);
+  const exp = payload.exp;
+  if (exp && Date.now() < exp * 1000) return true;
+  return false;
+};
+
 const storedState = localStorage.getItem("initialState");
 if (storedState !== null) {
   const data: UserState = JSON.parse(storedState);
   if (data.token) {
-    const payload = jwtDecode<JwtPayload>(data.token);
-    const exp = payload.exp;
-    if (exp && Date.now() < exp * 1000) {
+    if (checkTokenIfValid(data.token)) {
       initialState = {
         isLoggedIn: true,
         token: data.token,

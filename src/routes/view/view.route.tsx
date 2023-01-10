@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import { RawDraftContentState } from "draft-js";
 import Chip from "@mui/material/Chip";
 import Avatar from "@mui/material/Avatar";
-import { Button, Divider, TextField } from "@mui/material";
+import { Button, CircularProgress, Divider, TextField } from "@mui/material";
 import UserCard from "../../components/user-card/user-card";
 import Stack from "@mui/system/Stack";
 import TInterest from "../../types/models/TInterest";
@@ -25,7 +25,7 @@ export const View = () => {
   const { id } = useParams();
 
   const { data, error, isLoading } = useGetPostQuery(Number(id));
-  if (isLoading) return <h1>Loading</h1>;
+  if (isLoading) return <CircularProgress />;
 
   if (error) {
     errorHandler(error);

@@ -1,5 +1,6 @@
 import {
   Box,
+  CircularProgress,
   IconButton,
   InputLabel,
   MenuItem,
@@ -61,7 +62,10 @@ const Comments = (props: Comments) => {
       { replace: true }
     );
   }, [sorting, page]);
-  if (error) return <h1>Error</h1>;
+
+  if (isLoading) return <CircularProgress />;
+
+  if (error) return <p>Error</p>;
 
   return (
     <>
