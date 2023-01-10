@@ -16,7 +16,7 @@ import { Dayjs } from "dayjs";
 import InterestsSelector, {
   TSelectInterest,
 } from "../../components/interests-selector/interests-selector";
-import { useRegisterMutation } from "../../features/api/authApiSlice";
+import { useRegisterMutation } from "../../features/api/bloggrApiSlice";
 import SetCredentials from "../../auth/handler";
 import TInterest from "../../types/models/TInterest";
 import TError from "../../types/models/TError";

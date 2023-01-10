@@ -1,25 +1,14 @@
 import {
-  Avatar,
   Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Chip,
   CircularProgress,
   Divider,
-  Fab,
-  InputLabel,
   MenuItem,
   Pagination,
   Select,
   SelectChangeEvent,
-  Stack,
   Typography,
 } from "@mui/material";
 import TFeedPost from "../../types/models/TFeedPost";
-import AddIcon from "@mui/icons-material/Add";
 import ToggleInterest from "../toggle-interests/toggle-interests";
 import BlogCard from "../blog-card/blog-card.component";
 import { useEffect, useState } from "react";
@@ -28,9 +17,8 @@ import {
   useLocation,
   useSearchParams,
 } from "react-router-dom";
-import { useGetPostsQuery } from "../../features/api/postsApiSlice";
+import { useGetPostsQuery } from "../../features/api/bloggrApiSlice";
 import { errorHandler } from "../../helpers/error-handler";
-import { useAppSelector } from "../../features/hooks";
 
 type ViewPosts = {
   username?: string | undefined;

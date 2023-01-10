@@ -10,7 +10,7 @@ import {
   useAddPostLikeMutation,
   useRemoveBookmarkMutation,
   useRemovePostLikeMutation,
-} from "../../features/api/postsApiSlice";
+} from "../../features/api/bloggrApiSlice";
 import { enqueueSnackbar } from "notistack";
 import { errorHandler } from "../../helpers/error-handler";
 

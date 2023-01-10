@@ -1,7 +1,7 @@
 import { Box, Button, Chip, CircularProgress, TextField } from "@mui/material";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import TInterest from "../../types/models/TInterest";
-import { useAddUserInterestMutation } from "../../features/api/interestsApiSlice";
+import { useAddUserInterestMutation } from "../../features/api/bloggrApiSlice";
 import { enqueueSnackbar } from "notistack";
 import { errorHandler } from "../../helpers/error-handler";
 

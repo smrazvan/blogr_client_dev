@@ -19,7 +19,7 @@ import InterestsSelector, {
 } from "../../components/interests-selector/interests-selector";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useAppSelector } from "../../features/hooks";
-import { useUpdateUserMutation } from "../../features/api/usersApiSlice";
+import { useUpdateUserMutation } from "../../features/api/bloggrApiSlice";
 import { enqueueSnackbar } from "notistack";
 import { errorHandler } from "../../helpers/error-handler";
 import { store } from "../../store";

@@ -1,6 +1,6 @@
 import React from "react";
 import ReadonlyEditor from "../../components/readonly-editor/ReadonlyEditor";
-import { useGetPostQuery } from "../../features/api/postsApiSlice";
+import { useGetPostQuery } from "../../features/api/bloggrApiSlice";
 import { useParams } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";

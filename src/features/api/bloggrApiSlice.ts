@@ -1,12 +1,15 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 import TPost from "../../types/models/TPost";
-import { UnknownAsyncThunkPendingAction } from "@reduxjs/toolkit/dist/matchers";
 import TPage from "../../types/models/TPage";
 import TComment from "../../types/models/TComment";
 import { RootState } from "../../store";
 import { TLike } from "../../types/models/TLike";
 import TInterest from "../../types/models/TInterest";
+import { TLogin } from "../../routes/login/login";
+import { TRegister } from "../../routes/register/register";
+import TUser from "../../types/models/TUser";
+import TUserAuth from "../../types/models/TUserAuth";
 
 export type getPostsArgs = {
   username?: string;
@@ -38,23 +41,41 @@ const queryBuilder = (body: getPostsArgs) => {
   return queries;
 };
 
-export const postsApi = createApi({
-  reducerPath: "postsApi",
+export const bloggrApi = createApi({
+  reducerPath: "bloggrApi",
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:5080",
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).user.token;
-
-      // If we have a token set in state, let's assume that we should be passing it.
       if (token) {
         headers.set("authorization", `Bearer ${token}`);
       }
-
       return headers;
     },
   }),
-  tagTypes: ["Comments", "Posts", "Post"],
+  tagTypes: ["Comments", "Posts", "Post", "Interests"],
   endpoints: (builder) => ({
+    //AUTH endpoints
+    login: builder.mutation<TUserAuth, TLogin>({
+      query: (body) => ({
+        url: "/login",
+        method: "POST",
+        body: body,
+      }),
+      transformResponse: (rawResult: TUserAuth) => {
+        return rawResult;
+      },
+    }),
+    register: builder.mutation<TUserAuth, TRegister>({
+      query: (body) => ({
+        url: "/register",
+        method: "POST",
+        body: body,
+      }),
+      transformResponse: (rawResult: TUserAuth) => {
+        return rawResult;
+      },
+    }),
     getPosts: builder.query<TPage<TPost>, getPostsArgs>({
       query: (body) => {
         const queries = queryBuilder(body);
@@ -174,6 +195,39 @@ export const postsApi = createApi({
       },
       invalidatesTags: ["Posts", "Post"],
     }),
+    //user related
+    getUser: builder.query<TUser, string>({
+      query: (username) => `/Users/username/$${username}`,
+      transformResponse: (rawResult: TUser) => {
+        return rawResult;
+      },
+    }),
+    updateUser: builder.mutation<TUser, Partial<TUser>>({
+      query({ id, ...body }) {
+        return {
+          url: `/Users/${id}`,
+          method: "PUT",
+          body,
+        };
+      },
+    }),
+    getInterests: builder.query<TInterest[], void>({
+      query: () => "/Interests",
+      transformResponse: (rawResult: TInterest[]) => {
+        return rawResult;
+      },
+      providesTags: ["Interests"],
+    }),
+    addUserInterest: builder.mutation<TInterest, Partial<TInterest>>({
+      query(body) {
+        return {
+          url: `/Users/createdInterests`,
+          method: "POST",
+          body,
+        };
+      },
+      invalidatesTags: ["Interests"],
+    }),
   }),
 });
 
@@ -190,4 +244,10 @@ export const {
   useUpdatePostMutation,
   useAddBookmarkMutation,
   useRemoveBookmarkMutation,
-} = postsApi;
+  useGetUserQuery,
+  useUpdateUserMutation,
+  useGetInterestsQuery,
+  useAddUserInterestMutation,
+  useLoginMutation,
+  useRegisterMutation,
+} = bloggrApi;

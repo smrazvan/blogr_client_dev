@@ -2,7 +2,7 @@ import { IconButton } from "@mui/material";
 import { useAppSelector } from "../../features/hooks";
 import TComment from "../../types/models/TComment";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import { useRemovePostCommentMutation } from "../../features/api/postsApiSlice";
+import { useRemovePostCommentMutation } from "../../features/api/bloggrApiSlice";
 import { enqueueSnackbar } from "notistack";
 import { errorHandler } from "../../helpers/error-handler";
 

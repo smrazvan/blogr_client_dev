@@ -10,7 +10,7 @@ import {
   SelectChangeEvent,
   Typography,
 } from "@mui/material";
-import { useGetPostCommentsQuery } from "../../features/api/postsApiSlice";
+import { useGetPostCommentsQuery } from "../../features/api/bloggrApiSlice";
 import TComment from "../../types/models/TComment";
 import TPost from "../../types/models/TPost";
 import ProfileImage from "../user-card/profile-image";

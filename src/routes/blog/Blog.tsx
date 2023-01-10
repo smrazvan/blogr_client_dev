@@ -16,11 +16,11 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { useGetPostsQuery } from "../../features/api/postsApiSlice";
+import { useGetPostsQuery } from "../../features/api/bloggrApiSlice";
 import ViewPosts from "../../components/view-posts/ViewPosts";
 import UserCard from "../../components/user-card/user-card";
 import { useParams } from "react-router-dom";
-import { useGetUserQuery } from "../../features/api/usersApiSlice";
+import { useGetUserQuery } from "../../features/api/bloggrApiSlice";
 import { useState } from "react";
 
 const Blog = () => {

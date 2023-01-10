@@ -1,14 +1,12 @@
-import { Button, Divider, IconButton, MenuItem } from "@mui/material";
+import { Button, MenuItem } from "@mui/material";
 import { useAppSelector } from "../../features/hooks";
-import TComment from "../../types/models/TComment";
-import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import TPost from "../../types/models/TPost";
 import { useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { StyledMenu } from "./styledMenu";
-import { useRemovePostMutation } from "../../features/api/postsApiSlice";
+import { useRemovePostMutation } from "../../features/api/bloggrApiSlice";
 import { enqueueSnackbar } from "notistack";
 import { errorHandler } from "../../helpers/error-handler";
 import { useNavigate } from "react-router-dom";

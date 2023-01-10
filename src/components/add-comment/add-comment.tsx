@@ -1,7 +1,7 @@
 import { Box, TextField, Button, CircularProgress } from "@mui/material";
 import TComment from "../../types/models/TComment";
 import TPost from "../../types/models/TPost";
-import { useAddPostCommentMutation } from "../../features/api/postsApiSlice";
+import { useAddPostCommentMutation } from "../../features/api/bloggrApiSlice";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { enqueueSnackbar } from "notistack";
 import { errorHandler } from "../../helpers/error-handler";

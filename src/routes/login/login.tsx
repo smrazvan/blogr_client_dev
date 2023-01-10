@@ -4,7 +4,7 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { store } from "../../store";
 import { setUser } from "../../slices/user-slice";
 import { redirect, useNavigate } from "react-router-dom";
-import { useLoginMutation } from "../../features/api/authApiSlice";
+import { useLoginMutation } from "../../features/api/bloggrApiSlice";
 import SetCredentials from "../../auth/handler";
 import { useSnackbar } from "notistack";
 import { errorHandler } from "../../helpers/error-handler";

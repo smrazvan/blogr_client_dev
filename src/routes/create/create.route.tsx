@@ -3,24 +3,21 @@ import {
   Button,
   CircularProgress,
   Menu,
-  MenuItem,
   TextField,
   Typography,
 } from "@mui/material";
 import CustomEditor from "../../components/editor/editor";
-import { EditorState, RawDraftContentState } from "draft-js";
-import { useState, useEffect } from "react";
-import { useAddPostMutation } from "../../features/api/postsApiSlice";
-import Select from "react-select";
+import { RawDraftContentState } from "draft-js";
+import { useState } from "react";
+import { useAddPostMutation } from "../../features/api/bloggrApiSlice";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
 import { useAppSelector } from "../../features/hooks";
 import TPost from "../../types/models/TPost";
 import InterestsSelector, {
   TSelectInterest,
 } from "../../components/interests-selector/interests-selector";
 import { useNavigate } from "react-router-dom";
-import { enqueueSnackbar, useSnackbar } from "notistack";
+import { enqueueSnackbar } from "notistack";
 import { errorHandler } from "../../helpers/error-handler";
 import React from "react";
 import { ManageInterests } from "../../components/manage-interests/manage-interests";

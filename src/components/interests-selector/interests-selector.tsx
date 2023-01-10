@@ -1,5 +1,5 @@
 import Select from "react-select";
-import { useGetInterestsQuery } from "../../features/api/interestsApiSlice";
+import { useGetInterestsQuery } from "../../features/api/bloggrApiSlice";
 import { useEffect, useState } from "react";
 import TInterest from "../../types/models/TInterest";
 import { CircularProgress } from "@mui/material";
