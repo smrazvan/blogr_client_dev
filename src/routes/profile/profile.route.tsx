@@ -113,19 +113,19 @@ export const Profile = () => {
           {`${userData?.user?.firstName} ${userData?.user?.lastName}`}
         </Typography>
         <Box sx={{ position: "relative", width: "100%", height: "300px" }}>
-          <Box className="profile-container">
-            <Box
-              sx={{
-                backgroundSize: "cover",
-                backgroundImage: `url(${
-                  images.background
-                    ? images.background
-                    : userData?.user?.backgroundImageUrl
-                })`,
-                height: "100%",
-                width: "100%",
-              }}
-            ></Box>
+          <Box
+            sx={{
+              backgroundSize: "cover",
+              backgroundImage: `url(${
+                images.background
+                  ? images.background
+                  : userData?.user?.backgroundImageUrl
+              })`,
+              height: "100%",
+              width: "100%",
+            }}
+            className="profile-container"
+          >
             <Box className="overlay">
               <IconButton
                 color="primary"
@@ -153,34 +153,15 @@ export const Profile = () => {
               width: "100px",
               height: "100px",
               borderRadius: "50%",
-            }}
-            className="profile-container"
-          >
-            <Box
-              sx={{
-                backgroundSize: "cover",
-                backgroundImage: `url(${
-                  images.profile
-                    ? images.profile
-                    : userData?.user?.profileImageUrl
-                })`,
-                height: "100px",
-                width: "100px",
-                borderRadius: "50%",
-              }}
-            ></Box>
-            {/* <Avatar
-              alt={userData?.user?.userName}
-              src={
+              backgroundSize: "cover",
+              backgroundImage: `url(${
                 images.profile
                   ? images.profile
                   : userData?.user?.profileImageUrl
-              }
-              sx={{
-                width: "100%",
-                height: "auto",
-              }}
-            /> */}
+              })`,
+            }}
+            className="profile-container"
+          >
             <Box sx={{ borderRadius: "50%" }} className="overlay">
               <IconButton
                 color="primary"
