@@ -5,6 +5,7 @@ import {
   Chip,
   CircularProgress,
   FormControl,
+  IconButton,
   InputLabel,
   MenuItem,
   Select,
@@ -12,7 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import { MuiChipsInput, MuiChipsInputChip } from "mui-chips-input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TInterest from "../../types/models/TInterest";
 import InterestsSelector, {
   TSelectInterest,
@@ -26,6 +27,9 @@ import { store } from "../../store";
 import { setUser } from "../../slices/user-slice";
 import TUser from "../../types/models/TUser";
 
+import "./profileRoute.scss";
+import { PhotoCamera } from "@mui/icons-material";
+
 type UpdateFormData = {
   email: string;
   firstName: string;
@@ -33,14 +37,15 @@ type UpdateFormData = {
   bio: string;
   birthDate: string;
   interests: TSelectInterest[];
+  profile?: FileList;
+  background?: any;
 };
 
 export const Profile = () => {
   const userData = useAppSelector((state) => state.user);
   const {
     control,
-    reset,
-    watch,
+    register,
     formState: { isDirty, isValid, errors },
     handleSubmit: handleFormSubmit,
   } = useForm<UpdateFormData>({
@@ -59,41 +64,143 @@ export const Profile = () => {
   const [update, { isLoading: isUpdating }] = useUpdateUserMutation();
   const onSubmit: SubmitHandler<UpdateFormData> = ({ interests, ...data }) => {
     const id = userData?.user?.id;
-    if (id) {
-      update({
-        id: id,
-        ...data,
-        interests: interests.map((interest: TSelectInterest) => {
-          return {
-            id: interest.value,
-            name: interest.label,
-          };
-        }),
-      })
-        .unwrap()
-        .then((payload: TUser) => {
-          store.dispatch(setUser(payload));
-          enqueueSnackbar("Updated data successfully", { variant: "success" });
-        })
-        .catch((err) => errorHandler(err));
+    console.log(data);
+    // if (id) {
+    //   update({
+    //     id: id,
+    //     ...data,
+    //     interests: interests.map((interest: TSelectInterest) => {
+    //       return {
+    //         id: interest.value,
+    //         name: interest.label,
+    //       };
+    //     }),
+    //   })
+    //     .unwrap()
+    //     .then((payload: TUser) => {
+    //       store.dispatch(setUser(payload));
+    //       enqueueSnackbar("Updated data successfully", { variant: "success" });
+    //     })
+    //     .catch((err) => errorHandler(err));
+    // }
+  };
+  const [images, setImages] = useState({ profile: "", background: "" });
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files != null) {
+      setImages((prevState) => {
+        return {
+          ...prevState,
+          [event.target.name]: URL.createObjectURL(event.target.files![0]),
+        };
+      });
     }
   };
+
+  useEffect(() => {
+    console.log(images);
+  }, [images]);
+
   return (
     <Box
       sx={{
         "& .MuiTextField-root": { width: "100%", m: 1 },
       }}
     >
-      <Typography variant="h4">
-        Hello there,{" "}
-        {`${userData?.user?.firstName} ${userData?.user?.lastName}`}
-      </Typography>
-      <Avatar
-        alt={userData?.user?.userName}
-        src={userData?.user?.profileImageUrl}
-        sx={{ width: 128, height: 128 }}
-      />
       <form onSubmit={handleFormSubmit(onSubmit)}>
+        <Typography variant="h4">
+          Hello there,{" "}
+          {`${userData?.user?.firstName} ${userData?.user?.lastName}`}
+        </Typography>
+        <Box sx={{ position: "relative", width: "100%", height: "300px" }}>
+          <Box className="profile-container">
+            <Box
+              sx={{
+                backgroundSize: "cover",
+                backgroundImage: `url(${
+                  images.background
+                    ? images.background
+                    : userData?.user?.backgroundImageUrl
+                })`,
+                height: "100%",
+                width: "100%",
+              }}
+            ></Box>
+            <Box className="overlay">
+              <IconButton
+                color="primary"
+                aria-label="upload picture"
+                component="label"
+              >
+                <input
+                  {...register("background", {
+                    onChange: (e) => handleImageChange(e),
+                  })}
+                  hidden
+                  accept="image/*"
+                  type="file"
+                  name="background"
+                />
+                <PhotoCamera />
+              </IconButton>
+            </Box>
+          </Box>
+          <Box
+            sx={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100px",
+              height: "100px",
+              borderRadius: "50%",
+            }}
+            className="profile-container"
+          >
+            <Box
+              sx={{
+                backgroundSize: "cover",
+                backgroundImage: `url(${
+                  images.profile
+                    ? images.profile
+                    : userData?.user?.profileImageUrl
+                })`,
+                height: "100px",
+                width: "100px",
+                borderRadius: "50%",
+              }}
+            ></Box>
+            {/* <Avatar
+              alt={userData?.user?.userName}
+              src={
+                images.profile
+                  ? images.profile
+                  : userData?.user?.profileImageUrl
+              }
+              sx={{
+                width: "100%",
+                height: "auto",
+              }}
+            /> */}
+            <Box sx={{ borderRadius: "50%" }} className="overlay">
+              <IconButton
+                color="primary"
+                aria-label="upload picture"
+                component="label"
+              >
+                <input
+                  {...register("profile", {
+                    onChange: (e) => handleImageChange(e),
+                  })}
+                  hidden
+                  accept="image/*"
+                  type="file"
+                  name="profile"
+                />
+                <PhotoCamera />
+              </IconButton>
+            </Box>
+          </Box>
+        </Box>
         <Controller
           name={"email"}
           control={control}

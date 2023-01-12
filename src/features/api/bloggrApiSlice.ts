@@ -58,7 +58,7 @@ export const bloggrApi = createApi({
     //AUTH endpoints
     login: builder.mutation<TUserAuth, TLogin>({
       query: (body) => ({
-        url: "/login",
+        url: "/Users/login",
         method: "POST",
         body: body,
       }),
@@ -68,7 +68,7 @@ export const bloggrApi = createApi({
     }),
     register: builder.mutation<TUserAuth, TRegister>({
       query: (body) => ({
-        url: "/register",
+        url: "/Users/register",
         method: "POST",
         body: body,
       }),
