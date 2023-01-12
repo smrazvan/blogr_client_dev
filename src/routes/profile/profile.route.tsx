@@ -38,7 +38,7 @@ type UpdateFormData = {
   birthDate: string;
   interests: TSelectInterest[];
   profile?: FileList;
-  background?: any;
+  background?: FileList;
 };
 
 export const Profile = () => {
@@ -63,26 +63,37 @@ export const Profile = () => {
   });
   const [update, { isLoading: isUpdating }] = useUpdateUserMutation();
   const onSubmit: SubmitHandler<UpdateFormData> = ({ interests, ...data }) => {
-    const id = userData?.user?.id;
-    console.log(data);
-    // if (id) {
-    //   update({
-    //     id: id,
-    //     ...data,
-    //     interests: interests.map((interest: TSelectInterest) => {
-    //       return {
-    //         id: interest.value,
-    //         name: interest.label,
-    //       };
-    //     }),
-    //   })
-    //     .unwrap()
-    //     .then((payload: TUser) => {
-    //       store.dispatch(setUser(payload));
-    //       enqueueSnackbar("Updated data successfully", { variant: "success" });
-    //     })
-    //     .catch((err) => errorHandler(err));
-    // }
+    const formData = new FormData();
+    for (const [key, value] of Object.entries(data)) {
+      console.log(key);
+      if (typeof value != "object") formData.append(key, value);
+    }
+    if (data.profile && data.profile.length > 0) {
+      formData.append("profile", data.profile[0]);
+    }
+    if (data.background && data.background.length > 0) {
+      formData.append("background", data.background[0]);
+    }
+
+    formData.append(
+      "interests",
+      JSON.stringify(
+        interests.map((interest: TSelectInterest) => {
+          return {
+            id: interest.value,
+            name: interest.label,
+          };
+        })
+      )
+    );
+    console.log(formData.get("interests"));
+    update(formData)
+      .unwrap()
+      .then((payload: TUser) => {
+        store.dispatch(setUser(payload));
+        enqueueSnackbar("Updated data successfully", { variant: "success" });
+      })
+      .catch((err) => errorHandler(err));
   };
   const [images, setImages] = useState({ profile: "", background: "" });
 

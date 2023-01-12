@@ -26,6 +26,11 @@ type getPostCommentsArgs = {
   sorting?: string;
 };
 
+type TUserUpload = Partial<TUser> & {
+  profile?: FileList;
+  background?: FileList;
+};
+
 const queryBuilder = (body: getPostsArgs) => {
   let queries = "";
   if (body?.page) queries += `pageNumber=${body.page}&`;
@@ -202,11 +207,11 @@ export const bloggrApi = createApi({
         return rawResult;
       },
     }),
-    updateUser: builder.mutation<TUser, Partial<TUser>>({
-      query({ id, ...body }) {
+    updateUser: builder.mutation<TUser, FormData>({
+      query(body) {
         return {
-          url: `/Users/${id}`,
-          method: "PUT",
+          url: `/Users/update`,
+          method: "POST",
           body,
         };
       },

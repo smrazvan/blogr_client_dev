@@ -12,8 +12,7 @@ const checkTokenMiddleware: Middleware =
         if (checkTokenIfValid(state.user.token)) return next(action);
         else {
           console.log("TOKEN EXPIRED");
-          store.dispatch(logoutUser());
-          return;
+          window.location.reload();
         }
       }
     }
