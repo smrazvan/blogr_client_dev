@@ -10,16 +10,19 @@ import Login from "./routes/login/login";
 import Register from "./routes/register/register";
 
 import "./styles/global.scss";
-import { Snackbar, Alert } from "@mui/material";
+import { Snackbar, Alert, Box, TextField, Button } from "@mui/material";
 import React from "react";
 import { useAppSelector } from "./features/hooks";
 import { Edit } from "./routes/edit/edit.route";
 import { About } from "./routes/about/about";
 import { Bookmarks } from "./routes/bookmarks/bookmarks";
+import { Chat } from "./routes/chat/chat";
+import { ChatPopup } from "./components/chat-popup/chat-popup";
 
 function App() {
   return (
     <div className="App">
+      <ChatPopup />
       <Routes>
         <Route path="/" element={<Navbar />}>
           <Route index element={<Home />}></Route>
@@ -31,6 +34,7 @@ function App() {
               </ProtectedRoute>
             }
           ></Route>
+          <Route path="chat" element={<Chat />}></Route>
           <Route path="feedback" element={<h1>Feedback page</h1>}></Route>
           <Route path="about" element={<About />}></Route>
           <Route path="post/:id" element={<View />}></Route>

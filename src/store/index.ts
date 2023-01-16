@@ -4,6 +4,7 @@ import { bloggrApi } from "../features/api/bloggrApiSlice";
 import userSlice, { checkTokenIfValid, logoutUser } from "../slices/user-slice";
 import { rtkQueryErrorLogger } from "../middleware/error-handling-middleware";
 import { enqueueSnackbar } from "notistack";
+import chatSlice from "../slices/chat-slice";
 
 const checkTokenMiddleware: Middleware =
   (api: MiddlewareAPI) => (next) => (action) => {
@@ -25,6 +26,7 @@ export const store = configureStore({
   reducer: {
     [bloggrApi.reducerPath]: bloggrApi.reducer,
     user: userSlice,
+    chat: chatSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
