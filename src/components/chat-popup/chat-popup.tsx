@@ -1,19 +1,28 @@
-import { Box, TextField, Button, IconButton, Typography } from "@mui/material";
+import {
+  Box,
+  TextField,
+  Button,
+  IconButton,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { useAppSelector } from "../../features/hooks";
 import { closeChat, openChat } from "../../slices/chat-slice";
 import CancelIcon from "@mui/icons-material/Cancel";
 import { store } from "../../store";
 import { HubConnection, HubConnectionBuilder } from "@microsoft/signalr";
 import { useState, useRef, useEffect } from "react";
+import { Message } from "../message/message";
 export const ChatPopup = () => {
   const chatData = useAppSelector((state) => state.chat);
   const userName = chatData.sendTo;
-
+  const theme = useTheme();
   const userData = useAppSelector((store) => store.user);
   const token = userData.token;
   const [connection, setConnection] = useState<HubConnection | null>(null);
-  const [chat, setChat] = useState<string[]>([]);
-  const latestChat = useRef<string[] | null>(null);
+  const [chat, setChat] = useState<Message[]>([]);
+  const latestChat = useRef<Message[] | null>(null);
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   const [inputValue, setInputValue] = useState("");
   latestChat.current = chat;
@@ -39,6 +48,7 @@ export const ChatPopup = () => {
             if (!chatData.isOpened) {
               store.dispatch(openChat(username));
             }
+
             addMessage(username, message);
             //add to messages so it can render
           });
@@ -47,10 +57,14 @@ export const ChatPopup = () => {
     }
   }, [connection]);
 
-  const addMessage = (username: string, message: string) => {
+  useEffect(() => {
+    scrollToBottom();
+  }, [chat]);
+
+  const addMessage = (userName: string, message: string) => {
     if (latestChat.current != null) {
       const newChat = [...latestChat.current];
-      newChat.push(`${username} says ${message}`);
+      if (userName && message) newChat.push({ userName, message });
       setChat(newChat);
     }
   };
@@ -71,6 +85,9 @@ export const ChatPopup = () => {
   const handleClose = () => {
     store.dispatch(closeChat());
   };
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
   if (!chatData) return <></>;
   return (
     <Box
@@ -78,7 +95,7 @@ export const ChatPopup = () => {
         zIndex: 2000,
         position: "fixed",
         display: chatData.isOpened ? "block" : "none",
-        padding: "4px 16px",
+        pb: "4px",
         bottom: 0,
         right: 0,
         backgroundColor: "white",
@@ -90,7 +107,9 @@ export const ChatPopup = () => {
       <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
         <Box
           sx={{
-            backgroundColor: "blue",
+            backgroundColor: "#1976d2",
+            color: "white",
+            padding: "0 4px",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
@@ -111,22 +130,33 @@ export const ChatPopup = () => {
             </IconButton>
           </Box>
         </Box>
-        <Box sx={{ flexGrow: 1, overflowX: "scroll" }}>
-          {chat.map((message) => {
-            return <p>{message}</p>;
+        <Box
+          sx={{
+            flexGrow: 1,
+            overflowX: "auto",
+            overflowAnchor: "none",
+          }}
+        >
+          {chat.map(({ userName, message }) => {
+            return <Message userName={userName} message={message} />;
           })}
+          <Box ref={messagesEndRef}></Box>
         </Box>
         <Box
           sx={{
             display: "flex",
             justifyContent: "space-between",
+            alignItems: "center",
+            p: 1,
             alignSelf: "flex-end",
+            width: "100%",
           }}
         >
           <TextField
             label="Message"
             id="standard-size-normal"
             variant="standard"
+            size="small"
             onChange={handleInputChange}
             value={inputValue}
           />
