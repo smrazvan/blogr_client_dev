@@ -31,7 +31,12 @@ export const View = () => {
     errorHandler(error);
     return <p>Could not load content.</p>;
   }
-
+  let formatedDate = "";
+  if (data?.creationDate) {
+    const date = Date.parse(data.creationDate);
+    const options = { hour: "numeric", month: "short" };
+    formatedDate = new Intl.DateTimeFormat("en-GB").format(date);
+  }
   return (
     <>
       <Box
@@ -52,7 +57,6 @@ export const View = () => {
             >
               {data?.title}
             </Typography>
-            <Typography>{data?.creationDate}</Typography>
             <Stack direction="row" spacing={1}>
               <AvatarChip
                 user={data?.user ? data.user : { userName: "deleted" }}
@@ -64,6 +68,7 @@ export const View = () => {
             <Box sx={{ mt: 4 }}>
               <ReadonlyEditor content={data?.content} />
             </Box>
+            <Typography>{formatedDate}</Typography>
             <Divider />
           </Box>
           <Box
@@ -73,12 +78,19 @@ export const View = () => {
               alignItems: "center",
             }}
           >
-            <ProtectedComponent>
-              <PostInteractions
-                postId={data?.id}
-                isLikedByUser={data?.isLikedByUser}
-              />
-            </ProtectedComponent>
+            <Box sx={{ display: "inline-flex" }}>
+              <ProtectedComponent>
+                <PostInteractions
+                  postId={data?.id}
+                  isLikedByUser={data?.isLikedByUser}
+                  isBookmarkedByUser={data?.isBookmarkedByUser}
+                />
+              </ProtectedComponent>
+              <Box sx={{ alignSelf: "center" }}>
+                <span>{data?.numberOfComments} comments </span>
+                <span>{data?.numberOfLikes} likes </span>
+              </Box>
+            </Box>
             <PostOptions post={data} />
           </Box>
           <Box sx={{ maxWidth: "800px", margin: "0 auto" }}>

@@ -16,11 +16,11 @@ type UserCard = {
 };
 
 const UserCard = (props: UserCard) => {
-  if (!props.user) return <></>;
-  const { userName, firstName, lastName, bio, birthDate } = props.user;
+  if (!props.user) return <>Could not find user</>;
+  const { firstName, lastName, bio, birthDate, profileImageUrl } = props.user;
   return (
     <Box sx={{ wordBreak: "break-all", maxWidth: "300px" }}>
-      <ProfileImage backgroundImage="https://images.unsplash.com/photo-1608848461950-0fe51dfc41cb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MTl8fHxlbnwwfHx8fA%3D%3D&w=1000&q=80" />
+      <ProfileImage backgroundImage={profileImageUrl!} />
       <Box>
         <AvatarChip user={props.user} />
         <Typography sx={{ mb: 1 }} variant="h5">

@@ -14,7 +14,7 @@ export const Bookmarks = () => {
         position: "relative",
       }}
     >
-      <ViewPosts isBookmarked={true} username={userName} />
+      <ViewPosts isBookmarked={true} />
     </Box>
   );
 };

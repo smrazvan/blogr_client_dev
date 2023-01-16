@@ -59,7 +59,7 @@ const BlogCard = (props: BlogCard) => {
   if (creationDate) {
     const date = Date.parse(creationDate);
     const options = { hour: "numeric", month: "short" };
-    formatedDate = new Intl.DateTimeFormat("en-US").format(date);
+    formatedDate = new Intl.DateTimeFormat("en-GB").format(date);
   }
 
   return (

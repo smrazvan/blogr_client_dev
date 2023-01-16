@@ -90,7 +90,7 @@ const ViewPosts = (props: ViewPosts) => {
     errorHandler(error);
     return <p>Could not load content.</p>;
   }
-
+  console.log(data);
   return (
     <Box
       sx={{
@@ -102,31 +102,29 @@ const ViewPosts = (props: ViewPosts) => {
         flexDirection: "column",
       }}
     >
-      {hasPosts && (
-        <Box
-          sx={{
-            width: "100%",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "flex-start",
-            mb: 5,
-          }}
-        >
-          <ToggleInterest interests={interests} setInterests={setInterests} />
-          <Box>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={sorting}
-              onChange={handleSortingChange}
-            >
-              <MenuItem value={"rec"}>Recommended</MenuItem>
-              <MenuItem value={"pop"}>Popularity</MenuItem>
-              <MenuItem value={"asc"}>Newest</MenuItem>
-            </Select>
-          </Box>
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+          mb: 5,
+        }}
+      >
+        <ToggleInterest interests={interests} setInterests={setInterests} />
+        <Box>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={sorting}
+            onChange={handleSortingChange}
+          >
+            <MenuItem value={"rec"}>Recommended</MenuItem>
+            <MenuItem value={"pop"}>Popularity</MenuItem>
+            <MenuItem value={"asc"}>Newest</MenuItem>
+          </Select>
         </Box>
-      )}
+      </Box>
       {!hasPosts && <Typography>Nothing to see here.</Typography>}
       {data?.result?.map((feedPost: TFeedPost, idx) => {
         console.log(feedPost);

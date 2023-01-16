@@ -3,6 +3,7 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import { bloggrApi } from "../features/api/bloggrApiSlice";
 import userSlice, { checkTokenIfValid, logoutUser } from "../slices/user-slice";
 import { rtkQueryErrorLogger } from "../middleware/error-handling-middleware";
+import { enqueueSnackbar } from "notistack";
 
 const checkTokenMiddleware: Middleware =
   (api: MiddlewareAPI) => (next) => (action) => {
@@ -12,6 +13,7 @@ const checkTokenMiddleware: Middleware =
         if (checkTokenIfValid(state.user.token)) return next(action);
         else {
           console.log("TOKEN EXPIRED");
+          enqueueSnackbar("Session expired", { variant: "warning" });
           window.location.reload();
         }
       }
