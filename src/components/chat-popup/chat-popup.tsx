@@ -13,6 +13,7 @@ import { store } from "../../store";
 import { HubConnection, HubConnectionBuilder } from "@microsoft/signalr";
 import { useState, useRef, useEffect } from "react";
 import { Message } from "../message/message";
+import { errorHandler } from "../../helpers/error-handler";
 export const ChatPopup = () => {
   const chatData = useAppSelector((state) => state.chat);
   const userName = chatData.sendTo;
@@ -53,7 +54,7 @@ export const ChatPopup = () => {
             //add to messages so it can render
           });
         })
-        .catch((err) => console.log("Err " + err));
+        .catch((err) => errorHandler(err));
     }
   }, [connection]);
 
@@ -78,10 +79,18 @@ export const ChatPopup = () => {
       const message = inputValue;
       connection
         .invoke("SendMessageToUser", userName, message)
-        .then(() => addMessage(userData.user?.userName!, message));
+        .then(() => {
+          setInputValue("");
+          addMessage(userData.user?.userName!, message);
+        })
+        .catch((err) => errorHandler(err));
       // .then(() => console.log("sent successfully"));
     }
   };
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === "Enter") sendMessage();
+  };
+
   const handleClose = () => {
     store.dispatch(closeChat());
   };
@@ -159,6 +168,7 @@ export const ChatPopup = () => {
             size="small"
             onChange={handleInputChange}
             value={inputValue}
+            onKeyUp={(e) => handleKeyPress(e)}
           />
           <Button variant="contained" onClick={sendMessage}>
             Send
