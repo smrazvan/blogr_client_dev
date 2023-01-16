@@ -10,6 +10,8 @@ import {
 import ProfileImage from "./profile-image";
 import TUser from "../../types/models/TUser";
 import AvatarChip from "../avatar-chip/avatar-chip";
+import { store } from "../../store";
+import { openChat } from "../../slices/chat-slice";
 
 type UserCard = {
   user: Partial<TUser> | undefined;
@@ -17,7 +19,12 @@ type UserCard = {
 
 const UserCard = (props: UserCard) => {
   if (!props.user) return <>Could not find user</>;
-  const { firstName, lastName, bio, birthDate, profileImageUrl } = props.user;
+  const { firstName, lastName, bio, userName, profileImageUrl } = props.user;
+
+  const handleClick = () => {
+    if (userName) store.dispatch(openChat(userName));
+  };
+
   return (
     <Box sx={{ wordBreak: "break-all", maxWidth: "300px" }}>
       <ProfileImage backgroundImage={profileImageUrl!} />
@@ -29,7 +36,9 @@ const UserCard = (props: UserCard) => {
         <Typography>{bio}</Typography>
       </Box>
       <Divider sx={{ mt: 2, mb: 2 }} />
-      <Button variant="contained">Email</Button>
+      <Button variant="contained" onClick={handleClick}>
+        Chat
+      </Button>
     </Box>
   );
 };

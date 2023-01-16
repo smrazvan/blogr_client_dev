@@ -20,7 +20,7 @@ const chatSlice = createSlice({
       state.isOpened = true;
       state.sendTo = action.payload;
     },
-    closeChat: (state, action: PayloadAction<TUser>) => {
+    closeChat: (state) => {
       state.isOpened = false;
       state.sendTo = undefined;
     },
