@@ -102,13 +102,14 @@ const Register = () => {
         width: "100%",
         height: "100vh",
         display: "flex",
+        textAlign: "center",
         justifyContent: "center",
         alignItems: "center",
         background: "linear-gradient(to left, #ffefba, #ffffff)",
       }}
     >
       <Box sx={{ maxWidth: "500px" }}>
-        <Typography variant="h5">Hello there, </Typography>
+        <Typography variant="h5">Nice to meet you</Typography>
         <form onSubmit={handleFormSubmit(onSubmit)}>
           <Controller
             name={"username"}
@@ -122,7 +123,7 @@ const Register = () => {
             }}
             render={({ field }) => (
               <TextField
-                sx={{ width: "100%", m: 1 }}
+                sx={{ width: "100%", maxWidth: "400px", mt: 1, mb: 1 }}
                 error={errors.username ? true : false}
                 helperText={errors?.username?.message}
                 id="outlined-multiline-static"
@@ -147,7 +148,7 @@ const Register = () => {
             }}
             render={({ field }) => (
               <TextField
-                sx={{ width: "100%", m: 1 }}
+                sx={{ width: "100%", maxWidth: "400px", mt: 1, mb: 1 }}
                 error={errors.email ? true : false}
                 helperText={errors?.email?.message}
                 id="outlined-multiline-static"
@@ -174,7 +175,7 @@ const Register = () => {
             }}
             render={({ field }) => (
               <TextField
-                sx={{ width: "100%", m: 1 }}
+                sx={{ width: "100%", maxWidth: "400px", mt: 1, mb: 1 }}
                 error={errors.password ? true : false}
                 helperText={errors?.password?.message}
                 id="outlined-multiline-static"
@@ -190,12 +191,12 @@ const Register = () => {
               required: "This field is required.",
               minLength: {
                 value: 3,
-                message: "First name should be at least 1 letter.",
+                message: "First name too short.",
               },
             }}
             render={({ field }) => (
               <TextField
-                sx={{ width: "100%", m: 1 }}
+                sx={{ width: "100%", maxWidth: "400px", mt: 1, mb: 1 }}
                 error={errors.firstName ? true : false}
                 helperText={errors?.firstName?.message}
                 id="outlined-multiline-static"
@@ -211,12 +212,12 @@ const Register = () => {
               required: "This field is required.",
               minLength: {
                 value: 3,
-                message: "Last name needs to be at least 3 chars long",
+                message: "Last name too short.",
               },
             }}
             render={({ field }) => (
               <TextField
-                sx={{ width: "100%", m: 1 }}
+                sx={{ width: "100%", maxWidth: "400px", mt: 1, mb: 1 }}
                 error={errors.lastName ? true : false}
                 helperText={errors?.lastName?.message}
                 id="outlined-multiline-static"
@@ -232,16 +233,16 @@ const Register = () => {
               required: "This field is required.",
               minLength: {
                 value: 10,
-                message: "Bio needs to be at least 10 chars long",
+                message: "Bio too short.",
               },
               maxLength: {
-                value: 100,
-                message: "Bio needs to be at least 10 chars long",
+                value: 200,
+                message: "Bio too long.",
               },
             }}
             render={({ field }) => (
               <TextField
-                sx={{ width: "100%", m: 1 }}
+                sx={{ width: "100%", maxWidth: "400px", mt: 1, mb: 1 }}
                 error={errors.bio ? true : false}
                 helperText={errors?.bio?.message}
                 id="outlined-multiline-static"
@@ -273,7 +274,7 @@ const Register = () => {
                 type="date"
                 error={errors.birthDate ? true : false}
                 helperText={errors?.birthDate?.message}
-                sx={{ width: 220, m: 1 }}
+                sx={{ width: "100%", maxWidth: "400px", mt: 1, mb: 1 }}
                 InputLabelProps={{
                   shrink: true,
                 }}

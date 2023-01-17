@@ -24,7 +24,7 @@ export const Edit = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const post: TPost = location.state.post;
+  const post: TPost = location?.state?.post;
 
   const {
     control,
@@ -95,7 +95,7 @@ export const Edit = () => {
           }}
           render={({ field }) => (
             <TextField
-              sx={{ width: "50%", marginBottom: "2rem" }}
+              sx={{ width: "50%", marginBottom: "1rem" }}
               error={errors.title ? true : false}
               helperText={errors?.title?.message}
               id="outlined-required"
@@ -123,7 +123,7 @@ export const Edit = () => {
               rows={2}
               error={errors.caption ? true : false}
               helperText={errors?.caption?.message}
-              sx={{ width: "100%", "margin-bottom": "2rem" }}
+              sx={{ width: "100%", "margin-bottom": "1rem" }}
               id="outlined-required"
               label="Short catch description"
               {...field}
@@ -146,7 +146,7 @@ export const Edit = () => {
             <TextField
               error={errors.captionImageUrl ? true : false}
               helperText={errors?.captionImageUrl?.message}
-              sx={{ width: "100%", "margin-bottom": "2rem" }}
+              sx={{ width: "100%", "margin-bottom": "1rem" }}
               id="outlined-required"
               label="Thumbnail Url"
               {...field}
@@ -164,11 +164,11 @@ export const Edit = () => {
         ) : (
           <Button
             disabled={!isDirty || !isValid}
-            sx={{ mt: 2 }}
+            sx={{ mt: 1 }}
             type="submit"
             variant="contained"
           >
-            Create
+            Update
           </Button>
         )}
       </form>

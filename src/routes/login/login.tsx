@@ -54,7 +54,7 @@ const Login = () => {
         background: "linear-gradient(to left, #ffefba, #ffffff)",
       }}
     >
-      <Box>
+      <Box sx={{ textAlign: "center" }}>
         <Typography variant="h5">Hello there, </Typography>
         <form onSubmit={handleFormSubmit(onSubmit)}>
           <Controller
@@ -69,7 +69,7 @@ const Login = () => {
             }}
             render={({ field }) => (
               <TextField
-                sx={{ width: "100%", m: 1 }}
+                sx={{ width: "100%", maxWidth: "400px", mt: 1, mb: 1 }}
                 error={errors.userName ? true : false}
                 helperText={errors?.userName?.message}
                 id="outlined-multiline-static"
@@ -96,7 +96,7 @@ const Login = () => {
             }}
             render={({ field }) => (
               <TextField
-                sx={{ width: "100%", m: 1 }}
+                sx={{ width: "100%", maxWidth: "400px", mt: 1, mb: 1 }}
                 error={errors.password ? true : false}
                 helperText={errors?.password?.message}
                 id="outlined-multiline-static"

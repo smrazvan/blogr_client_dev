@@ -115,14 +115,10 @@ export const Profile = () => {
   return (
     <Box
       sx={{
-        "& .MuiTextField-root": { width: "100%", m: 1 },
+        "& .MuiTextField-root": { width: "100%", mb: 1, mt: 1 },
       }}
     >
       <form onSubmit={handleFormSubmit(onSubmit)}>
-        <Typography variant="h4">
-          Hello there,{" "}
-          {`${userData?.user?.firstName} ${userData?.user?.lastName}`}
-        </Typography>
         <Box sx={{ position: "relative", width: "100%", height: "300px" }}>
           <Box
             sx={{
@@ -159,8 +155,8 @@ export const Profile = () => {
           <Box
             sx={{
               position: "absolute",
-              top: 0,
-              left: 0,
+              top: "10px",
+              left: "10px",
               width: "100px",
               height: "100px",
               borderRadius: "50%",
@@ -193,6 +189,10 @@ export const Profile = () => {
             </Box>
           </Box>
         </Box>
+        <Typography variant="h4" sx={{ mt: 2, mb: 2, ml: 2 }}>
+          Hello there,{" "}
+          {`${userData?.user?.firstName} ${userData?.user?.lastName}`} 👋
+        </Typography>
         <Controller
           name={"email"}
           control={control}
@@ -209,7 +209,7 @@ export const Profile = () => {
           }}
           render={({ field }) => (
             <TextField
-              sx={{ width: "100%", m: 1 }}
+              sx={{ width: "100%" }}
               error={errors.email ? true : false}
               helperText={errors?.email?.message}
               id="outlined-multiline-static"
@@ -230,7 +230,7 @@ export const Profile = () => {
           }}
           render={({ field }) => (
             <TextField
-              sx={{ width: "100%", m: 1 }}
+              sx={{ width: "100%" }}
               error={errors.firstName ? true : false}
               helperText={errors?.firstName?.message}
               id="outlined-multiline-static"
@@ -251,7 +251,7 @@ export const Profile = () => {
           }}
           render={({ field }) => (
             <TextField
-              sx={{ width: "100%", m: 1 }}
+              sx={{ width: "100%" }}
               error={errors.lastName ? true : false}
               helperText={errors?.lastName?.message}
               id="outlined-multiline-static"
@@ -276,13 +276,13 @@ export const Profile = () => {
           }}
           render={({ field }) => (
             <TextField
-              sx={{ width: "100%", m: 1 }}
+              sx={{ width: "100%" }}
               error={errors.bio ? true : false}
               helperText={errors?.bio?.message}
               id="outlined-multiline-static"
               placeholder="Bio"
               multiline
-              rows={4}
+              rows={2}
               {...field}
             />
           )}
@@ -316,6 +316,7 @@ export const Profile = () => {
             />
           )}
         />
+        <Typography>Interests:</Typography>
         <Controller
           name={"interests"}
           control={control}
