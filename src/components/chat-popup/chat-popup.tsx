@@ -15,6 +15,7 @@ import { useState, useRef, useEffect } from "react";
 import { Message } from "../message/message";
 import { errorHandler } from "../../helpers/error-handler";
 import { useGetMessagesHistoryQuery } from "../../features/api/bloggrApiSlice";
+import { TMessage } from "../../types/models/TMessage";
 export const ChatPopup = () => {
   const chatData = useAppSelector((state) => state.chat);
   const userName = chatData.sendTo;
@@ -32,6 +33,7 @@ export const ChatPopup = () => {
   chatDataRef.current = chatData;
   const [cursor, setCursor] = useState<number | null>(null);
   const [skip, setSkip] = useState<boolean>(true);
+  const [history, setHistory] = useState<TMessage[]>([]);
   //CHAT HISTORY
   const { data, error, isLoading, isUninitialized } =
     useGetMessagesHistoryQuery(
@@ -54,6 +56,20 @@ export const ChatPopup = () => {
       setSkip(false);
     }
   }, [chatData]);
+
+  useEffect(() => {
+    if (history.length <= 10) scrollToBottom();
+  }, [history]);
+
+  useEffect(() => {
+    setHistory((prevState) => {
+      if (data) return [...data.result, ...prevState];
+      return prevState;
+    });
+    //scrollToBottom();
+    console.log(data);
+  }, [data]);
+
   useEffect(() => {
     if (connection) {
       connection
@@ -108,11 +124,17 @@ export const ChatPopup = () => {
       // .then(() => console.log("sent successfully"));
     }
   };
+
+  const loadMoreHistory = () => {
+    setCursor(data?.nextCursor!);
+  };
+
   const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "Enter") sendMessage();
   };
 
   const handleClose = () => {
+    setSkip(true);
     store.dispatch(closeChat());
   };
   const scrollToBottom = () => {
@@ -167,15 +189,24 @@ export const ChatPopup = () => {
             overflowAnchor: "none",
           }}
         >
-          {data ? (
-            data.result.map((message) => {
-              return (
-                <Message
-                  userName={message.sender.userName}
-                  message={message.content}
-                />
-              );
-            })
+          {history.length > 0 ? (
+            <div>
+              {data?.nextCursor != null ? (
+                <Button onClick={loadMoreHistory} variant="outlined">
+                  Load more
+                </Button>
+              ) : (
+                <></>
+              )}
+              {history.map((message) => {
+                return (
+                  <Message
+                    userName={message.sender.userName}
+                    message={message.content}
+                  />
+                );
+              })}
+            </div>
           ) : (
             <></>
           )}
