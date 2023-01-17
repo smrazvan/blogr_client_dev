@@ -134,7 +134,7 @@ export const Navbar = () => {
             <IconButton
               color="inherit"
               onClick={handleDrawerToggle}
-              sx={{ display: { xs: "block", sm: "none" } }}
+              sx={{ display: { xs: "block", md: "none" } }}
             >
               <MenuIcon />
             </IconButton>
@@ -197,12 +197,6 @@ export const Navbar = () => {
                 </Button>
               </>
             )}
-            {/* 
-            {!matches && (
-              <IconButton color="inherit" onClick={() => navigate("/post")}>
-                <AddIcon />
-              </IconButton>
-            )} */}
           </Toolbar>
         </AppBar>
 
@@ -222,7 +216,7 @@ export const Navbar = () => {
                 keepMounted: true,
               }}
               sx={{
-                display: { xs: "block", sm: "none" },
+                display: { xs: "block", md: "none" },
                 "& .MuiDrawer-paper": {
                   boxSizing: "border-box",
                   width: drawerWidth,

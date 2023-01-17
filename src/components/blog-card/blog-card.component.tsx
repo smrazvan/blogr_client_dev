@@ -71,6 +71,7 @@ const BlogCard = (props: BlogCard) => {
         maxWidth: "700px",
         display: "flex",
         justifyContent: "space-between",
+        flexDirection: { xs: "column", sm: "row" },
       }}
     >
       <Box
@@ -80,14 +81,14 @@ const BlogCard = (props: BlogCard) => {
           flexDirection: "column",
           flexWrap: "wrap",
           wordBreak: "break-all",
-          width: "60%",
+          width: { sm: "60%" },
         }}
       >
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
           <AvatarChip user={user} />
-
           <Typography>{formatedDate}</Typography>
         </Box>
+
         <Box sx={{ alignSelf: "flex-start" }}>
           <Typography gutterBottom variant="h5" component="div">
             {title?.substring(0, 100)}
@@ -96,9 +97,11 @@ const BlogCard = (props: BlogCard) => {
             {caption?.substring(0, 200)}
           </Typography>
         </Box>
+
         <Box
           sx={{
             display: "flex",
+            flexWrap: "wrap",
             justifyContent: "space-between",
             alignItems: "center",
           }}
@@ -106,7 +109,7 @@ const BlogCard = (props: BlogCard) => {
           <Box>
             <RenderInterests interests={interests ? interests : []} />
           </Box>
-          <Box sx={{ display: "inline-flex" }}>
+          <Box sx={{ marginLeft: "auto", display: "inline-flex" }}>
             <Box sx={{ alignSelf: "center" }}>
               <span>{numberOfComments} comments </span>
               <span>{numberOfLikes} likes </span>
@@ -121,7 +124,12 @@ const BlogCard = (props: BlogCard) => {
           </Box>
         </Box>
       </Box>
-      <Box sx={{ width: "30%" }}>
+      <Box
+        sx={{
+          height: { xs: "300px", sm: "auto" },
+          width: { xs: "auto", sm: "30%" },
+        }}
+      >
         <PostFeedImg backgroundImage={captionImageUrl} />
       </Box>
     </Box>

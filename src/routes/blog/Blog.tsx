@@ -44,16 +44,22 @@ const Blog = () => {
       <Box
         sx={{
           display: "flex",
+          flexWrap: "wrap",
           gap: 4,
-          justifyContent: "center",
+          justifyContent: { xl: "space-between", xs: "center" },
           position: "relative",
+          margin: "0 auto",
         }}
       >
-        <Box sx={{ flexBasis: "66%" }}>
+        <Box sx={{ width: "100%", flexBasis: { lg: "70%" } }}>
           <ViewPosts username={username} />
         </Box>
-        <Divider orientation="vertical" flexItem />
-        <Box sx={{ flexBasis: "30%" }}>
+        <Divider
+          sx={{ display: { xs: "none", xl: "block" } }}
+          orientation="vertical"
+          flexItem
+        />
+        <Box sx={{ flexBasis: { lg: "20%" } }}>
           <UserCard user={data} />
         </Box>
       </Box>

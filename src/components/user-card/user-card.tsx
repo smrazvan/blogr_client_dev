@@ -26,7 +26,14 @@ const UserCard = (props: UserCard) => {
   };
 
   return (
-    <Box sx={{ wordBreak: "break-all", maxWidth: "300px" }}>
+    <Box
+      sx={{
+        wordBreak: "break-all",
+        maxWidth: "500px",
+        minWidth: "250px",
+        mr: 4,
+      }}
+    >
       <ProfileImage backgroundImage={profileImageUrl!} />
       <Box>
         <AvatarChip user={props.user} />

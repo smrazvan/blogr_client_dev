@@ -30,7 +30,13 @@ const ToggleInterest = (props: ToggleInterest) => {
   }
   return (
     <>
-      <Box sx={{ width: "70%", maxWidth: "600px", overflowX: "scroll" }}>
+      <Box
+        sx={{
+          width: { xs: "100%", sm: "70%" },
+          maxWidth: "600px",
+          overflowX: "auto",
+        }}
+      >
         <ToggleButtonGroup value={interests} onChange={handleInterets}>
           {data?.map((interest: TInterest) => {
             return (

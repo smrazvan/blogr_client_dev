@@ -106,13 +106,14 @@ const ViewPosts = (props: ViewPosts) => {
         sx={{
           width: "100%",
           display: "flex",
+          flexDirection: { xs: "column", sm: "row" },
           justifyContent: "space-between",
           alignItems: "flex-start",
           mb: 5,
         }}
       >
         <ToggleInterest interests={interests} setInterests={setInterests} />
-        <Box>
+        <Box sx={{ mt: { xs: 2, sm: 0 }, marginLeft: "auto" }}>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"

@@ -46,10 +46,16 @@ export const View = () => {
           gap: 4,
           justifyContent: { lg: "space-between", xs: "center" },
           position: "relative",
+          margin: "0 auto",
         }}
       >
-        <Box sx={{ flexBasis: { sm: "70%" } }}>
-          <Box sx={{ padding: 1 }}>
+        <Box sx={{ flexBasis: { lg: "70%" } }}>
+          <Box
+            sx={{
+              padding: 1,
+              margin: "0 auto",
+            }}
+          >
             <Typography
               sx={{ wordBreak: "break-all" }}
               variant="h4"
@@ -98,8 +104,12 @@ export const View = () => {
             <Comments post={data} />
           </Box>
         </Box>
-        <Divider orientation="vertical" flexItem />
-        <Box sx={{ flexBasis: { sm: "20%" } }}>
+        <Divider
+          sx={{ display: { xs: "none", xl: "block" } }}
+          orientation="vertical"
+          flexItem
+        />
+        <Box sx={{ flexBasis: { lg: "20%" } }}>
           <UserCard user={data?.user} />
         </Box>
       </Box>

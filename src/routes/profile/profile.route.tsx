@@ -270,8 +270,8 @@ export const Profile = () => {
               message: "Bio needs to be at least 10 chars long",
             },
             maxLength: {
-              value: 100,
-              message: "Bio needs to be at least 10 chars long",
+              value: 400,
+              message: "Bio needs to have max 200 chars",
             },
           }}
           render={({ field }) => (
