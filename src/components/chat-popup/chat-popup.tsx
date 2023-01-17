@@ -82,6 +82,9 @@ export const ChatPopup = () => {
               chatDataRef.current.sendTo != username
             ) {
               setChat([]);
+              setHistory([]);
+              //store.dispatch(closeChat());
+              store.dispatch(openChat(username));
             }
             if (!chatDataRef.current.isOpened) {
               console.log("set history");
