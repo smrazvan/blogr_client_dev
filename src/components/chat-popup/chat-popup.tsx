@@ -14,19 +14,30 @@ import { HubConnection, HubConnectionBuilder } from "@microsoft/signalr";
 import { useState, useRef, useEffect } from "react";
 import { Message } from "../message/message";
 import { errorHandler } from "../../helpers/error-handler";
+import { useGetMessagesHistoryQuery } from "../../features/api/bloggrApiSlice";
 export const ChatPopup = () => {
   const chatData = useAppSelector((state) => state.chat);
   const userName = chatData.sendTo;
-  const theme = useTheme();
+
   const userData = useAppSelector((store) => store.user);
   const token = userData.token;
   const [connection, setConnection] = useState<HubConnection | null>(null);
   const [chat, setChat] = useState<Message[]>([]);
   const latestChat = useRef<Message[] | null>(null);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const chatDataRef = useRef<any | null>(null);
 
   const [inputValue, setInputValue] = useState("");
   latestChat.current = chat;
+  chatDataRef.current = chatData;
+  const [cursor, setCursor] = useState<number | null>(null);
+  const [skip, setSkip] = useState<boolean>(true);
+  //CHAT HISTORY
+  const { data, error, isLoading, isUninitialized } =
+    useGetMessagesHistoryQuery(
+      { username: userName!, cursor: cursor },
+      { skip: skip }
+    );
 
   useEffect(() => {
     const newConnection = new HubConnectionBuilder()
@@ -38,7 +49,11 @@ export const ChatPopup = () => {
 
     setConnection(newConnection);
   }, []);
-
+  useEffect(() => {
+    if (chatData.isOpened) {
+      setSkip(false);
+    }
+  }, [chatData]);
   useEffect(() => {
     if (connection) {
       connection
@@ -46,11 +61,17 @@ export const ChatPopup = () => {
         .then(() => {
           connection.on("messageReceived", (username, message) => {
             console.log(`${username} says ${message}`);
-            if (!chatData.isOpened) {
-              store.dispatch(openChat(username));
+            if (
+              chatDataRef.current.sendTo &&
+              chatDataRef.current.sendTo != username
+            ) {
+              setChat([]);
             }
-
-            addMessage(username, message);
+            if (!chatDataRef.current.isOpened) {
+              console.log("set history");
+              store.dispatch(openChat(username));
+              setSkip(false);
+            } else addMessage(username, message);
             //add to messages so it can render
           });
         })
@@ -146,6 +167,18 @@ export const ChatPopup = () => {
             overflowAnchor: "none",
           }}
         >
+          {data ? (
+            data.result.map((message) => {
+              return (
+                <Message
+                  userName={message.sender.userName}
+                  message={message.content}
+                />
+              );
+            })
+          ) : (
+            <></>
+          )}
           {chat.map(({ userName, message }) => {
             return <Message userName={userName} message={message} />;
           })}

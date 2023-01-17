@@ -10,6 +10,7 @@ import { TLogin } from "../../routes/login/login";
 import { TRegister } from "../../routes/register/register";
 import TUser from "../../types/models/TUser";
 import TUserAuth from "../../types/models/TUserAuth";
+import { TMessagesPage } from "../../types/models/TMessagesPage";
 
 export type getPostsArgs = {
   username?: string;
@@ -233,6 +234,18 @@ export const bloggrApi = createApi({
       },
       invalidatesTags: ["Interests"],
     }),
+    getMessagesHistory: builder.query<
+      TMessagesPage,
+      { username: string; cursor: number | null }
+    >({
+      query: ({ username, cursor }) =>
+        `/Users/messagesHistory?username=${username}&cursor=${
+          cursor == null ? "" : cursor
+        }`,
+      transformResponse: (rawResult: TMessagesPage) => {
+        return rawResult;
+      },
+    }),
   }),
 });
 
@@ -255,4 +268,5 @@ export const {
   useAddUserInterestMutation,
   useLoginMutation,
   useRegisterMutation,
+  useGetMessagesHistoryQuery,
 } = bloggrApi;
