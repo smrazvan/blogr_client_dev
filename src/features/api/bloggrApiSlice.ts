@@ -59,7 +59,7 @@ export const bloggrApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["Comments", "Posts", "Post", "Interests"],
+  tagTypes: ["Comments", "Posts", "Post", "Interests", "MessagesHistory"],
   endpoints: (builder) => ({
     //AUTH endpoints
     login: builder.mutation<TUserAuth, TLogin>({
@@ -247,6 +247,7 @@ export const bloggrApi = createApi({
       transformResponse: (rawResult: TMessagesPage) => {
         return rawResult;
       },
+      providesTags: ["MessagesHistory"],
     }),
   }),
 });
