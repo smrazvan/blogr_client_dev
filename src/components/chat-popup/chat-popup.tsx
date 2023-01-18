@@ -86,17 +86,23 @@ export const ChatPopup = () => {
         .then(() => {
           connection.on("messageReceived", (username, message) => {
             console.log(`${username} says ${message}`);
-            if (
-              chatDataRef.current.sendTo &&
-              chatDataRef.current.sendTo != username
-            ) {
-              setChat([]);
-              setHistory([]);
-              //store.dispatch(closeChat());
-              store.dispatch(openChat(username));
-            }
+            // if (
+            //   chatDataRef.current.sendTo &&
+            //   chatDataRef.current.sendTo != username
+            // ) {
+            //   setChat([]);
+            //   setHistory([]);
+            //   setCursor(null);
+            //   store.dispatch(
+            //     bloggrApi.util.invalidateTags(["MessagesHistory"])
+            //   );
+            //   store.dispatch(openChat(username));
+            // }
             if (!chatDataRef.current.isOpened) {
               console.log("set history");
+              store.dispatch(
+                bloggrApi.util.invalidateTags(["MessagesHistory"])
+              );
               store.dispatch(openChat(username));
               setSkip(false);
             } else addMessage(username, message);
