@@ -20,9 +20,10 @@ import { Chat } from "./routes/chat/chat";
 import { ChatPopup } from "./components/chat-popup/chat-popup";
 
 function App() {
+  const userData = useAppSelector((state) => state.user);
   return (
     <div className="App">
-      <ChatPopup />
+      {userData?.isLoggedIn && <ChatPopup />}
       <Routes>
         <Route path="/" element={<Navbar />}>
           <Route index element={<Home />}></Route>

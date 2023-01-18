@@ -29,7 +29,6 @@ export type TRegister = {
   firstName: string;
   lastName: string;
   bio: string;
-  profileImageUrl: string;
   birthDate: string;
   interests?: TInterest[];
 };
@@ -41,7 +40,6 @@ export type RegisterFromData = {
   firstName: string;
   lastName: string;
   bio: string;
-  profileImageUrl: string;
   birthDate: string;
   interests?: TSelectInterest[];
 };
@@ -61,7 +59,6 @@ const Register = () => {
       firstName: "",
       lastName: "",
       bio: "",
-      profileImageUrl: "",
       birthDate: "",
       interests: [],
     },
@@ -282,11 +279,13 @@ const Register = () => {
               />
             )}
           />
-          <Controller
-            name={"interests"}
-            control={control}
-            render={({ field }) => <InterestsSelector {...field} />}
-          />
+          <Box sx={{ maxWidth: "400px", margin: "0 auto" }}>
+            <Controller
+              name={"interests"}
+              control={control}
+              render={({ field }) => <InterestsSelector {...field} />}
+            />
+          </Box>
           {isUpdating ? (
             <CircularProgress />
           ) : (

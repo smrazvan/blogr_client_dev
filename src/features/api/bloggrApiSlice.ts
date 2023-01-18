@@ -71,6 +71,7 @@ export const bloggrApi = createApi({
       transformResponse: (rawResult: TUserAuth) => {
         return rawResult;
       },
+      invalidatesTags: ["Posts", "Post", "Comments"],
     }),
     register: builder.mutation<TUserAuth, TRegister>({
       query: (body) => ({
@@ -81,6 +82,7 @@ export const bloggrApi = createApi({
       transformResponse: (rawResult: TUserAuth) => {
         return rawResult;
       },
+      invalidatesTags: ["Posts", "Post", "Comments"],
     }),
     getPosts: builder.query<TPage<TPost>, getPostsArgs>({
       query: (body) => {

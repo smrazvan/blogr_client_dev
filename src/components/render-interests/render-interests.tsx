@@ -11,7 +11,7 @@ const RenderInterests = (props: RenderInterests) => {
 
   const handleClick = (e: React.MouseEvent<HTMLElement>, name: string) => {
     e.stopPropagation();
-    navigate(`/?interests=${name}`);
+    navigate(`/?interests=${name}`, { replace: true });
   };
   return (
     <>

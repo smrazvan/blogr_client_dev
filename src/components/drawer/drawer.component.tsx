@@ -70,15 +70,17 @@ export const DrawerContent = () => {
     <div>
       <Toolbar />
       <List>
-        <ListItem>
-          <ColorButton
-            onClick={() => navigate("/post")}
-            variant="contained"
-            startIcon={<AddIcon />}
-          >
-            <Typography color="white">New post</Typography>
-          </ColorButton>
-        </ListItem>
+        <ProtectedComponent>
+          <ListItem>
+            <ColorButton
+              onClick={() => navigate("/post")}
+              variant="contained"
+              startIcon={<AddIcon />}
+            >
+              <Typography color="white">New post</Typography>
+            </ColorButton>
+          </ListItem>
+        </ProtectedComponent>
         <ListItem onClick={() => navigate("/")} disablePadding>
           <ListItemButton>
             <ListItemIcon>
