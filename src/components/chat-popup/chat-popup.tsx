@@ -88,14 +88,17 @@ export const ChatPopup = () => {
             console.log(`${username} says ${message}`);
             // if (
             //   chatDataRef.current.sendTo &&
-            //   chatDataRef.current.sendTo != username
+            //   chatDataRef.current.sendTo != username &&
+            //   chatDataRef.current.isOpened
             // ) {
-            //   setChat([]);
-            //   setHistory([]);
-            //   setCursor(null);
-            //   store.dispatch(
-            //     bloggrApi.util.invalidateTags(["MessagesHistory"])
-            //   );
+            //   handleClose();
+            //   // store.dispatch(closeChat(username));
+            //   // setChat([]);
+            //   // setHistory([]);
+            //   // setCursor(null);
+            //   // store.dispatch(
+            //   //   bloggrApi.util.invalidateTags(["MessagesHistory"])
+            //   // );
             //   store.dispatch(openChat(username));
             // }
             if (!chatDataRef.current.isOpened) {
@@ -105,6 +108,20 @@ export const ChatPopup = () => {
               );
               store.dispatch(openChat(username));
               setSkip(false);
+            } else if (
+              chatDataRef.current.sendTo &&
+              chatDataRef.current.sendTo != username &&
+              chatDataRef.current.isOpened
+            ) {
+              handleClose();
+              // store.dispatch(closeChat(username));
+              // setChat([]);
+              // setHistory([]);
+              // setCursor(null);
+              // store.dispatch(
+              //   bloggrApi.util.invalidateTags(["MessagesHistory"])
+              // );
+              store.dispatch(openChat(username));
             } else addMessage(username, message);
             //add to messages so it can render
           });
