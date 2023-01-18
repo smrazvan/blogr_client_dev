@@ -128,6 +128,7 @@ export const Profile = () => {
                   ? images.background
                   : userData?.user?.backgroundImageUrl
               })`,
+              backgroundPosition: "center center",
               height: "100%",
               width: "100%",
             }}

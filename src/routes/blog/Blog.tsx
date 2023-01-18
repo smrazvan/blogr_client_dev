@@ -36,6 +36,18 @@ const Blog = () => {
 
   return (
     <>
+      <Box
+        sx={{
+          backgroundSize: "cover",
+          backgroundImage: `url(${
+            data.backgroundImageUrl ? data.backgroundImageUrl : ""
+          })`,
+          backgroundPosition: "center center",
+          height: "300px",
+          width: "100%",
+        }}
+        className="profile-container"
+      ></Box>
       <Box>
         <Typography variant="h4" sx={{ m: 4 }}>
           {`${data?.firstName} ${data?.lastName}`}

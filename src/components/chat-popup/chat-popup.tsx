@@ -138,6 +138,8 @@ export const ChatPopup = () => {
 
   const handleClose = () => {
     setSkip(true);
+    setChat([]);
+    setHistory([]);
     store.dispatch(closeChat());
   };
   const scrollToBottom = () => {
@@ -154,8 +156,8 @@ export const ChatPopup = () => {
         bottom: 0,
         right: 0,
         backgroundColor: "white",
-        width: "300px",
-        height: "350px",
+        width: "325px",
+        height: "400px",
         boxShadow: "-1px 1px 12px 0px rgba(0,0,0,0.75)",
       }}
     >
@@ -164,7 +166,7 @@ export const ChatPopup = () => {
           sx={{
             backgroundColor: "#1976d2",
             color: "white",
-            padding: "0 4px",
+            padding: "0 8px",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
@@ -190,14 +192,27 @@ export const ChatPopup = () => {
             flexGrow: 1,
             overflowX: "auto",
             overflowAnchor: "none",
+            padding: "0 8px",
           }}
         >
           {history.length > 0 ? (
-            <div>
+            <Box>
               {data?.nextCursor != null ? (
-                <Button onClick={loadMoreHistory} variant="outlined">
-                  Load more
-                </Button>
+                <Box
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Button
+                    sx={{ margin: "0 auto" }}
+                    onClick={loadMoreHistory}
+                    variant="outlined"
+                  >
+                    Load more
+                  </Button>
+                </Box>
               ) : (
                 <></>
               )}
@@ -209,7 +224,7 @@ export const ChatPopup = () => {
                   />
                 );
               })}
-            </div>
+            </Box>
           ) : (
             <></>
           )}
