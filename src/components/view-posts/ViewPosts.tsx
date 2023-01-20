@@ -2,6 +2,7 @@ import {
   Box,
   CircularProgress,
   Divider,
+  LinearProgress,
   MenuItem,
   Pagination,
   Select,
@@ -46,7 +47,7 @@ const ViewPosts = (props: ViewPosts) => {
   const { state: search } = useLocation();
   let searchValue = search || defaultSearch;
   //get search queries and make request
-  const { data, error, isLoading, refetch } = useGetPostsQuery({
+  const { data, error, isLoading, isFetching, refetch } = useGetPostsQuery({
     interests: interests,
     sorting: sorting,
     page: page,
@@ -102,6 +103,11 @@ const ViewPosts = (props: ViewPosts) => {
         flexDirection: "column",
       }}
     >
+      {isFetching && (
+        <Box sx={{ width: "100%", position: "fixed", top: "64px" }}>
+          <LinearProgress />
+        </Box>
+      )}
       <Box
         sx={{
           width: "100%",
@@ -122,7 +128,7 @@ const ViewPosts = (props: ViewPosts) => {
           >
             <MenuItem value={"rec"}>Recommended</MenuItem>
             <MenuItem value={"pop"}>Popularity</MenuItem>
-            <MenuItem value={"asc"}>Newest</MenuItem>
+            <MenuItem value={"desc"}>Newest</MenuItem>
           </Select>
         </Box>
       </Box>

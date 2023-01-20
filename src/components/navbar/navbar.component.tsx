@@ -103,6 +103,7 @@ export const Navbar = () => {
     e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     if (search?.trim() && e.key == "Enter") {
+      setSearch("");
       navigate("/", { state: search, replace: true });
     }
   };
