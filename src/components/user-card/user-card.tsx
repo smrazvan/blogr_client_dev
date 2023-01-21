@@ -12,6 +12,7 @@ import TUser from "../../types/models/TUser";
 import AvatarChip from "../avatar-chip/avatar-chip";
 import { store } from "../../store";
 import { openChat } from "../../slices/chat-slice";
+import ProtectedComponent from "../protected-component/protected-component";
 
 type UserCard = {
   user: Partial<TUser> | undefined;
@@ -43,9 +44,11 @@ const UserCard = (props: UserCard) => {
         <Typography>{bio}</Typography>
       </Box>
       <Divider sx={{ mt: 2, mb: 2 }} />
-      <Button variant="contained" onClick={handleClick}>
-        Chat
-      </Button>
+      <ProtectedComponent>
+        <Button variant="contained" onClick={handleClick}>
+          Chat
+        </Button>
+      </ProtectedComponent>
     </Box>
   );
 };

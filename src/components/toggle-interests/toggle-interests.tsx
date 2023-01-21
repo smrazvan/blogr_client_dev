@@ -46,7 +46,11 @@ const ToggleInterest = (props: ToggleInterest) => {
         >
           {data?.map((interest: TInterest) => {
             return (
-              <ToggleButton value={interest.name} aria-label="bold">
+              <ToggleButton
+                sx={{ whiteSpace: "nowrap" }}
+                value={interest.name}
+                aria-label="bold"
+              >
                 <Typography>{interest.name}</Typography>
               </ToggleButton>
             );

@@ -26,19 +26,8 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { useAppSelector } from "../../features/hooks";
 import BookmarksOutlinedIcon from "@mui/icons-material/BookmarksOutlined";
 import ProtectedComponent from "../protected-component/protected-component";
+import { enqueueSnackbar } from "notistack";
 
-const otherItems = [
-  {
-    name: "Send feedback",
-    route: "/feedback",
-    icon: <AddCommentOutlinedIcon />,
-  },
-  {
-    name: "About",
-    route: "/About",
-    icon: <InfoOutlinedIcon />,
-  },
-];
 const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
   backgroundColor: blue[500],
   "&:hover": {
@@ -49,23 +38,10 @@ const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
 export const DrawerContent = () => {
   const userData = useAppSelector((state) => state.user);
   const navigate = useNavigate();
-  const mainItems = [
-    {
-      name: "Feed",
-      route: "/",
-      icon: <AutoStoriesOutlinedIcon />,
-    },
-    {
-      name: "My blog",
-      route: userData.isLoggedIn ? `/${userData.user?.userName}` : "/login",
-      icon: <CoPresentOutlinedIcon />,
-    },
-    {
-      name: "Bookmarks",
-      route: "/bookmarks",
-      icon: <BookmarksOutlinedIcon />,
-    },
-  ];
+  function enqueSnackbar(): void {
+    throw new Error("Function not implemented.");
+  }
+
   return (
     <div>
       <Toolbar />
@@ -126,12 +102,22 @@ export const DrawerContent = () => {
         ))} */}
       </List>
       <Divider />
+
       <List>
         <ListItem disablePadding>
-          <ListItemButton>
-            <ListItemIcon>{<AddCommentOutlinedIcon />}</ListItemIcon>
-            <ListItemText primary={"Send feedback"} />
-          </ListItemButton>
+          <LinkAnchor
+            underline="none"
+            sx={{ width: "100%", color: "black" }}
+            href="mailto:feedback@bloggr.com?cc=staff@bloggr.com&subject=Feedback regarding Bloggr App&body=..."
+            onClick={() =>
+              enqueueSnackbar("Opening your email app ✉️", { variant: "info" })
+            }
+          >
+            <ListItemButton>
+              <ListItemIcon>{<AddCommentOutlinedIcon />}</ListItemIcon>
+              <ListItemText primary={"Send feedback"} />
+            </ListItemButton>
+          </LinkAnchor>
         </ListItem>
         <ListItem onClick={() => navigate("/about")} disablePadding>
           <ListItemButton>

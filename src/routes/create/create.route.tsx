@@ -122,7 +122,7 @@ export const Create = () => {
           rules={{
             required: "This field is required.",
             minLength: {
-              value: 60,
+              value: 100,
               message: "Caption too short.",
             },
           }}

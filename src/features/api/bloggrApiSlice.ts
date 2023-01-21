@@ -153,7 +153,7 @@ export const bloggrApi = createApi({
           body,
         };
       },
-      invalidatesTags: ["Comments", "Posts"],
+      invalidatesTags: ["Posts", "Post", "Comments"],
     }),
     removePostComment: builder.mutation<
       TComment,
@@ -165,7 +165,7 @@ export const bloggrApi = createApi({
           method: "DELETE",
         };
       },
-      invalidatesTags: ["Comments"],
+      invalidatesTags: ["Posts", "Post", "Comments"],
     }),
     addPostLike: builder.mutation<TLike, number>({
       query(postId) {
