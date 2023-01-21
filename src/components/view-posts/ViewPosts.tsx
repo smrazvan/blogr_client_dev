@@ -114,6 +114,7 @@ const ViewPosts = (props: ViewPosts) => {
           display: "flex",
           flexDirection: { xs: "column", sm: "row" },
           justifyContent: "space-between",
+          flexWrap: "wrap",
           alignItems: "flex-start",
           mb: 5,
         }}

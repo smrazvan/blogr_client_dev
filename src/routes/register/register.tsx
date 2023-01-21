@@ -177,6 +177,7 @@ const Register = () => {
                 helperText={errors?.password?.message}
                 id="outlined-multiline-static"
                 label="Password"
+                type="password"
                 {...field}
               />
             )}

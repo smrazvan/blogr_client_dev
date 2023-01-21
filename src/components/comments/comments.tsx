@@ -62,7 +62,6 @@ const Comments = (props: Comments) => {
       { replace: true }
     );
   }, [sorting, page]);
-
   if (isLoading) return <CircularProgress />;
 
   if (error) return <p>Error</p>;
@@ -83,6 +82,12 @@ const Comments = (props: Comments) => {
         </Box>
       )}
       {data?.result.map((comment: TComment) => {
+        let formatedDate = "";
+        if (comment?.creationDate) {
+          const date = Date.parse(comment.creationDate);
+          const options = { hour: "numeric", month: "short" };
+          formatedDate = new Intl.DateTimeFormat("en-GB").format(date);
+        }
         return (
           <Paper sx={{ mb: 2, mt: 2 }}>
             <Box sx={{ mt: 1, mb: 1, p: 2 }}>
@@ -95,7 +100,10 @@ const Comments = (props: Comments) => {
                 }}
               >
                 <AvatarChip user={comment.user} />
-                <DeleteComment comment={comment} />
+                <Box>
+                  <span>{formatedDate}</span>
+                  <DeleteComment comment={comment} />
+                </Box>
               </Box>
               <Typography>{comment.content}</Typography>
             </Box>

@@ -11,9 +11,10 @@ import {
   ListItemText,
   Toolbar,
   Typography,
+  Link as LinkAnchor,
 } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { green } from "@mui/material/colors";
+import { blue, green } from "@mui/material/colors";
 import AddIcon from "@mui/icons-material/Add";
 import AutoStoriesOutlinedIcon from "@mui/icons-material/AutoStoriesOutlined";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
@@ -39,15 +40,15 @@ const otherItems = [
   },
 ];
 const ColorButton = styled(Button)<ButtonProps>(({ theme }) => ({
-  backgroundColor: green[500],
+  backgroundColor: blue[500],
   "&:hover": {
-    backgroundColor: green[700],
+    backgroundColor: blue[700],
   },
 }));
 
 export const DrawerContent = () => {
   const userData = useAppSelector((state) => state.user);
-
+  const navigate = useNavigate();
   const mainItems = [
     {
       name: "Feed",
@@ -65,7 +66,6 @@ export const DrawerContent = () => {
       icon: <BookmarksOutlinedIcon />,
     },
   ];
-  const navigate = useNavigate();
   return (
     <div>
       <Toolbar />
@@ -127,14 +127,18 @@ export const DrawerContent = () => {
       </List>
       <Divider />
       <List>
-        {otherItems.map(({ name, route, icon }, idx) => (
-          <ListItem key={idx} onClick={() => navigate(route)} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>{icon}</ListItemIcon>
-              <ListItemText primary={name} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemIcon>{<AddCommentOutlinedIcon />}</ListItemIcon>
+            <ListItemText primary={"Send feedback"} />
+          </ListItemButton>
+        </ListItem>
+        <ListItem onClick={() => navigate("/about")} disablePadding>
+          <ListItemButton>
+            <ListItemIcon>{<InfoOutlinedIcon />}</ListItemIcon>
+            <ListItemText primary={"About"} />
+          </ListItemButton>
+        </ListItem>
       </List>
     </div>
   );

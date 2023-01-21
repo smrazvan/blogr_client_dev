@@ -31,13 +31,19 @@ const ToggleInterest = (props: ToggleInterest) => {
   return (
     <>
       <Box
+        className="custom-scrollbar"
         sx={{
           width: { xs: "100%", sm: "70%" },
           maxWidth: "600px",
           overflowX: "auto",
         }}
       >
-        <ToggleButtonGroup value={interests} onChange={handleInterets}>
+        <ToggleButtonGroup
+          size="small"
+          color="primary"
+          value={interests}
+          onChange={handleInterets}
+        >
           {data?.map((interest: TInterest) => {
             return (
               <ToggleButton value={interest.name} aria-label="bold">

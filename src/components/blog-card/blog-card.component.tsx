@@ -68,7 +68,7 @@ const BlogCard = (props: BlogCard) => {
       sx={{
         cursor: "pointer",
         width: "100%",
-        maxWidth: "700px",
+        maxWidth: "800px",
         display: "flex",
         justifyContent: "space-between",
         flexDirection: { xs: "column", sm: "row" },
@@ -106,7 +106,7 @@ const BlogCard = (props: BlogCard) => {
             alignItems: "center",
           }}
         >
-          <Box>
+          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.25, mt: 2 }}>
             <RenderInterests interests={interests ? interests : []} />
           </Box>
           <Box sx={{ marginLeft: "auto", display: "inline-flex" }}>

@@ -7,7 +7,13 @@ import Typography from "@mui/material/Typography";
 import { RawDraftContentState } from "draft-js";
 import Chip from "@mui/material/Chip";
 import Avatar from "@mui/material/Avatar";
-import { Button, CircularProgress, Divider, TextField } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  Divider,
+  Paper,
+  TextField,
+} from "@mui/material";
 import UserCard from "../../components/user-card/user-card";
 import Stack from "@mui/system/Stack";
 import TInterest from "../../types/models/TInterest";
@@ -42,20 +48,32 @@ export const View = () => {
       <Box
         sx={{
           display: "flex",
-          flexWrap: "wrap",
           gap: 4,
           justifyContent: { lg: "space-between", xs: "center" },
+          flexWrap: { lg: "nowrap", xs: "wrap" },
           position: "relative",
           margin: "0 auto",
         }}
       >
-        <Box sx={{ flexBasis: { lg: "70%" } }}>
-          <Box
+        <Box sx={{ flexBasis: { lg: "70%" }, margin: "0 auto" }}>
+          <Paper
             sx={{
-              padding: 1,
-              margin: "0 auto",
+              padding: 1.5,
+              marginLeft: "auto",
             }}
           >
+            <Box
+              sx={{
+                backgroundSize: "cover",
+                backgroundImage: `url(${
+                  data?.captionImageUrl ? data.captionImageUrl : ""
+                })`,
+                backgroundPosition: "center center",
+                height: "300px",
+                width: "100%",
+              }}
+              className="profile-container"
+            ></Box>
             <Typography
               sx={{ wordBreak: "break-all" }}
               variant="h4"
@@ -63,7 +81,7 @@ export const View = () => {
             >
               {data?.title}
             </Typography>
-            <Stack direction="row" spacing={1}>
+            <Stack sx={{ flexWrap: "wrap", gap: 0.25 }} direction="row">
               <AvatarChip
                 user={data?.user ? data.user : { userName: "deleted" }}
               />
@@ -71,12 +89,12 @@ export const View = () => {
                 interests={data?.interests ? data.interests : []}
               />
             </Stack>
-            <Box sx={{ mt: 4 }}>
+            <Box sx={{ mt: 4, marginLeft: "auto", maxWidth: "800px" }}>
               <ReadonlyEditor content={data?.content} />
             </Box>
             <Typography>{formatedDate}</Typography>
             <Divider />
-          </Box>
+          </Paper>
           <Box
             sx={{
               display: "flex",
