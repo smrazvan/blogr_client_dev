@@ -138,7 +138,7 @@ const ViewPosts = (props: ViewPosts) => {
         console.log(feedPost);
         return (
           <>
-            <BlogCard key={idx} post={feedPost} />
+            <BlogCard key={feedPost.id} post={feedPost} />
             <Divider sx={{ width: "100%", mb: 2 }} />
           </>
         );
