@@ -59,6 +59,9 @@ const ViewPosts = (props: ViewPosts) => {
   const handleSortingChange = (event: SelectChangeEvent) => {
     setSorting(event.target.value as string);
   };
+  useEffect(() => {
+    setPage(1);
+  }, [search]);
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
